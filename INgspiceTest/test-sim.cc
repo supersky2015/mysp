@@ -18,8 +18,11 @@
 #include <unistd.h>
 #include <ctype.h>
 #endif
+//#include "../ingspice/common/common.h"
+#include "../ingspice/common/timer.h"
 #include <ngspice/sharedspice.h>
-#include "common/common.h"
+
+using namespace ::Common;
 
 typedef int (*FngSpice_Init)(SendChar* printfcn, SendStat* statfcn, ControlledExit* ngexit, SendData* sdata, SendInitData* sinitdata, BGThreadRunning* bgtrun, void* userData);
 typedef int (*FngSpice_Init_Sync)(GetVSRCData *vsrcdat, GetISRCData *isrcdat, GetSyncData *syncdat, int *ident, void *userData);
@@ -77,7 +80,7 @@ ng_data(pvecvaluesall vdata, int numvecs, int ident, void* userdata);
 int
 cieq(register char *p, register char *s);
 
-int main0()
+int test_sim()
 {
 
 	HMODULE mod = LoadLibrary("ngspice.dll");

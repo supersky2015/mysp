@@ -27,12 +27,27 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="test-ingspice.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test-sim.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="INgspiceTest.cpp">
+    <ClCompile Include="test-ingspice.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-sim.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-sim-parallel.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>

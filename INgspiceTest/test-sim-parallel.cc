@@ -38,7 +38,7 @@ experience in multithreaded programming is required from my side.
 #include <signal.h>
 #include <string.h>
 #include <assert.h>
-#include "common/common.h"
+#include "../ingspice/common/common.h"
 
 #ifndef _MSC_VER
 #include <stdbool.h>
@@ -284,9 +284,9 @@ int dlclose (void *lhandle)
 
 double in1out2 = 0.0, in2out1 = 0.0, in3out2 = 0.0;
 
-int main00()
+int test_sim_parallel()
 {
-	string p = Common::Path::GetCurrentDir();
+	string p = Common::GetCurrentDir();
 
     char *errmsg = NULL, *loadstring1, *loadstring2, *loadstring3, *curplot, *vecname;
     char *exepath, *exeptr;

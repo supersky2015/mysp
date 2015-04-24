@@ -7,39 +7,6 @@
 #include "../ingspice/include/ngspice.h"
 #include "../ingspice/common/common.h"
 
-void test_shared_library_global_var()
-{
-	printf("> %08X\n", GetModuleHandle(NULL));
-	typedef void (*PR)();
-	typedef void (*SR)(int i);
-
-	PR printVar, printVar1;
-	SR setVar, setVar1;
-
-	HMODULE mod = LoadLibrary("INgspice.dll");
-	printf("> %08X\n", GetModuleHandle("INgspice.dll"));
-	if (mod){
-		printVar  = (PR)GetProcAddress(mod, "test_if_global_var_changed");
-		setVar = (SR)GetProcAddress(mod, "set_global_var");
-	}
-
-	HMODULE mod1 = LoadLibrary("INgspice1.dll");
-	if (mod1){
-		printVar1  = (PR)GetProcAddress(mod1, "test_if_global_var_changed");
-		setVar1 = (SR)GetProcAddress(mod1, "set_global_var");
-	}
-
-	printVar();
-	printVar1();
-
-
-	setVar(2);
-	setVar1(1);
-
-	printVar();
-	printVar1();
-};
-
 int run_parallel()
 {
 	vector<string> netlist1, netlist2;
@@ -290,18 +257,5 @@ int test_xspice()
 	getchar();
 	return 0;
 }
-int _tmain(int argc, _TCHAR* argv[])
-{
 
-	//return run_parallel();
-	//return load_error();
-	//return load_error2();
-	//return run_error();
-	//return test_rc();
-	//return test_3p_effective_voltage();
-	//return test_xspice();
-
-
-	return 0;
-}
 
