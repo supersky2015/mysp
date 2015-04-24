@@ -29,7 +29,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="INgspice.cpp">
+    <ClCompile Include="ingspice.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
