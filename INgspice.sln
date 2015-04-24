@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INgspiceTest", "INgspiceTest\INgspiceTest.vcxproj", "{2F6CD8F2-9DE8-4648-A509-E50BE66490BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ingspiceTest", "ingspiceTest\ingspiceTest.vcxproj", "{2F6CD8F2-9DE8-4648-A509-E50BE66490BB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INgspice", "INgspice\INgspice.vcxproj", "{2618018B-3423-462D-BF37-E5B7D84F5FD3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ingspice", "ingspice\ingspice.vcxproj", "{2618018B-3423-462D-BF37-E5B7D84F5FD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
