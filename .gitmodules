@@ -1,0 +1,3 @@
+[submodule "ingspice/common"]
+	path = ingspice/common
+	url = f:/github/libs/common.git
