@@ -1,3 +1,6 @@
 [submodule "INgspiceTest/common"]
 	path = INgspiceTest/common
 	url = e:/workspace/common/
+[submodule "ingspice/common"]
+	path = ingspice/common
+	url = f:/github/libs/common.git
