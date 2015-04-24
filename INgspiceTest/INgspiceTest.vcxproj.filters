@@ -13,14 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="common">
-      <UniqueIdentifier>{3cf25768-c203-4b0e-a0be-f4c39a153a6d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="test">
       <UniqueIdentifier>{481d42df-7eb6-4692-99a9-5ca7475624db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="device">
-      <UniqueIdentifier>{34a35d3e-19ce-45de-8f3e-f187a7ffe2f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,49 +27,13 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ngspice.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="common\path.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\path.hpp">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\string.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\timer.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\common.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="device\device.h">
-      <Filter>device</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="INgspiceTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ngspice.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="common\path.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\string.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="device\device.cpp">
-      <Filter>device</Filter>
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

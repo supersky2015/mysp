@@ -4,7 +4,7 @@
 #include "ngspice.h"
 #include <Windows.h>
 #include <assert.h>
-#include "common/common.h"
+#include <common/common.h>
 
 
 #if 0

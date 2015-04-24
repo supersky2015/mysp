@@ -13,6 +13,18 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{1d8bc9ad-825f-4b22-8f0f-b2791db74979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device">
+      <UniqueIdentifier>{d4ae79cb-2742-488b-89b2-a673be398f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{375dfab7-ddec-454e-8e31-08a7ae95bfc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{babf0c49-9837-4986-8784-fcb7f0216f52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -24,16 +36,52 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\path.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\path.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\string.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\timer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ingspice.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\device.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ngspice.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ingspice.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common\path.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\string.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="device\device.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\ingspice.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ngspice.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,9 +4,8 @@
 #include "stdafx.h"
 #include <windows.h>
 #include <stdio.h> 
-#include <ngspice/dvec.h>
-#include "ngspice.h"
-#include "common/common.h"
+#include "../ingspice/include/ngspice.h"
+#include "../ingspice/common/common.h"
 
 void test_shared_library_global_var()
 {
