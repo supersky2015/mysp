@@ -1,0 +1,3 @@
+[submodule "INgspiceTest/common"]
+	path = INgspiceTest/common
+	url = e:/workspace/common/

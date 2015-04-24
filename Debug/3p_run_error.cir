@@ -1,0 +1,6 @@
+test array
+*vin 1 0 0.0 ac 1.0 sin(0 1 1k)
+vin 1 0 10.0 ac 1.0 sin(0 1 1 )
+vin2 1 0 10.0 ac 1.0 sin(0 1 1 -0.33333333)
+R1 1 0 2
+.tran 100u 2000 uic
