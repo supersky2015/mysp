@@ -1,4 +1,4 @@
-#ifndef INGSPICE_H
+ï»¿#ifndef INGSPICE_H
 #define INGSPICE_H
 #include <vector>
 #include <string>
@@ -8,15 +8,15 @@
 using namespace std;
 
 /*
-* ÏòÁ¿-vec	£ºÔÚngspiceÀïÃæ´ú±íÒ»¸ö¼ÆËãµã£¬°üÀ¨µÈÊÆµã£¬µçÁ÷·ÖÖ§
-* Í¼-plot	£º´ú±íÒ»´Î·ÂÕæÖ¸ÁîµÄ½á¹û¼¯ºÏ£¬¿ÉÒÔÍ¨¹ı .tran .dc .ac µÈ·ÂÕæÖ¸Áî
+* å‘é‡-vec	ï¼šåœ¨ngspiceé‡Œé¢ä»£è¡¨ä¸€ä¸ªè®¡ç®—ç‚¹ï¼ŒåŒ…æ‹¬ç­‰åŠ¿ç‚¹ï¼Œç”µæµåˆ†æ”¯
+* å›¾-plot	ï¼šä»£è¡¨ä¸€æ¬¡ä»¿çœŸæŒ‡ä»¤çš„ç»“æœé›†åˆï¼Œå¯ä»¥é€šè¿‡ .tran .dc .ac ç­‰ä»¿çœŸæŒ‡ä»¤
 */
 struct plot
 {
 	struct vec
 	{
 		string name;
-		double* values;	//Ò»¸öÏòÁ¿µÄ¼ÆËãÖµÊı×é
+		double* values;	//ä¸€ä¸ªå‘é‡çš„è®¡ç®—å€¼æ•°ç»„
 		vector<double> vs;
 	};
 
@@ -25,8 +25,8 @@ struct plot
 	string date;
 	string type;
 
-	int veccount;		//ÏòÁ¿µÄ¸öÊı, ¼´pvecsÊı×éµÄ¸öÊı
-	int vecsize;		//¸÷¸öÏòÁ¿µÄ¼ÆËãÖµµÄ¸öÊı£¬¼´vec.valuesÊı×éµÄ¸öÊı¡£×¢£ºÒ»¸öplotÀïÃæËùÓĞÏòÁ¿¶¼ÓĞÒ»ÑùsizeµÄvalue
+	int veccount;		//å‘é‡çš„ä¸ªæ•°, å³pvecsæ•°ç»„çš„ä¸ªæ•°
+	int vecsize;		//å„ä¸ªå‘é‡çš„è®¡ç®—å€¼çš„ä¸ªæ•°ï¼Œå³vec.valuesæ•°ç»„çš„ä¸ªæ•°ã€‚æ³¨ï¼šä¸€ä¸ªploté‡Œé¢æ‰€æœ‰å‘é‡éƒ½æœ‰ä¸€æ ·sizeçš„value
 
 	pvecinfo* pvecs;
 

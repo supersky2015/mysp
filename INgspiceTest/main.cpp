@@ -2,10 +2,16 @@
 
 #include "test-ingspice.h"
 #include "test-sim.h"
+#include "test-schema.h"
+#include "test-model-subckt.h"
+
+#include <include/subckt.h>
 
 int main (int argc, char **argv)
 {
-	return run_parallel();
+	test_model_subckt();
+	//test_schema_rc();
+	//return run_parallel();
 	//return load_error();
 	//return load_error2();
 	//return run_error();

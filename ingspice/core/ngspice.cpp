@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include <algorithm>
 #include <ngspice/dvec.h>
 #include "ngspice.h"
@@ -21,7 +21,7 @@ ngspice::ngspice(void)
 	//,m_flagRunCircuit(true)
 	//,m_breakTest(false)
 {
-	string path = GetExeDir();
+	string path = get_exe_dir();
 	SetCurrentDirectoryA(path.c_str());
 
 	static int copy = 1;
@@ -89,7 +89,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	//PRINT("4: %d, %d, 0x%08X\n", number, id, object);
 	ngspice* ng = (ngspice*)object;
 
-	//´òÓ¡µ÷ÊÔ¼ÆËãÖµ
+	//æ‰“å°è°ƒè¯•è®¡ç®—å€¼
 	static int printInterval = 10000;
 	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
 		string values;
@@ -106,14 +106,14 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 
 	assert(ng->m_plot.vecs.size() == number);
 
-	//»ñÈ¡ÏòÁ¿³¤¶È
+	//è·å–å‘é‡é•¿åº¦
 	ng->m_plot.vecsize = actualValues->vecindex;
 
-	//ÔÙÒ»´Î»ñÈ¡ÏòÁ¿ÖµÖ¸Õë
+	//å†ä¸€æ¬¡è·å–å‘é‡å€¼æŒ‡é’ˆ
 	for (int i = 0; i < number; i++) {
 		ng->m_plot.vecs[i].values = ((dvec*)(ng->m_plot.pvecs[i]->pdvec))->v_realdata;
 
-		//ÔËËã¹ı³ÌÖĞ£¬¼ÆËãÖµÏòÁ¿µØÖ·¿ÉÄÜ»á±ä»¯
+		//è¿ç®—è¿‡ç¨‹ä¸­ï¼Œè®¡ç®—å€¼å‘é‡åœ°å€å¯èƒ½ä¼šå˜åŒ–
 		/*
 		if (0 == i) {
 			if (ng->m_addressTest.end() == find(ng->m_addressTest.begin(), ng->m_addressTest.end(), (int)ng->m_plot.vecs[i].values))
@@ -144,7 +144,7 @@ int ngspice::procSendInitData( pvecinfoall initData, int id, void* object )
 		plot::vec v;
 		v.name = initData->vecs[i]->vecname;
 		PRINT("	 %d : %s\n", i, initData->vecs[i]->vecname);
-		//´ËÊ±ÏòÁ¿ÖµµÄÖ¸Õë»¹ÊÇ¿ÕµÄ£¬ĞèÒªÔÚprocSendDataÔÙ´Î»ñÈ¡£¬Ò²¿ÉÒÔ¼ä½ÓÍ¨¹ıinitData->vecs»ñÈ¡
+		//æ­¤æ—¶å‘é‡å€¼çš„æŒ‡é’ˆè¿˜æ˜¯ç©ºçš„ï¼Œéœ€è¦åœ¨procSendDataå†æ¬¡è·å–ï¼Œä¹Ÿå¯ä»¥é—´æ¥é€šè¿‡initData->vecsè·å–
 		v.values = ((dvec*)initData->vecs[i]->pdvec)->v_realdata;
 		ng->m_plot.vecs.push_back(v);
 	}
@@ -185,8 +185,8 @@ bool ngspice::LoadCircuit( const char* sourceFile /*= NULL*/ )
 	if (!sourceFile)
 		return false;
 
-	string fullname = GetPathFullname(sourceFile);
-	string cd = GetCurrentDir();
+	string fullname = get_path_fullname(sourceFile);
+	string cd = get_current_dir();
 	string dstFile = cd + fullname;
 	CopyFileA(sourceFile, dstFile.c_str(), FALSE);
 

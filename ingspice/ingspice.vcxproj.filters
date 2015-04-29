@@ -25,9 +25,18 @@
     <Filter Include="core">
       <UniqueIdentifier>{babf0c49-9837-4986-8784-fcb7f0216f52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\device">
+      <UniqueIdentifier>{91a5d1ab-5e07-4eae-8f1d-7fa9abe3bc8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="device\models.ini">
+      <Filter>device</Filter>
+    </None>
+    <None Include="device\subckt.ini">
+      <Filter>device</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -39,26 +48,53 @@
     <ClInclude Include="common\common.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="common\path.h">
-      <Filter>common</Filter>
-    </ClInclude>
     <ClInclude Include="common\path.hpp">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\string.h">
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\timer.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="include\ingspice.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\device.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\ngspice.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\basic.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\diode.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\device.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generic.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\source.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\circuit.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\schema.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\transistor.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\model.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\subckt.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
+    <ClInclude Include="common\winapi.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\string.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\string.hpp">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,20 +104,41 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="common\path.cpp">
+    <ClCompile Include="core\ngspice.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\circuit.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="device\basic.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\generic.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\source.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="core\schema.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="device\diode.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\transistor.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\model.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\subckt.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="common\test.cpp">
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="common\string.cpp">
       <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="device\device.cpp">
-      <Filter>device</Filter>
-    </ClCompile>
-    <ClCompile Include="device\ingspice.cpp">
-      <Filter>device</Filter>
-    </ClCompile>
-    <ClCompile Include="core\ngspice.cpp">
-      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

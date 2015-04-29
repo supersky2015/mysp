@@ -31,7 +31,13 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test-sim.h">
-      <Filter>头文件</Filter>
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test-schema.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test-model-subckt.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +54,15 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-circuit.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-schema.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-model-subckt.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>

@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\workspace\NGSpice\ng-spice-rework26\ngspice-26\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\workspace\NGSpice\ng-spice-rework26\ngspice-26\src\include;$(SolutionDir)ingspice\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,7 +81,9 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="test-ingspice.h" />
+    <ClInclude Include="test-schema.h" />
     <ClInclude Include="test-sim.h" />
+    <ClInclude Include="test-model-subckt.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -89,9 +91,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="test-circuit.cpp" />
     <ClCompile Include="test-ingspice.cc" />
+    <ClCompile Include="test-schema.cc" />
     <ClCompile Include="test-sim-parallel.cc" />
     <ClCompile Include="test-sim.cc" />
+    <ClCompile Include="test-model-subckt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ingspice\ingspice.vcxproj">
+      <Project>{2618018b-3423-462d-bf37-e5b7d84f5fd3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

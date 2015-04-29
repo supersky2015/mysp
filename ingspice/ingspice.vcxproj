@@ -73,26 +73,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="device\models.ini" />
+    <None Include="device\subckt.ini" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\common.h" />
-    <ClInclude Include="common\path.h" />
     <ClInclude Include="common\path.hpp" />
     <ClInclude Include="common\string.h" />
+    <ClInclude Include="common\string.hpp" />
     <ClInclude Include="common\timer.h" />
+    <ClInclude Include="common\winapi.hpp" />
+    <ClInclude Include="include\basic.h" />
+    <ClInclude Include="include\circuit.h" />
     <ClInclude Include="include\device.h" />
-    <ClInclude Include="include\ingspice.h" />
+    <ClInclude Include="include\diode.h" />
+    <ClInclude Include="include\generic.h" />
+    <ClInclude Include="include\model.h" />
     <ClInclude Include="include\ngspice.h" />
+    <ClInclude Include="include\schema.h" />
+    <ClInclude Include="include\source.h" />
+    <ClInclude Include="include\subckt.h" />
+    <ClInclude Include="include\transistor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="common\path.cpp" />
     <ClCompile Include="common\string.cpp" />
+    <ClCompile Include="common\test.cpp" />
+    <ClCompile Include="core\circuit.cpp" />
     <ClCompile Include="core\ngspice.cpp" />
-    <ClCompile Include="device\device.cpp" />
-    <ClCompile Include="device\ingspice.cpp" />
+    <ClCompile Include="core\schema.cpp" />
+    <ClCompile Include="device\basic.cpp" />
+    <ClCompile Include="device\diode.cpp" />
+    <ClCompile Include="device\generic.cpp" />
+    <ClCompile Include="device\model.cpp" />
+    <ClCompile Include="device\source.cpp" />
+    <ClCompile Include="device\subckt.cpp" />
+    <ClCompile Include="device\transistor.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

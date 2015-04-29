@@ -286,8 +286,6 @@ double in1out2 = 0.0, in2out1 = 0.0, in3out2 = 0.0;
 
 int test_sim_parallel()
 {
-	string p = Common::GetCurrentDir();
-
     char *errmsg = NULL, *loadstring1, *loadstring2, *loadstring3, *curplot, *vecname;
     char *exepath, *exeptr;
     int *ret, i;
