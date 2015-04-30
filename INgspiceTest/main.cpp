@@ -7,9 +7,16 @@
 
 #include <include/subckt.h>
 
+void test_path_hpp();
+void test_string_hpp();
+
+#include <common/winapi.hpp>
+
 int main (int argc, char **argv)
 {
-	test_model_subckt();
+	test_string_hpp();
+	test_path_hpp();
+	//test_model_subckt();
 	//test_schema_rc();
 	//return run_parallel();
 	//return load_error();
