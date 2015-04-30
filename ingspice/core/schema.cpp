@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include <set>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
-#include <include/schema.h>
 #include <common/common.h>
+#include <include/schema.h>
+#include <include/model.h>
+#include <include/subckt.h>
+
 
 schema::schema( string name )
 {
@@ -62,32 +66,38 @@ bool schema::sort()
 		lines[i]->order = -1;
 	}
 
-
 	//group contacts with same potentials
 	int order = 1;
 	bool hasGround = false;
 	for (size_t i = 0; i < lines.size(); i++){
-		for (size_t j = i + 1; j < lines.size(); j++){
-			if (lines[j]->order != -1)
-				continue;
+		if (lines[i]->order != -1)
+			continue;
+		lines[i]->order = order++;
 
-			if (isConnected(lines[i], lines[j])){
-				if (isGround(lines[i]->c1) || isGround(lines[i]->c2) || isGround(lines[j]->c1) || isGround(lines[j]->c2)){
-					lines[i]->order = lines[j]->order = 0;
-					hasGround = true;
-				}else
-					lines[i]->order = lines[j]->order = order++;
-			}
+		for (size_t j = i + 1; j < lines.size(); j++){
+			if (isConnected(lines[i], lines[j]))
+				lines[j]->order = lines[i]->order;
 		}
 	}
-
+	
+	//find ground
+	int gndOrder = 0;
 	for (size_t i = 0; i < lines.size(); i++){
-		if (lines[i]->order == -1)
-			lines[i]->order = order++;
+		if (isGround(lines[i]->c1) || isGround(lines[i]->c2))
+			gndOrder = lines[i]->order;			
 	}
-
-	if (!hasGround)
+	
+	//no ground
+	if (0 == gndOrder)
 		return false;
+
+	//set line (which order is equal to gndOrder) order to 0, and set line (which order is greater than gndOrder) order minus 1;
+	for (size_t i = 0; i < lines.size(); i++){
+		if (gndOrder == lines[i]->order)
+			lines[i]->order = 0;
+		else if (gndOrder < lines[i]->order)
+			lines[i]->order -= 1;
+	}
 
 	//map devices to line order
 	for (size_t i = 0; i < devices.size(); i++){
@@ -95,6 +105,7 @@ bool schema::sort()
 			for (size_t k = 0; k < lines.size(); k++){
 				//if device pin(contact) connected to a line, set order as the line order
 				if (isConnected(&(*devices[i])[j], lines[k])){
+					//output_debug_message("match");
 					devices[i]->orders[j] = FormatString(10, "%d", lines[k]->order);
 					break;
 				}
@@ -112,6 +123,8 @@ bool schema::isConnected( ngline* line1, ngline* line2 )
 
 bool schema::isConnected( ngcontact* contact, ngline* line )
 {
+	//output_debug_message("%s:%s \t~\t [%s:%s - %s:%s  #%d]", contact->name.c_str(), contact->pin.c_str(), 
+	//	line->c1.name.c_str(), line->c1.pin.c_str(), line->c2.name.c_str(), line->c2.pin.c_str(), line->order);
 	return (contact->name == line->c1.name && contact->pin == line->c1.pin) || (contact->name == line->c2.name && contact->pin == line->c2.pin);
 }
 
@@ -139,10 +152,20 @@ vector<string> schema::GetNetlist()
 	sort();
 	vector<string> netlist;
 	netlist.push_back("title");
+
 	for (size_t i = 0; i < devices.size(); i++){
 		string line = devices[i]->netlist();
 		netlist.push_back(line);
 	}
+
+	string models = getModels();
+	vector<string> modelLines = split(models, "\r");
+	netlist.insert(netlist.end(), modelLines.begin(), modelLines.end());
+
+	string subckts = getSubckts();
+	vector<string> subcktLines = split(subckts, "\r");
+	netlist.insert(netlist.end(), subcktLines.begin(), subcktLines.end());
+
 	netlist.push_back(".end");
 	return netlist;
 }
@@ -157,8 +180,9 @@ std::string schema::getModels()
 	}
 
 	string def;
-	
-
+	for (auto it = models.begin(); it != models.end(); it++){
+		def += model_helper::Instance()->GetModel(*it);
+	}
 	return def;
 }
 
@@ -166,8 +190,13 @@ std::string schema::getSubckts()
 {
 	set<string> subckts;
 	for (size_t i = 0; i < devices.size(); i++){
-
+		if (!devices[i]->subckt.empty())
+			subckts.insert(devices[i]->subckt);
 	}
+	
 	string def;
+	for (auto it = subckts.begin(); it != subckts.end(); it++){
+		def += subckt_helper::Instance()->GetSubckt(*it);
+	}
 	return def;
 }

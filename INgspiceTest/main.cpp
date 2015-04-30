@@ -10,14 +10,13 @@
 void test_path_hpp();
 void test_string_hpp();
 
-#include <common/winapi.hpp>
-
 int main (int argc, char **argv)
 {
-	test_string_hpp();
-	test_path_hpp();
+	//test_string_hpp();
+	//test_path_hpp();
 	//test_model_subckt();
 	//test_schema_rc();
+	test_schema_multiline();
 	//return run_parallel();
 	//return load_error();
 	//return load_error2();

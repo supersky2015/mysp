@@ -76,7 +76,18 @@ public:
 	vector<string> pins;
 	vector<string> orders;
 	virtual string netlist();
-	ngcontact operator[](int pin);
-}; 
+	ngcontact operator[](int p);
+	ngcontact pin(int p);
+#define p1 pin(0)
+#define p2 pin(1)
+#define p3 pin(2)
+#define p4 pin(3)
+#define p5 pin(4)
+#define p6 pin(5)
+#define p7 pin(6)
+#define p8 pin(7)
+#define p9 pin(8)
+#define p10 pin(9)
+};
 
 #endif

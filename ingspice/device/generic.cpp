@@ -37,10 +37,15 @@ std::string ngdevice::netlist()
 	return "";
 }
 
-ngcontact ngdevice::operator[]( int pin )
+ngcontact ngdevice::operator[]( int p )
 {
-	assert(pin >= 0 && pin < (int)pins.size());
-	return ngcontact(name, pins[pin]);
+	assert(p >= 0 && p < (int)pins.size());
+	return ngcontact(name, pins[p]);
+}
+
+ngcontact ngdevice::pin(int p)
+{
+	return (*this)[p];
 }
 
 bool ngcontact::operator==( const ngcontact& rhs )

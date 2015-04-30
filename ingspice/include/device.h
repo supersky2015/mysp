@@ -5,5 +5,6 @@
 #include "basic.h"
 #include "source.h"
 #include "diode.h"
+#include "transistor.h"
 
 #endif

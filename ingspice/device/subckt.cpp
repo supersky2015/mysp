@@ -29,7 +29,7 @@ subckt_helper::subckt_helper()
 
 std::string subckt_helper::GetSubckt( string subckt )
 {
-	return subckts[subckt];
+	return subckts.end() != subckts.find(subckt) ? subckts[subckt] : "";
 }
 
 subckt_helper* subckt_helper::Instance()

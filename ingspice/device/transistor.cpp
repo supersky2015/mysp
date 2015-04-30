@@ -4,5 +4,5 @@
 
 std::string ngbjt_npn::netlist()
 {
-	return FormatString(100, "Q%s %s %s %s %s", name.c_str(), coll.c_str(), base.c_str(), emit.c_str(), model.c_str());
+	return FormatString(100, "Q%s %s %s %s %s", name.c_str(), orders[0].c_str(), orders[1].c_str(), orders[2].c_str(), model.c_str());
 }

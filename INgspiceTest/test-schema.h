@@ -3,4 +3,6 @@
 
 void test_schema_rc();
 
+void test_schema_multiline();
+
 #endif

@@ -20,8 +20,9 @@
 #/debug
 #/release
 /ipch
-/INgspice/Debug
-/INgspice/Release
+/ingspice/Debug
+/ingspice/Release
+/.settings
 /INgspiceTest/Debug
 /INgspiceTest/Release
 

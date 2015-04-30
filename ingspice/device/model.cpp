@@ -15,7 +15,7 @@ model_helper* model_helper::Instance()
 
 std::string model_helper::GetModel( string model )
 {
-	return models[model];
+	return models.end() != models.find(model) ? models[model] : "";
 }
 
 model_helper::model_helper()
