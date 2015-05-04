@@ -13,9 +13,13 @@ public:
 	schema(string name = "schema");
 
 	bool AddDevice(ngdevice* device);
+	void AddDevices(ngdevice* device, ...);
 	bool RemoveDevice(ngdevice* device);
+	void RemoveDevices(ngdevice* device, ...);
 	bool AddLine(ngline* line);
+	void AddLines(ngline* line, ...);
 	bool RemoveLine(ngline* line);
+	void RemoveLines(ngline* line, ...);
 
 	vector<string> GetNetlist();
 

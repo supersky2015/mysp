@@ -25,6 +25,20 @@ bool schema::AddDevice( ngdevice* device )
 	return false;
 }
 
+void schema::AddDevices( ngdevice* device, ... )
+{
+	va_list ap;
+	va_start(ap, device);
+	ngdevice* dev = device;
+	while (dev)
+	{
+		if (devices.end() == find(devices.begin(), devices.end(), dev))
+			devices.push_back(dev);
+		dev = va_arg(ap, ngdevice*);
+	}
+	va_end(ap);
+}
+
 bool schema::RemoveDevice( ngdevice* device )
 {
 	auto r = find(devices.begin(), devices.end(), device);
@@ -33,6 +47,21 @@ bool schema::RemoveDevice( ngdevice* device )
 		return true;
 	}
 	return false;
+}
+
+void schema::RemoveDevices( ngdevice* device, ... )
+{
+	va_list ap;
+	va_start(ap, device);
+	ngdevice* dev = device;
+	while (dev)
+	{
+		auto it = find(devices.begin(), devices.end(), device);
+		if (it != devices.end())
+			devices.erase(it);
+		dev = va_arg(ap, ngdevice*);
+	}
+	va_end(ap);
 }
 
 bool schema::RemoveLine( ngline* line )
@@ -45,6 +74,21 @@ bool schema::RemoveLine( ngline* line )
 	return false;
 }
 
+void schema::RemoveLines( ngline* line, ... )
+{
+	va_list ap;
+	va_start(ap, line);
+	ngline* l = line;
+	while (l)
+	{
+		auto it = find(lines.begin(), lines.end(), l);
+		if (it != lines.end())
+			lines.erase(it);
+		l = va_arg(ap, ngline*);
+	}
+	va_end(ap);
+}
+
 bool schema::AddLine( ngline* line )
 {
 	auto r = find(lines.begin(), lines.end(), line);
@@ -53,6 +97,20 @@ bool schema::AddLine( ngline* line )
 		return true;
 	}
 	return false;
+}
+
+void schema::AddLines( ngline* line, ... )
+{
+	va_list ap;
+	va_start(ap, line);
+	ngline* l = line;
+	while (l)
+	{
+		if (lines.end() == find(lines.begin(), lines.end(), l))
+			lines.push_back(l);
+		l = va_arg(ap, ngline*);
+	}
+	va_end(ap);
 }
 
 bool schema::sort()

@@ -63,21 +63,27 @@ public:
 class ngaction 
 {
 public:
-	virtual void callback();
+	virtual void action() = 0;
 };
 
 class ngdevice
 {
 public:
-	ngdevice(string name, int portCount);
+	ngdevice(string name, int portCount, int branchCount = 0);
 	string name;				//name is unique for a device
 	string model;
 	string subckt;
-	vector<string> pins;
-	vector<string> orders;
-	virtual string netlist();
+
+	vector<string> pins;		//器件引脚名, 可以自定义
+	vector<string> orders;		//器件引脚在netlist中分配的电势点序列， 如 "R1 1 2 470" 中的 1 和 2
+	vector<double> potentials;	//器件引脚当前电势值
+	vector<string> branches;		//器件包含的电流分支
+	vector<double> currents;	//器件各分支当前电流值
+	
 	ngcontact operator[](int p);
 	ngcontact pin(int p);
+	virtual string netlist();
+
 #define p1 pin(0)
 #define p2 pin(1)
 #define p3 pin(2)

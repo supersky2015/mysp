@@ -91,6 +91,7 @@
     <ClInclude Include="include\generic.h" />
     <ClInclude Include="include\model.h" />
     <ClInclude Include="include\ngspice.h" />
+    <ClInclude Include="include\plot.h" />
     <ClInclude Include="include\schema.h" />
     <ClInclude Include="include\source.h" />
     <ClInclude Include="include\subckt.h" />
@@ -103,6 +104,7 @@
     <ClCompile Include="common\test.cpp" />
     <ClCompile Include="core\circuit.cpp" />
     <ClCompile Include="core\ngspice.cpp" />
+    <ClCompile Include="core\plot.cpp" />
     <ClCompile Include="core\schema.cpp" />
     <ClCompile Include="device\basic.cpp" />
     <ClCompile Include="device\diode.cpp" />

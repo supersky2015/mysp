@@ -3,6 +3,7 @@
 #include "test-ingspice.h"
 #include "test-sim.h"
 #include "test-schema.h"
+#include "test-circuit.h"
 #include "test-model-subckt.h"
 
 #include <include/subckt.h>
@@ -12,11 +13,14 @@ void test_string_hpp();
 
 int main (int argc, char **argv)
 {
+	//test_circuit1();
+	test_circuit_led();
+	//test_circuit_parallel();
 	//test_string_hpp();
 	//test_path_hpp();
 	//test_model_subckt();
 	//test_schema_rc();
-	test_schema_multiline();
+	//test_schema_multiline();
 	//return run_parallel();
 	//return load_error();
 	//return load_error2();

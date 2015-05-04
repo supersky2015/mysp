@@ -13,8 +13,9 @@
 #define PRINT	printf
 #endif
 
-ngspice::ngspice(void)
-	:m_flagPrompt(false)
+ngspice::ngspice(FuncAction action /*= NULL*/)
+	:m_action(action)
+	,m_flagPrompt(false)
 	,m_running(false)
 	,m_flagCheckLoadCircuit(false)
 	,m_successLoadCircuit(true)
@@ -90,7 +91,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	ngspice* ng = (ngspice*)object;
 
 	//打印调试计算值
-	static int printInterval = 10000;
+	static int printInterval = 100;
 	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
 		string values;
 		char v[256] = {0};
@@ -104,24 +105,34 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 		//	ng->m_breakTest = true;
 	}
 
-	assert(ng->m_plot.vecs.size() == number);
+	//get current values of all vector
+	for (int i = 0; i < number; i++){
+		ng->m_plot.currentValues[i] = actualValues->vecsa[i]->creal;
+	}
+
+	//assert(ng->m_plot.currentValues.size() == number);
+	//assert(ng->m_plot.names.size() == number);
+	//assert(ng->m_plot.pvalues.size() == number);
 
 	//获取向量长度
 	ng->m_plot.vecsize = actualValues->vecindex;
 
-	//再一次获取向量值指针
+	//再一次获取向量值指针，因为计算过程中，计算值向量地址可能会变化
 	for (int i = 0; i < number; i++) {
-		ng->m_plot.vecs[i].values = ((dvec*)(ng->m_plot.pvecs[i]->pdvec))->v_realdata;
+		ng->m_plot.pvalues[i] = ((dvec*)(ng->m_plot.pvecs[i]->pdvec))->v_realdata;
 
 		//运算过程中，计算值向量地址可能会变化
 		/*
 		if (0 == i) {
-			if (ng->m_addressTest.end() == find(ng->m_addressTest.begin(), ng->m_addressTest.end(), (int)ng->m_plot.vecs[i].values))
-				ng->m_addressTest.push_back((int)ng->m_plot.vecs[i].values);
+			if (ng->m_addressTest.end() == find(ng->m_addressTest.begin(), ng->m_addressTest.end(), (int)ng->m_plot.pvalues[i]))
+				ng->m_addressTest.push_back((int)ng->m_plot.pvalues[i]);
 		}
 		*/
-		//assert(ng->m_plot.vecs[i].values[actualValues->vecindex] == actualValues->vecsa[i]->creal);
+		//assert(ng->m_plot.pvalues[i][actualValues->vecindex] == actualValues->vecsa[i]->creal);
 	}
+
+	//更新器件列表引脚电势，电源电流
+	ng->m_action(ng);
 
 	return 0;
 }
@@ -139,14 +150,16 @@ int ngspice::procSendInitData( pvecinfoall initData, int id, void* object )
 	ng->m_plot.type	= initData->type;
 	ng->m_plot.veccount = initData->veccount;
 	ng->m_plot.pvecs	= initData->vecs;
-	ng->m_plot.vecs.clear();
+	ng->m_plot.names.resize(initData->veccount);
+	ng->m_plot.pvalues.resize(initData->veccount);
+	ng->m_plot.values.resize(initData->veccount);
+	ng->m_plot.currentValues.assign(initData->veccount, 0.0);
+
 	for (int i = 0; i < initData->veccount; i++) {
-		plot::vec v;
-		v.name = initData->vecs[i]->vecname;
 		PRINT("	 %d : %s\n", i, initData->vecs[i]->vecname);
+		ng->m_plot.names[i] = initData->vecs[i]->vecname;
 		//此时向量值的指针还是空的，需要在procSendData再次获取，也可以间接通过initData->vecs获取
-		v.values = ((dvec*)initData->vecs[i]->pdvec)->v_realdata;
-		ng->m_plot.vecs.push_back(v);
+		ng->m_plot.pvalues[i] = ((dvec*)initData->vecs[i]->pdvec)->v_realdata; 
 	}
 
 	return 0;
@@ -277,12 +290,13 @@ bool ngspice::GetAllPlotsVecs()
 			PRINT(" >> vector%d : %s\n", j++, *vecs);
 			pvector_info vi = ngGet_Vec_Info(*vecs);
 			PRINT("  >type : %d  name : %s  lenght : %d  flag : %d\n", vi->v_type, vi->v_name, vi->v_length, vi->v_flags);
-			plot::vec v;
-			v.name = *vecs;
+			p.names.push_back(*vecs);
+			plot::VecArray vec;
 			for (int m = 0; m < vi->v_length; m++) {
-				v.vs.push_back(vi->v_realdata[m]);
+				//v.vs.push_back(vi->v_realdata[m]);
+				vec.push_back(vi->v_realdata[m]);
 			}
-			p.vecs.push_back(v);
+			p.values.push_back(vec);
 			vecs++;
 		}
 		plots++;

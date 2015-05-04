@@ -39,6 +39,9 @@
     <ClInclude Include="test-model-subckt.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="test-circuit.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

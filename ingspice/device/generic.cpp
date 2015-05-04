@@ -18,15 +18,20 @@ ngline::ngline( const ngcontact& c1, const ngcontact& c2 )
 {
 }
 
-ngdevice::ngdevice(string name, int portCount )
+ngdevice::ngdevice(string name, int portCount, int branchCount/* = 0 */)
 {
 	this->name = name;
 
-	orders.assign(portCount, "-1");
 	pins.assign(portCount, "");
 	for (int i = 0; i < portCount; i++){
 		pins[i] = FormatString(10, "%d", i);
 	}
+
+	orders.assign(portCount, "-1");
+	potentials.assign(portCount, 0.0);
+	
+	branches.resize(branchCount);
+	currents.assign(branchCount, 0.0);
 
 	model.clear();
 	subckt.clear();

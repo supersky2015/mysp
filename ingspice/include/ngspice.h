@@ -4,39 +4,15 @@
 #include <string>
 #include <windows.h>
 #include "sharedspice.h"
+#include "plot.h"
 
 using namespace std;
-
-/*
-* 向量-vec	：在ngspice里面代表一个计算点，包括等势点，电流分支
-* 图-plot	：代表一次仿真指令的结果集合，可以通过 .tran .dc .ac 等仿真指令
-*/
-struct plot
-{
-	struct vec
-	{
-		string name;
-		double* values;	//一个向量的计算值数组
-		vector<double> vs;
-	};
-
-	string title;
-	string name;
-	string date;
-	string type;
-
-	int veccount;		//向量的个数, 即pvecs数组的个数
-	int vecsize;		//各个向量的计算值的个数，即vec.values数组的个数。注：一个plot里面所有向量都有一样size的value
-
-	pvecinfo* pvecs;
-
-	vector<vec> vecs;
-};
 
 class ngspice
 {
 public:
-	ngspice(void);
+	typedef void (*FuncAction)(ngspice* ng);
+	ngspice(FuncAction action = NULL);
 	~ngspice(void);
 
 public:
@@ -102,6 +78,8 @@ private:
 	bool m_flagCheckLoadCircuit;
 	bool m_successLoadCircuit;
 	string m_errMsgCircuit;
+
+	FuncAction m_action;
 
 	//bool m_breakTest;
 	//vector<int> m_addressTest;

@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="test-circuit.h" />
     <ClInclude Include="test-ingspice.h" />
     <ClInclude Include="test-schema.h" />
     <ClInclude Include="test-sim.h" />
