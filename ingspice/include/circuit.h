@@ -32,14 +32,23 @@ public:
 	bool Resume();
 	bool Restart();
 
+	
 private:
+	// a circuit has only a schema
 	schema* sch;
+
+	// a circuit uses a ngspice to sim a schema.
 	ngspice* ng;
+
+	// add control command into netlist.
 	bool updateNetlist(vector<string>& netlist, string command);
 
-	static circuit* s_this;
-	static void schemaAction(ngspice* ng);
+	// member function called back by ngspice
+	void schemaAction(ngspice* ng);
+
 	inline schema* Schema(){return sch;}
 };
+
+typedef void (circuit::*FuncAction)(ngspice* ng);
 
 #endif

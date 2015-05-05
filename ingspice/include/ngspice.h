@@ -5,17 +5,16 @@
 #include <windows.h>
 #include "sharedspice.h"
 #include "plot.h"
+#include "circuit.h"
 
 using namespace std;
 
 class ngspice
 {
 public:
-	typedef void (*FuncAction)(ngspice* ng);
-	ngspice(FuncAction action = NULL);
+	ngspice(circuit* cir = NULL, FuncAction action = NULL);
 	~ngspice(void);
 
-public:
 	bool LoadCircuit(const char* sourceFile = NULL);
 	bool LoadNetlist(const vector<string>& netlist);
 
@@ -31,6 +30,7 @@ public:
 	bool Do(const char* cmd);
 
 	inline plot& GetPlot(){return m_plot;};
+
 
 private:
 	bool m_running;
@@ -79,7 +79,11 @@ private:
 	bool m_successLoadCircuit;
 	string m_errMsgCircuit;
 
+	// callback of circuit
 	FuncAction m_action;
+
+	// instance of circuit
+	circuit* m_cir;
 
 	//bool m_breakTest;
 	//vector<int> m_addressTest;

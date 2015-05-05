@@ -8,13 +8,10 @@
 
 using namespace std;
 
-circuit* circuit::s_this = NULL;
-
 circuit::circuit(schema* sch)
 	:sch(sch)
-	,ng(new ngspice(schemaAction))
 {
-	s_this = this;
+	ng = new ngspice(this, &circuit::schemaAction);
 }
 
 circuit::~circuit(void)
@@ -69,7 +66,7 @@ bool circuit::updateNetlist( vector<string>& netlist, string command )
 
 void circuit::schemaAction( ngspice* ng )
 {
-	schema* sch = s_this->Schema();
+	schema* sch = this->Schema();
 	plot& p = ng->GetPlot();
 
 	//update all devices contact voltage.
@@ -105,5 +102,5 @@ void circuit::schemaAction( ngspice* ng )
 		if (act)
 			act->action();
 	}
-
 }
+

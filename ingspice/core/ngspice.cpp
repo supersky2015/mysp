@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include <assert.h>
 #include <common/common.h>
-
+#include <include/circuit.h>
 
 #if 0
 #define PRINT	OutputDebugMessage
@@ -13,8 +13,9 @@
 #define PRINT	printf
 #endif
 
-ngspice::ngspice(FuncAction action /*= NULL*/)
-	:m_action(action)
+ngspice::ngspice(circuit* cir/* = NULL*/, FuncAction action/* = NULL*/)
+	:m_cir(cir)
+	,m_action(action)
 	,m_flagPrompt(false)
 	,m_running(false)
 	,m_flagCheckLoadCircuit(false)
@@ -99,7 +100,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 			sprintf_s(v, 256, "%d: %f; ", i, actualValues->vecsa[i]->creal);
 			values += v;
 		}
-		PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
+		//PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
 		ng->m_sendDataDebug++;
 		//if (ng->m_sendDataDebug == 3)
 		//	ng->m_breakTest = true;
@@ -131,8 +132,9 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 		//assert(ng->m_plot.pvalues[i][actualValues->vecindex] == actualValues->vecsa[i]->creal);
 	}
 
-	//更新器件列表引脚电势，电源电流
-	ng->m_action(ng);
+	// 更新器件列表引脚电势，电源电流
+	if (ng->m_cir && ng->m_action)
+		(ng->m_cir->*(ng->m_action))(ng);
 
 	return 0;
 }

@@ -66,7 +66,7 @@ void test_circuit_parallel()
 	//circuit 1
 	ngac AC("ac1", 0, 5, 1);
 	ngresistor R("r1", 370);
-	ngled LED("LED1", 5e-3);
+	ngled LED("LED1", 7e-3);
 	ngground GND;
 
 	ngline L0(AC.p1, GND.p1);
