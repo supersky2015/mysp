@@ -3,7 +3,42 @@
 #include <include/schema.h>
 #include <include/circuit.h>
 
-void test_circuit1()
+void test_restart()
+{
+	ngac ac("ac1", 0, 5, 1);
+	ngresistor r("r1", 370);
+	ngled led("led1", 5e-3);
+	ngground gnd;
+
+	ngline l0(ac.p1, gnd.p1);
+	ngline l1(ac.p2, r.p1);
+	ngline l2(r.p2, led.p1);
+	ngline l3(led.p2, ac.p1);
+
+	schema sch;
+	sch.AddDevices(&ac, &r, &led, &gnd, 0);
+	sch.AddLines(&l0, &l1, &l2, &l3, 0);
+
+	circuit cir(&sch);
+	cir.Tran("1000");
+
+	do 
+	{
+		Sleep(200);
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'r':
+			cir.Restart();
+			Sleep(200);
+			break;
+		default:
+			break;
+		}
+	} while (cir.IsRunning());
+}
+
+void test_circuit_rc()
 {
 	ngdc dc("dc1", 5);
 	ngresistor r("r1", 5);
@@ -57,8 +92,10 @@ void test_circuit_led()
 	do 
 	{
 		Sleep(200);
+
 	} while (cir.IsRunning());
-	//sch.AddLine()
+	
+	getchar();
 }
 
 void test_circuit_parallel()
@@ -103,4 +140,44 @@ void test_circuit_parallel()
 	{
 		Sleep(200);
 	} while (CIR.IsRunning() || cir.IsRunning());
+}
+
+void test_switch_led()
+{
+	ngdc dc("dc", 10);
+	ngresistor r("r1", 370);
+	ngled led("led1", 5e-3);
+	ngswitch sw("sw", ngswitch::off);
+	ngground gnd;
+
+	ngline l0(dc.neg, gnd.p1);
+	ngline l1(dc.pos, r.p1);
+	ngline l2(r.p2, led.p1);
+	ngline l3(led.p2, sw.p1);
+	ngline l4(sw.p2, dc.neg);
+
+	schema sch;
+	sch.AddDevices(&dc, &r, &led, &gnd, &sw, 0);
+	sch.AddLines(&l0, &l1, &l2, &l3, &l4, 0);
+
+	circuit cir(&sch);
+	cir.Tran("1t", "1m");
+
+	do 
+	{
+		Sleep(200);
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'a':
+			cir.SwitchOver(&sw);
+			Sleep(200);
+			break;
+		case 'q':
+			cir.Stop();
+		default:
+			break;
+		};
+	} while (cir.IsRunning());
+
 }

@@ -27,11 +27,11 @@ void ngled::action()
 	if (ngdevice::currents[0] >= lightCurrent && off == status)
 	{
 		status = on;
-		printf("LED %s is on. A = %f\n", name.c_str(), ngdevice::currents[0]);
+		printf("LED %s is on. A = %1.3e\n", name.c_str(), ngdevice::currents[0]);
 	}
 	else if (ngdevice::currents[0] < lightCurrent && on == status)
 	{
 		status = off;
-		printf("LED %s is off. A = %f\n", name.c_str(), ngdevice::currents[0]);
+		printf("LED %s is off. A = %1.3e\n", name.c_str(), ngdevice::currents[0]);
 	}
 }

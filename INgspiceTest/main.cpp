@@ -13,9 +13,13 @@ void test_string_hpp();
 
 int main (int argc, char **argv)
 {
-	//test_circuit1();
+	//test1::test_sim(); //!
+	//test_sim(); //!
+	//test_switch_led();
+	//test_circuit_rc();
+	//test_restart();
 	//test_circuit_led();
-	test_circuit_parallel();
+	//test_circuit_parallel();
 	//test_string_hpp();
 	//test_path_hpp();
 	//test_model_subckt();

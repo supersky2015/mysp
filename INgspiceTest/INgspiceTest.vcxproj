@@ -94,10 +94,11 @@
     </ClCompile>
     <ClCompile Include="test-circuit.cpp" />
     <ClCompile Include="test-ingspice.cc" />
-    <ClCompile Include="test-schema.cc" />
-    <ClCompile Include="test-sim-parallel.cc" />
     <ClCompile Include="test-sim.cc" />
+    <ClCompile Include="test-schema.cc" />
     <ClCompile Include="test-model-subckt.cpp" />
+    <ClCompile Include="test-sim-parallel.cc" />
+    <ClCompile Include="test-sim-alter.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ingspice\ingspice.vcxproj">

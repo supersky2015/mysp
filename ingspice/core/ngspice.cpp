@@ -92,7 +92,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	ngspice* ng = (ngspice*)object;
 
 	//打印调试计算值
-	static int printInterval = 100;
+	static int printInterval = 10000;
 	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
 		string values;
 		char v[256] = {0};
@@ -100,7 +100,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 			sprintf_s(v, 256, "%d: %f; ", i, actualValues->vecsa[i]->creal);
 			values += v;
 		}
-		//PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
+		PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
 		ng->m_sendDataDebug++;
 		//if (ng->m_sendDataDebug == 3)
 		//	ng->m_breakTest = true;

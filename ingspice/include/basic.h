@@ -14,7 +14,6 @@ public:
 	{
 		this->r = r;
 	};
-	//~ngresistor();
 
 	string netlist();
 
@@ -29,7 +28,6 @@ public:
 	{
 		this->c = c;
 	};
-	//~ngcapacitor();
 
 	string netlist();
 
@@ -44,7 +42,6 @@ public:
 	{
 		this->l = l;
 	}
-	//~nginductance();
 
 	string netlist();
 
@@ -55,22 +52,22 @@ public:
 class ngswitch : public ngdevice
 {
 public:
-	ngswitch(string name, double r)
+	ngswitch(string name, double r = off)
 		:ngdevice(name, 2)
 	{
 		this->r = r;
 	}
-	//~ngswitch();
 
-	void connect(){
-		r = 1e-10;
-	};
+	string connect();
 
-	void disconnect(){
-		r = 1e20;
-	};
+	string disconnect();
+
+	string switchover();
 
 	string netlist();
+
+	const static double on;
+	const static double off;
 
 private:
 	double r;

@@ -14,9 +14,9 @@ public:
 
 	string netlist();
 
-#define coll pins[0]
-#define base pins[1]
-#define emit pins[2]
+#define coll p1
+#define base p2
+#define emit p3
 };
 
 #endif

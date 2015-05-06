@@ -25,22 +25,22 @@ bool circuit::IsRunning() const
 
 bool circuit::Run()
 {
-	return true;
+	return ng->Run();
 }
 
 bool circuit::Stop()
 {
-	return true;
+	return ng->Halt();
 }
 
 bool circuit::Resume()
 {
-	return true;
+	return ng->Resume();
 }
 
 bool circuit::Restart()
 {
-	return true;
+	return ng->Halt() && ng->Run();
 }
 
 bool circuit::Tran(const char* max /*= "1t"*/, const char* step /*= "10u"*/ )
@@ -104,3 +104,58 @@ void circuit::schemaAction( ngspice* ng )
 	}
 }
 
+bool circuit::TurnOn( ngdevice* sw )
+{
+	return turnSwitch(sw, on);
+}
+
+bool circuit::TurnOff( ngdevice* sw )
+{
+	return turnSwitch(sw, off);
+}
+
+bool circuit::SwitchOver( ngdevice* sw )
+{
+	return turnSwitch(sw);
+}
+
+bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
+{
+	if (!ng->IsRunning())
+		return false;
+
+	ngswitch* s = dynamic_cast<ngswitch*>(sw);
+	if (!s)
+		return false;
+
+	string cmd;
+	switch (status)
+	{
+	case on:
+		cmd = s->connect();
+		break;
+	case off:
+		cmd = s->disconnect();
+		break;
+	default:
+		//cmd = "alter rsw=0.001";
+		cmd = s->switchover();
+		break;
+	}
+
+	// halt simulation to alter resistor
+	bool ret = ng->Halt();
+	//Sleep(200);
+	ret &= ng->Do("listing");
+	ret &= ng->Do(cmd.c_str());
+	ret &= ng->Do("listing");
+	//Sleep(200);
+
+	// TOFIX:
+	// resume is not working, to make effect to alter resistor
+	// but run again is working. however capacitor and inductance stored energy is not considered yet.
+	//ret &= ng->Resume();
+	ret &= ng->Run();
+
+	return ret;
+}

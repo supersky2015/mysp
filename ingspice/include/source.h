@@ -24,8 +24,8 @@ public:
 
 	double v;
 
-#define pos pins[0]
-#define neg pins[1]
+#define pos p1
+#define neg p2
 
 	string netlist();
 };
