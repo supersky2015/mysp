@@ -8,7 +8,7 @@ class ngled : public ngdevice, public ngaction
 public:
 	ngled(string name, double lightCurrent = 5e-3);
 
-	string netlist();
+	string card();
 	
 	void action();
 

@@ -12,7 +12,7 @@ public:
 		ngdevice::model = model;
 	}
 
-	string netlist();
+	string card();
 
 #define coll p1
 #define base p2

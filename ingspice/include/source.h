@@ -27,7 +27,7 @@ public:
 #define pos p1
 #define neg p2
 
-	string netlist();
+	string card();
 };
 
 class ngac: public ngdevice
@@ -47,7 +47,7 @@ public:
 	double d;	//delay	
 
 
-	string netlist();
+	string card();
 };
 
 

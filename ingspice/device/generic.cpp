@@ -37,7 +37,7 @@ ngdevice::ngdevice(string name, int portCount, int branchCount/* = 0 */)
 	subckt.clear();
 }
 
-std::string ngdevice::netlist()
+std::string ngdevice::card()
 {
 	return "";
 }

@@ -212,8 +212,8 @@ vector<string> schema::GetNetlist()
 	netlist.push_back("title");
 
 	for (size_t i = 0; i < devices.size(); i++){
-		string line = devices[i]->netlist();
-		netlist.push_back(line);
+		string card = devices[i]->card();
+		netlist.push_back(card);
 	}
 
 	string models = getModels();

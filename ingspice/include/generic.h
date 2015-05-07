@@ -82,7 +82,7 @@ public:
 	
 	ngcontact operator[](int p);
 	ngcontact pin(int p);
-	virtual string netlist();
+	virtual string card();
 
 #define p1 pin(0)
 #define p2 pin(1)

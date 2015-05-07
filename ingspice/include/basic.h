@@ -15,7 +15,7 @@ public:
 		this->r = r;
 	};
 
-	string netlist();
+	string card();
 
 	double r;
 };
@@ -29,7 +29,7 @@ public:
 		this->c = c;
 	};
 
-	string netlist();
+	string card();
 
 	double c;
 };
@@ -43,7 +43,7 @@ public:
 		this->l = l;
 	}
 
-	string netlist();
+	string card();
 
 	double l;
 
@@ -64,7 +64,7 @@ public:
 
 	string switchover();
 
-	string netlist();
+	string card();
 
 	const static double on;
 	const static double off;

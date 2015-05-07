@@ -11,7 +11,7 @@ ngled::ngled(string name, double lightCurrent/* = 5e-3*/)
 	ngdevice::branches[0] = format_string("v.x%s.v#branch", name.c_str());
 }
 
-std::string ngled::netlist()
+std::string ngled::card()
 {
 	return FormatString(100, "X%s %s %s LED", name.c_str(), orders[0].c_str(), orders[1].c_str());
 }
