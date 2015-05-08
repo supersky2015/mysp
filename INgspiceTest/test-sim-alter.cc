@@ -2,27 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifndef _MSC_VER
-#include <stdbool.h>
-#include <pthread.h>
-#else
-#define bool int
-#define true 1
-#define false 0
-#define strdup _strdup
-#endif
 #include <signal.h>
-#if defined(__MINGW32__) || defined(_MSC_VER)
 #include <windows.h>  // for Sleep
-#else
-#include <unistd.h>
-#include <ctype.h>
-#endif
-//#include "../ingspice/common/common.h"
-#include "../ingspice/common/timer.h"
+
 #include <ngspice/sharedspice.h>
 
-using namespace ::Common;
 
 typedef int (*FngSpice_Init)(SendChar* printfcn, SendStat* statfcn, ControlledExit* ngexit, SendData* sdata, SendInitData* sinitdata, BGThreadRunning* bgtrun, void* userData);
 typedef int (*FngSpice_Init_Sync)(GetVSRCData *vsrcdat, GetISRCData *isrcdat, GetSyncData *syncdat, int *ident, void *userData);
@@ -35,20 +19,12 @@ typedef char** (*FngSpice_AllVecs)(char* plotname);
 typedef bool (*FngSpice_running)(void);
 typedef bool (*FngSpice_SetBkpt)(double time);
 
-FngSpice_Init ngSpice_Init;
-FngSpice_Init_Sync ngSpice_Init_Sync;
-FngSpice_Command ngSpice_Command;
-FngGet_Vec_Info ngGet_Vec_Info;
-FngSpice_Circ ngSpice_Circ;
-FngSpice_CurPlot ngSpice_CurPlot;
-FngSpice_AllPlots ngSpice_AllPlots;
-FngSpice_AllVecs ngSpice_AllVecs;
-FngSpice_running ngSpice_running;
-FngSpice_SetBkpt ngSpice_SetBkpt;
+
 
 
 bool no_bg = true;
 int vecgetnumber = 0;
+int vec_current_number = 0;
 double v2dat;
 static bool has_break = false;
 int testnumber = 0;
@@ -76,20 +52,31 @@ ng_data(pvecvaluesall vdata, int numvecs, int ident, void* userdata);
 int
 cieq(register char *p, register char *s);
 
+FngSpice_Init ngSpice_Init;
+FngSpice_Init_Sync ngSpice_Init_Sync;
+FngSpice_Command ngSpice_Command;
+FngGet_Vec_Info ngGet_Vec_Info;
+FngSpice_Circ ngSpice_Circ;
+FngSpice_CurPlot ngSpice_CurPlot;
+FngSpice_AllPlots ngSpice_AllPlots;
+FngSpice_AllVecs ngSpice_AllVecs;
+FngSpice_running ngSpice_running;
+FngSpice_SetBkpt ngSpice_SetBkpt;
+
 int test_sim()
 {
 
 	HMODULE mod = LoadLibrary("ngspice.dll");
-	FngSpice_Init ngSpice_Init = (FngSpice_Init)GetProcAddress(mod, "ngSpice_Init");
-	FngSpice_Init_Sync ngSpice_Init_Sync = (FngSpice_Init_Sync)GetProcAddress(mod, "ngSpice_Init_Sync");
-	FngSpice_Command ngSpice_Command = (FngSpice_Command)GetProcAddress(mod, "ngSpice_Command");
-	FngGet_Vec_Info ngGet_Vec_Info = (FngGet_Vec_Info)GetProcAddress(mod, "ngGet_Vec_Info");
-	FngSpice_Circ ngSpice_Circ = (FngSpice_Circ)GetProcAddress(mod, "ngSpice_Circ");
-	FngSpice_CurPlot ngSpice_CurPlot = (FngSpice_CurPlot)GetProcAddress(mod, "ngSpice_CurPlot");
-	FngSpice_AllPlots ngSpice_AllPlots = (FngSpice_AllPlots)GetProcAddress(mod, "ngSpice_AllPlots");
-	FngSpice_AllVecs ngSpice_AllVecs = (FngSpice_AllVecs)GetProcAddress(mod, "ngSpice_AllVecs");
-	FngSpice_running ngSpice_running = (FngSpice_running)GetProcAddress(mod, "ngSpice_running");
-	FngSpice_SetBkpt ngSpice_SetBkpt = (FngSpice_SetBkpt)GetProcAddress(mod, "ngSpice_SetBkpt");
+	ngSpice_Init = (FngSpice_Init)GetProcAddress(mod, "ngSpice_Init");
+	ngSpice_Init_Sync = (FngSpice_Init_Sync)GetProcAddress(mod, "ngSpice_Init_Sync");
+	ngSpice_Command = (FngSpice_Command)GetProcAddress(mod, "ngSpice_Command");
+	ngGet_Vec_Info = (FngGet_Vec_Info)GetProcAddress(mod, "ngGet_Vec_Info");
+	ngSpice_Circ = (FngSpice_Circ)GetProcAddress(mod, "ngSpice_Circ");
+	ngSpice_CurPlot = (FngSpice_CurPlot)GetProcAddress(mod, "ngSpice_CurPlot");
+	ngSpice_AllPlots = (FngSpice_AllPlots)GetProcAddress(mod, "ngSpice_AllPlots");
+	ngSpice_AllVecs = (FngSpice_AllVecs)GetProcAddress(mod, "ngSpice_AllVecs");
+	ngSpice_running = (FngSpice_running)GetProcAddress(mod, "ngSpice_running");
+	ngSpice_SetBkpt = (FngSpice_SetBkpt)GetProcAddress(mod, "ngSpice_SetBkpt");
 
     int ret, i;
     char ** circarray;
@@ -100,39 +87,52 @@ int test_sim()
 
     testnumber = 3;
     printf("\n**  Test no %d with flag for stopping background thread  **\n\n", testnumber);
-   /* create an RC circuit, uase transient simulation */
-    circarray = (char**)malloc(sizeof(char*) * 7);
-    circarray[0] = strdup("test array");
-    circarray[1] = strdup("V1 1 0 5");
-    circarray[2] = strdup("R1 1 2 100");
-	circarray[3] = strdup("R2 2 0 1e-10");
-    circarray[4] = strdup(".tran 1m 36");
-    circarray[5] = strdup(".end");
-    circarray[6] = NULL;
+    circarray = (char**)malloc(sizeof(char*) * 13);
+    circarray[0] = strdup("test halt to switch and then resume");
+    circarray[1] = strdup("v1 1 0 dc 5");
+	// a single pole single throw switch subckt
+    circarray[2] = strdup("x1 1 2 spst");
+	circarray[3] = strdup("r1 2 0 5");
+	// last 10s
+    circarray[4] = strdup(".tran 1m 1000");
+	//subckt spst start
+	circarray[5] = strdup(".subckt spst 1 2 params: ron=1e-8 roff=1e30");
+	circarray[6] = strdup("r1 0 6 20");
+	circarray[7] = strdup("v1 6 0 dc 0");
+	circarray[8] = strdup("w1 1 2 v1 no_contact");
+	circarray[9] = strdup(".model no_contact csw (it=0.05 ih=0.025 ron={ron} roff={roff})");
+	circarray[10] = strdup(".ends");
+	//subckt spst end
+    circarray[11] = strdup(".end");
+    circarray[12] = NULL;
 
     has_break = false;
 
-	timer t;
+
     ret = ngSpice_Circ(circarray);
     ret = ngSpice_Command("bg_run");
 	//ret = ngSpice_Command("listing");
 
-    for(i = 0; i < 6; i++)
-        free(circarray[i]);
-    free(circarray);
 
+	for(i = 0; i < 13; i++)
+		free(circarray[i]);
+	free(circarray);
+
+#if 0
     /* wait until simulation stops */
     for (;;) {
         Sleep (100);
-#if 1
+
+		// break when time is 5s
         if (has_break) {
             ret = ngSpice_Command("bg_halt");
             ret = ngSpice_Command("listing");
-            ret = ngSpice_Command("alter r2=1e20");
+			// set the subckt current 2/20 = 0.1A, to make spst connected
+            ret = ngSpice_Command("alter v.x1.v1=-2");
 			ret = ngSpice_Command("listing");
             ret = ngSpice_Command("bg_resume");
         }
-#endif
+
         if (no_bg)
             break;
     }
@@ -143,9 +143,31 @@ int test_sim()
         if (no_bg)
             break;
     }
-    //ret = ngSpice_Command("write test3.raw V(2)");
+#else
+	for (;;) {
+		char ch = getchar();
+		if (ch == 'a')
+		{
+			static bool status = false;
+			ret = ngSpice_Command("bg_halt");
+			ret = ngSpice_Command("listing");
+			// set the subckt current 2/20 = 0.1A, to make spst connected
+			status = !status;
+			if (status)
+				ret = ngSpice_Command("alter v.x1.v1=-2");
+			else
+				ret = ngSpice_Command("alter v.x1.v1=0");
+			ret = ngSpice_Command("listing");
+			ret = ngSpice_Command("bg_resume");
+		}
 
-	printf("time used : %fs", t.Escape());
+		Sleep(100);
+		if (no_bg)
+			break;
+	}
+
+#endif
+    //ret = ngSpice_Command("write test3.raw V(2)");
 
     return 0;
 }
@@ -153,7 +175,7 @@ int test_sim()
 int
 ng_getchar(char* outputreturn, int ident, void* userdata)
 {
-    printf("1: %s\n", outputreturn);
+    //printf("1: %s\n", outputreturn);
     return 0;
 }
 
@@ -181,22 +203,23 @@ ng_thread_runs(bool noruns, int ident, void* userdata)
 int
 ng_data(pvecvaluesall vdata, int numvecs, int ident, void* userdata)
 {
-#if 1
-	//printf("%08x, %d, %d\n", vdata, numvecs, ident);
     int *ret;
 
+	static double current = 0;
+	if (current != vdata->vecsa[vec_current_number]->creal)
+		printf(" << current = %1.3e >>\n", vdata->vecsa[vec_current_number]->creal);
+
+	current = vdata->vecsa[vec_current_number]->creal;
+
     v2dat = vdata->vecsa[vecgetnumber]->creal;
-    if (!has_break && (v2dat > 1)) {
-//        printf("Data V(2) value: %f\n", v2dat);
-    /* using signal SIGTERM by sending to main thread, alterp() then is run from the main thread,
-      (not on Windows though!)  */
+	//when the time is greter than 5s, trigger the alter action
+    if (!has_break && (v2dat > 5)) {
         has_break = true;
-        printf("Pause requested, setpoint reached\n");
+        printf("Pause requested, 5s reached\n");
     /* leave bg thread for a while to allow halting it from main */
-        Sleep (100);
-//        ret = ((int * (*)(char*)) ngSpice_Command_handle)("bg_halt");
+        //Sleep (100);
+//		ret = ((int * (*)(char*)) ngSpice_Command_handle)("bg_halt");
     }
-#endif
     return 0;
 }
 
@@ -213,6 +236,8 @@ ng_initdata(pvecinfoall intdata, int ident, void* userdata)
         /* find the location of V(2) */
         if (cieq(intdata->vecs[i]->vecname, "time"))
             vecgetnumber = i;
+		if (cieq(intdata->vecs[i]->vecname, "v1#branch"))
+			vec_current_number = i;
     }
     return 0;
 }
