@@ -61,12 +61,12 @@ void test_schema_multiline()
 	ngresistor remit("remit", 1000);
 	ngground gnd;
 
-	ngline line0(vcc.p2, gnd.p1);
-	ngline line1(vcc.p2, vin.p2);
-	ngline line2(vcc.p2, rbias2.p2);
-	ngline line3(vcc.p2, remit.p2);
-	ngline line4(vcc.p1, rbias1.p1);
-	ngline line5(vcc.p1, rcoll.p1);
+	ngline line0(vcc.neg, gnd.p1);
+	ngline line1(vcc.neg, vin.p2);
+	ngline line2(vcc.neg, rbias2.p2);
+	ngline line3(vcc.neg, remit.p2);
+	ngline line4(vcc.pos, rbias1.p1);
+	ngline line5(vcc.pos, rcoll.p1);
 	ngline line6(vin.p1, ccouple.p1);
 	ngline line7(ccouple.p2, rbias1.p2);
 	ngline line8(ccouple.p2, rbias2.p1);

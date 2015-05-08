@@ -10,6 +10,7 @@ public:
 		:ngdevice(name, 1)
 	{
 	}
+#define ground p1
 };
 
 class ngdc : public ngdevice

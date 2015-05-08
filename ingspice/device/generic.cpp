@@ -63,16 +63,3 @@ ngcontact::ngcontact( string name, string pin )
 	this->name = name;
 	this->pin = pin;
 }
-
-//ngcontact::ngcontact( const ngcontact& contact )
-//{
-//	this->name = contact.name;
-//	this->pin = contact.pin;
-//}
-
-//ngcontact& ngcontact::operator=( const ngcontact& rhs )
-//{
-//	this->name = rhs.name;
-//	this->pin = rhs.pin;
-//	return *this;
-//}
