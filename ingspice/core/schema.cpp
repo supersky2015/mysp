@@ -128,21 +128,31 @@ bool schema::sort()
 	int order = 1;
 	bool hasGround = false;
 	for (size_t i = 0; i < lines.size(); i++){
-		if (lines[i]->order != -1)
-			continue;
-		lines[i]->order = order++;
-
+		// compare order , and set order
 		for (size_t j = i + 1; j < lines.size(); j++){
-			if (isConnected(lines[i], lines[j]))
-				lines[j]->order = lines[i]->order;
+			if (isConnected(lines[i], lines[j])){
+				if (lines[i]->order == -1 && lines[j]->order == -1)
+					lines[i]->order = lines[j]->order = order++;
+				else if (lines[i]->order != -1 && lines[j]->order == -1)
+					lines[j]->order = lines[i]->order;
+				else if (lines[i]->order == -1 && lines[j]->order != -1)
+					lines[i]->order = lines[j]->order;
+			}
 		}
+		// if lines[i] connect to no line, set order
+		// should set order after compare, not before compare
+		if (lines[i]->order == -1)
+			lines[i]->order = order++;
 	}
 	
 	//find ground
 	int gndOrder = 0;
 	for (size_t i = 0; i < lines.size(); i++){
 		if (isGround(lines[i]->c1) || isGround(lines[i]->c2))
-			gndOrder = lines[i]->order;			
+		{
+			gndOrder = lines[i]->order;
+			break;
+		}
 	}
 	
 	//no ground
