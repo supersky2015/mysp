@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <include/schema.h>
 #include <include/circuit.h>
+#include <include/ngspice.h>
 
 void test_restart()
 {
@@ -70,7 +71,7 @@ void test_circuit_rc()
 	} while (cir.IsRunning());
 }
 
-void test_circuit_led()
+void test_flash_led()
 {
 	ngac ac("ac1", 0, 5, 1);
 	ngresistor r("r1", 370);
@@ -181,3 +182,101 @@ void test_switch_led()
 	} while (cir.IsRunning());
 
 }
+
+void test_switch_via_subckt_inter()
+{
+	ngdc dc("dc1", 5);
+	ngspst spst("spst");
+	ngresistor r("1", 5);
+	ngground gnd;
+
+	ngline l1(dc.pos, spst.p1);
+	ngline l2(spst.p2, r.p1);
+	ngline l3(r.p2, dc.neg);
+	ngline l0(dc.neg, gnd.ground);
+
+	schema sch;
+	sch.AddDevices(&dc, &spst, &r, &gnd, 0);
+	sch.AddLines(&l1, &l2, &l3, &l0, 0);
+
+	circuit cir(&sch);
+
+#if 1//ok now
+	vector<string> netlist = sch.GetNetlist();
+	// tran with spst disconnected
+	printf("-----spst disconnected---------\n");
+	cir.ng->LoadNetlist(netlist);
+	cir.Do("listing");
+	cir.Do("tran 1m 10 uic");
+
+
+	// tran with spst connected
+	printf("-----spst connected---------\n");
+	string sw = spst.switchover();
+	cir.Do(sw);
+	cir.Do("listing");
+	cir.Do("tran 1m 10 uic");
+
+#endif
+}
+
+void test_switch_via_subckt()
+{
+	ngdc dc("dc1", 5);
+	ngspst spst("spst", ngspst::on);
+	ngresistor r("1", 5);
+	ngled led("led");
+	ngground gnd;
+
+	ngline l1(dc.pos, spst.p1);
+	ngline l2(spst.p2, r.p1);
+	ngline l3(r.p2, led.pos);
+	ngline l4(led.neg, dc.neg);
+	ngline l0(dc.neg, gnd.ground);
+
+	schema sch;
+	sch.AddDevices(&dc, &spst, &r, &gnd, &led, 0);
+	sch.AddLines(&l1, &l2, &l3, &l0, &l4, 0);
+
+	circuit cir(&sch);
+
+#if 0//not work
+	// tran with spst disconnected
+	cir.Tran("10", "1m");
+	do 
+	{
+		Sleep(100);
+	} while (cir.IsRunning());
+	//cir.Stop();
+
+	// tran with spst connected, however it's still disconnected
+	string sw = spst.switchover();
+	cir.Do(sw);
+	cir.Tran("10", "1m");
+	do 
+	{
+		Sleep(100);
+	} while (cir.IsRunning());
+#endif
+
+
+	// run with event input to switch spst
+	cir.Tran("1t", "1m", 0);
+	do 
+	{
+		Sleep(200);
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'a':
+			cir.SwitchOver(&spst);
+			Sleep(200);
+			break;
+		case 'q':
+			cir.Stop();
+		default:
+			break;
+		};
+	} while (cir.IsRunning());
+}
+

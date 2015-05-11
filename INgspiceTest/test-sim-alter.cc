@@ -63,7 +63,7 @@ FngSpice_AllVecs ngSpice_AllVecs;
 FngSpice_running ngSpice_running;
 FngSpice_SetBkpt ngSpice_SetBkpt;
 
-int test_sim()
+int test_sim_alter()
 {
 
 	HMODULE mod = LoadLibrary("ngspice.dll");
@@ -87,24 +87,39 @@ int test_sim()
 
     testnumber = 3;
     printf("\n**  Test no %d with flag for stopping background thread  **\n\n", testnumber);
-    circarray = (char**)malloc(sizeof(char*) * 13);
-    circarray[0] = strdup("test halt to switch and then resume");
-    circarray[1] = strdup("v1 1 0 dc 5");
+	int pos = 0;
+
+#define CIRCUIT 0 
+
+#if CIRCUIT//test subckt as spst switch
+	int arraysize = 13;
+    circarray = (char**)malloc(sizeof(char*) * arraysize);
+    circarray[pos++] = strdup("test halt to switch and then resume");
+    circarray[pos++] = strdup("v1 1 0 dc 5");
 	// a single pole single throw switch subckt
-    circarray[2] = strdup("x1 1 2 spst");
-	circarray[3] = strdup("r1 2 0 5");
+    circarray[pos++] = strdup("x1 1 2 spst");
+	circarray[pos++] = strdup("r1 2 0 5");
 	// last 10s
-    circarray[4] = strdup(".tran 1m 1000");
+    circarray[pos++] = strdup(".tran 1m 1000");
 	//subckt spst start
-	circarray[5] = strdup(".subckt spst 1 2 params: ron=1e-8 roff=1e30");
-	circarray[6] = strdup("r1 0 6 20");
-	circarray[7] = strdup("v1 6 0 dc 0");
-	circarray[8] = strdup("w1 1 2 v1 no_contact");
-	circarray[9] = strdup(".model no_contact csw (it=0.05 ih=0.025 ron={ron} roff={roff})");
-	circarray[10] = strdup(".ends");
+	circarray[pos++] = strdup(".subckt spst 1 2 params: ron=1e-8 roff=1e30");
+	circarray[pos++] = strdup("r1 0 6 20");
+	circarray[pos++] = strdup("v1 6 0 dc 0");
+	circarray[pos++] = strdup("w1 1 2 v1 no_contact");
+	circarray[pos++] = strdup(".model no_contact csw (it=0.05 ih=0.025 ron={ron} roff={roff})");
+	circarray[pos++] = strdup(".ends");
+#else//test resistor as spst switch.
+	int arraysize = 7;
+	circarray = (char**)malloc(sizeof(char*) * arraysize);
+	circarray[pos++] = strdup("test resistor as switch");
+	circarray[pos++] = strdup("v1 1 0 dc 5");
+	circarray[pos++] = strdup("r1 1 2 5");
+	circarray[pos++] = strdup("r2 2 0 1e20");
+	circarray[pos++] = strdup(".tran 1m 1000");
+#endif
 	//subckt spst end
-    circarray[11] = strdup(".end");
-    circarray[12] = NULL;
+	circarray[pos++] = strdup(".end");
+	circarray[pos++] = NULL;
 
     has_break = false;
 
@@ -114,7 +129,7 @@ int test_sim()
 	//ret = ngSpice_Command("listing");
 
 
-	for(i = 0; i < 13; i++)
+	for(i = 0; i < arraysize; i++)
 		free(circarray[i]);
 	free(circarray);
 
@@ -128,7 +143,11 @@ int test_sim()
             ret = ngSpice_Command("bg_halt");
             ret = ngSpice_Command("listing");
 			// set the subckt current 2/20 = 0.1A, to make spst connected
+#if CIRCUIT
             ret = ngSpice_Command("alter v.x1.v1=-2");
+#else
+			ret = ngSpice_Command("alter r2=1e-8");
+#endif
 			ret = ngSpice_Command("listing");
             ret = ngSpice_Command("bg_resume");
         }
@@ -153,10 +172,17 @@ int test_sim()
 			ret = ngSpice_Command("listing");
 			// set the subckt current 2/20 = 0.1A, to make spst connected
 			status = !status;
+#if CIRCUIT
 			if (status)
 				ret = ngSpice_Command("alter v.x1.v1=-2");
 			else
 				ret = ngSpice_Command("alter v.x1.v1=0");
+#else
+			if (status)
+				ret = ngSpice_Command("alter r2=1e-8");
+			else
+				ret = ngSpice_Command("alter r2=1e20");
+#endif
 			ret = ngSpice_Command("listing");
 			ret = ngSpice_Command("bg_resume");
 		}
@@ -205,7 +231,7 @@ ng_data(pvecvaluesall vdata, int numvecs, int ident, void* userdata)
 {
     int *ret;
 
-	static double current = 0;
+	static double current = -1;
 	if (current != vdata->vecsa[vec_current_number]->creal)
 		printf(" << current = %1.3e >>\n", vdata->vecsa[vec_current_number]->creal);
 

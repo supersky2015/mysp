@@ -234,7 +234,8 @@ bool ngspice::LoadNetlist( const vector<string>& netlist )
 		free(circarray[i]);
 	}
 
-	Do("listing");
+	// if more the 22 lines, this will stop until key enter pressed.
+	//Do("listing");
 
 	return 0 == m_errMsgCircuit.size();
 }

@@ -22,7 +22,7 @@ public:
 	//	sch - 待仿真的电路图
 	//	step - 仿真步长，默认10us
 	//	max - 仿真持续时间，默认1t，1e12s
-	bool Tran(const char* max = "1t", const char* step = "10u");
+	bool Tran(const char* max = "1t", const char* step = "10u", const char* ic = " uic");
 
 	// turn on switch
 	bool TurnOn(ngdevice* sw);
@@ -45,8 +45,10 @@ public:
 	// halt simulation and run again
 	bool Restart();
 
-	
-private:
+	// do a command
+	bool Do(string cmd);
+
+//private:
 	// a circuit has only a schema
 	schema* sch;
 

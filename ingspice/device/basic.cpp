@@ -12,12 +12,24 @@ std::string ngresistor::card()
 
 std::string ngcapacitor::card()
 {
+	output_debug_message(" <c: %s, (%d, %d), (%1.3e, %1.3e)>", name.c_str(), orders[0].c_str(), orders[1].c_str(), potentials[0], potentials[1]);
 	return FormatString(100, "C%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), c);
+	//return FormatString(100, "C%s %s %s %1.3e ic=%1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), c, potentials[1] - potentials[0]);
+}
+
+nginductance::nginductance(string name, double l)
+	:ngdevice(name, 2/*, 1*/)
+{
+	this->l = l;
+	//ngdevice::subckt = "inductance";
+	//ngdevice::branches[0] = format_string("v.x%s.v#branch", name.c_str());
 }
 
 std::string nginductance::card()
 {
 	return FormatString(100, "L%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), l);
+	//return FormatString(256, "x%s %s %s sub_l_%s\n.subckt sub_l_%s K A\nV K 1 0\nL1 1 A %1.3e ic=%1.3e\n.ends", 
+	//	name.c_str(), orders[0].c_str(), orders[1].c_str(), name.c_str(), name.c_str(), branches[0]);
 }
 
 std::string ngswitch::card()
@@ -45,4 +57,22 @@ std::string ngswitch::switchover()
 		r = on;
 
 	return format_string("alter r%s=%1.3e", name.c_str(), r);
+}
+
+ngspst::ngspst( string name, int st/* = ngspst::off*/)
+	:ngdevice(name, 2)
+	,status(st)
+{
+	ngdevice::subckt = "spst";
+}
+
+std::string ngspst::switchover()
+{
+	status = (on == status) ? off : on;
+	return format_string("alter v.x%s.v1=%d", name.c_str(), on == status ? -2 : 0);
+}
+
+std::string ngspst::card()
+{
+	return format_string("X%s %s %s spst params:vstatus=%d", name.c_str(), orders[0].c_str(), orders[1].c_str(), on == status ? -2 : 0 );
 }

@@ -37,11 +37,7 @@ public:
 class nginductance : public ngdevice
 {
 public:
-	nginductance(string name, double l)
-		:ngdevice(name, 2)
-	{
-		this->l = l;
-	}
+	nginductance(string name, double l);
 
 	string card();
 
@@ -71,6 +67,22 @@ public:
 
 private:
 	double r;
+};
+
+class ngspst : public ngdevice
+{
+public:
+	ngspst(string name, int st = ngspst::off);
+
+	string switchover();
+
+	string card();
+
+	enum {on, off};
+
+private:
+	// spst status, init off
+	int status;
 };
 
 #endif
