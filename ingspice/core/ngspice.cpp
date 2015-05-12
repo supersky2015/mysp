@@ -92,7 +92,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	ngspice* ng = (ngspice*)object;
 
 	//打印调试计算值
-	static int printInterval = 10000;
+	static int printInterval = 1000;
 	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
 		string values;
 		char v[256] = {0};
@@ -235,7 +235,7 @@ bool ngspice::LoadNetlist( const vector<string>& netlist )
 	}
 
 	// if more the 22 lines, this will stop until key enter pressed.
-	//Do("listing");
+	Do("listing");
 
 	return 0 == m_errMsgCircuit.size();
 }

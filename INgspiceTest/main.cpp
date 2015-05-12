@@ -14,7 +14,9 @@ void test_string_hpp();
 int main (int argc, char **argv)
 {
 	// circuit class
-	test_switch_via_subckt();
+	test_circuit_rc_tran();
+	//test_spdt();
+	//test_switch_via_subckt();
 	//test_switch_via_subckt_inter();
 	//test_switch_led();
 	//test_circuit_rc();

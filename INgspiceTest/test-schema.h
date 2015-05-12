@@ -3,6 +3,8 @@
 
 void test_schema_rc();
 
+// example from ngspice26-manual
+// 21.1 ac coupled transistor amplifier
 void test_schema_multiline();
 
 #endif

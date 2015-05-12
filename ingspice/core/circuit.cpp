@@ -152,6 +152,10 @@ bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 	{
 		cmd = s->switchover();
 	}
+	else if (ngspdt* s = dynamic_cast<ngspdt*>(sw))
+	{
+		cmd = s->switchover();
+	}
 	else
 		return false;
 

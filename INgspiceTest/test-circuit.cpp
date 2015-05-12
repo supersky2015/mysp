@@ -280,3 +280,97 @@ void test_switch_via_subckt()
 	} while (cir.IsRunning());
 }
 
+void test_spdt()
+{
+	ngdc dc("dc1", 5);
+	ngspdt spdt("spdt", ngspdt::status_throw1);
+	ngresistor r1("1", 5);
+	ngresistor r2("2", 5);
+	ngled led1("led1");
+	ngled led2("led2");
+	ngground gnd;
+
+	ngline l1(dc.pos, spdt.pole);
+	ngline l2(spdt.throw1, r1.p1);
+	ngline l3(spdt.throw2, r2.p1);
+	ngline l4(r1.p2, led1.pos);
+	ngline l5(r2.p2, led2.pos);
+	ngline l6(led1.neg, dc.neg);
+	ngline l7(led2.neg, dc.neg);
+	ngline l0(dc.neg, gnd.ground);
+
+	schema sch;
+	sch.AddDevices(&dc, &spdt, &r1, &r2, &led1, &led2, &gnd, 0);
+	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, &l7, &l0, 0);
+
+	circuit cir(&sch);
+	cir.Tran("1t", "1m", 0);
+	do 
+	{
+		Sleep(200);
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'a':
+			cir.SwitchOver(&spdt);
+			Sleep(200);
+			break;
+		case 'q':
+			cir.Stop();
+		default:
+			break;
+		};
+	} while (cir.IsRunning());
+}
+
+void test_circuit_rc_tran()
+{
+	ngdc dc("dc1", 5);
+	ngspdt spdt("spdt");
+	ngresistor r("r1", 5);
+	ngcapacitor c("c1", 0.2);
+	ngground gnd;
+
+	ngline line1(dc.pos, spdt.throw1);
+	ngline line2(spdt.pole, r.p1);
+	ngline line3(r.p2, c.p1);
+	ngline line4(c.p2, dc.neg);
+	ngline line5(spdt.throw2, gnd.ground);
+	ngline line0(dc.neg, gnd.ground);
+
+	schema sch;
+	sch.AddDevices(&dc, &spdt, &r, &c, &gnd, 0);
+	sch.AddLines(&line1, &line2, &line3, &line4, &line5, &line0, 0);
+
+#if 1
+	circuit cir(&sch);
+	cir.Tran("1t", "100u");
+
+	do 
+	{
+		Sleep(200);
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'a':
+			// switchover to charge or discharge
+			cir.SwitchOver(&spdt);
+			Sleep(200);
+			break;
+		case 'q':
+			cir.Stop();
+		default:
+			break;
+		};
+	} while (cir.IsRunning());
+	cir.Do("plot all");
+#else
+	circuit cir(&sch);
+	cir.Tran("5", "1m");
+	do 
+	{
+		Sleep(100);
+	} while (cir.IsRunning());
+	cir.Do("plot all");
+#endif
+}

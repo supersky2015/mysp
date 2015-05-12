@@ -76,3 +76,21 @@ std::string ngspst::card()
 {
 	return format_string("X%s %s %s spst params:vstatus=%d", name.c_str(), orders[0].c_str(), orders[1].c_str(), on == status ? -2 : 0 );
 }
+
+ngspdt::ngspdt( string name, int st /*= status_throw1*/ )
+	:ngdevice(name, 3)
+	,status(st)
+{
+	ngdevice::subckt = "spdt";
+}
+
+std::string ngspdt::switchover()
+{
+	status = (status_throw1 == status) ? status_throw2 : status_throw1;
+	return format_string("alter v.x%s.v1=%d", name.c_str(), status_throw1 == status ? 0 : -2);
+}
+
+std::string ngspdt::card()
+{
+	return format_string("X%s %s %s %s spdt params:vstatus=%d", name.c_str(), orders[0].c_str(), orders[1].c_str(), orders[2].c_str(), status_throw1 == status ? 0 : -2 );
+}

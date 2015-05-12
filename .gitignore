@@ -1,3 +1,11 @@
+# tips:
+# *.obj - ignore all files with .obj extention
+# dir/ - ignore all files in dir
+# /dir - ignore dir in root
+# !out.exe - except out.exe, that is out.exe will not be ignored
+# doc/*.txt - ignore doc/notes.txt, but not doc/sub/notes.txt
+# doc/**/*.txt - ignore files in the doc/ directory
+
 #common types of file ignored in visual c++
 *.ilk
 *.pdb
@@ -16,6 +24,9 @@
 *.raw
 *.out
 
+#custom ignored
+*.bak
+
 #common directory ignored in visual c++
 #/debug
 #/release
@@ -25,14 +36,6 @@
 /.settings
 /INgspiceTest/Debug
 /INgspiceTest/Release
-
-# tips:
-# *.obj - ignore all files with .obj extention
-# dir/ - ignore all files in dir
-# /dir - ignore dir in root
-# !out.exe - except out.exe, that is out.exe will not be ignored
-# doc/*.txt - ignore doc/notes.txt, but not doc/sub/notes.txt
-# doc/**/*.txt - ignore files in the doc/ directory
 
 #add except
 !/Debug/*.cir

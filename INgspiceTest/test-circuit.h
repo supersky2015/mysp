@@ -24,4 +24,10 @@ void test_switch_via_subckt_inter();
 // by shared-lib
 void test_switch_via_subckt();
 
+// test spdt switch
+void test_spdt();
+
+// 测试rc暂态响应，先充电，切换开关放电
+void test_circuit_rc_tran();
+
 #endif

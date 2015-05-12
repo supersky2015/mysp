@@ -85,4 +85,25 @@ private:
 	int status;
 };
 
+// 单刀双掷（Single-Pole Double-Throw）
+class ngspdt : public ngdevice
+{
+public:
+	ngspdt(string name, int st = status_throw1);
+
+	string switchover();
+
+	string card();
+
+	enum {status_throw1, status_throw2};
+
+#define throw1	p1
+#define pole	p2
+#define throw2	p3
+
+private:
+	// which throw the pole connect to
+	int status;
+};
+
 #endif
