@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <windows.h>
-#include "sharedspice.h"
+#include <ngspice/sharedspice.h>
 #include "plot.h"
 #include "circuit.h"
 

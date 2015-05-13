@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "sharedspice.h"
+#include <ngspice/sharedspice.h>
 using namespace std;
 
 /*

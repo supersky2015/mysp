@@ -1,7 +1,7 @@
 ﻿#include "StdAfx.h"
 #include <algorithm>
 #include <ngspice/dvec.h>
-#include "ngspice.h"
+#include <include/ngspice.h>
 #include <Windows.h>
 #include <assert.h>
 #include <common/common.h>
