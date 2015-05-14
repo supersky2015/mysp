@@ -7,6 +7,8 @@
 
 #include <ngspice/sharedspice.h>
 
+namespace test2
+{
 
 typedef int (*FngSpice_Init)(SendChar* printfcn, SendStat* statfcn, ControlledExit* ngexit, SendData* sdata, SendInitData* sinitdata, BGThreadRunning* bgtrun, void* userData);
 typedef int (*FngSpice_Init_Sync)(GetVSRCData *vsrcdat, GetISRCData *isrcdat, GetSyncData *syncdat, int *ident, void *userData);
@@ -316,4 +318,6 @@ cieq(register char *p, register char *s)
         s++;
     }
     return (*s ? false : true);
+}
+
 }

@@ -6,7 +6,10 @@ namespace test1
 	int test_sim();
 };
 
-int test_sim();
+namespace test2
+{
+	int test_sim_alter();
+};
 
 int test_sim_parallel();
 

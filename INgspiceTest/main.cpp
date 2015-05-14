@@ -47,7 +47,7 @@ int main (int argc, char **argv)
 
 	// ngspice examples
 	//test1::test_sim();
-	//test_sim_alter();
+	test2::test_sim_alter();
 
 	system("pause");
 	return 0;
