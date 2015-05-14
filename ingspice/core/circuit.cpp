@@ -1,5 +1,7 @@
 ﻿#include "StdAfx.h"
 #include <algorithm>
+#include <functional>
+#include <memory>
 #include <include/circuit.h>
 #include <include/device.h>
 #include <include/schema.h>
@@ -143,7 +145,6 @@ bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 			cmd = s->disconnect();
 			break;
 		default:
-			//cmd = "alter rsw=0.001";
 			cmd = s->switchover();
 			break;
 		}
@@ -161,17 +162,32 @@ bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 
 	// halt simulation to alter resistor
 	bool ret = ng->Halt();
-	//Sleep(200);
-	//ret &= ng->Do("listing");
 	ret &= ng->Do(cmd.c_str());
-	//ret &= ng->Do("listing");
-	//Sleep(200);
-
-	// TOFIX:
-	// resume is not working, to make effect to alter resistor
-	// but run again is working. however capacitor and inductance stored energy is not considered yet.
 	ret &= ng->Resume();
-	//ret &= ng->Run();
 
 	return ret;
+}
+
+bool circuit::Plot( string vec )
+{
+	DWORD tid = 0;
+	vectoplot = std::make_shared<string>(vec);
+	::CreateThread(NULL, 0, procPlot, this, 0, &tid);
+	return true;
+}
+
+DWORD WINAPI circuit::procPlot(LPVOID param )
+{
+	circuit* cir = (circuit*)param;
+	string cmd = format_string("plot %s", cir->vectoplot->data());
+	cir->Do(cmd.c_str());
+	// tofix: msg loop here.
+	getchar();
+	return 0;
+}
+
+double circuit::CurrentValue( string name )
+{
+	plot& p = ng->GetPlot();
+	return p.GetVecCurrValue(name);
 }

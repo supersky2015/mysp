@@ -14,11 +14,12 @@ void test_string_hpp();
 int main (int argc, char **argv)
 {
 	// circuit class
-	test_circuit_rc_tran();
+	//test_rc_charge_discharge();
+	//test_circuit_rc_tran();
 	//test_spdt();
-	//test_switch_via_subckt();
-	//test_switch_via_subckt_inter();
-	//test_switch_led();
+	//test_switch_by_csw();
+	//test_switch_by_csw_inter();
+	//test_switch_by_resistor();
 	//test_circuit_rc();
 	//test_restart();
 	//test_circuit_led();
@@ -48,5 +49,6 @@ int main (int argc, char **argv)
 	//test1::test_sim();
 	//test_sim_alter();
 
+	system("pause");
 	return 0;
 }

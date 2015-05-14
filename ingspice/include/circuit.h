@@ -48,6 +48,13 @@ public:
 	// do a command
 	bool Do(string cmd);
 
+	// plot in new thread
+	// TOFIX: the dialog of plot is stuck now. however it's good enough to visualize a plot.
+	bool Plot(string vec);
+
+	// get current value by vector name
+	double CurrentValue(string name);
+
 //private:
 	// a circuit has only a schema
 	schema* sch;
@@ -67,6 +74,12 @@ public:
 
 	// get schema of this circuit
 	inline schema* Schema(){return sch;}
+
+	// thread to plot
+	static unsigned long __stdcall procPlot(void* param);
+
+	// memory pass to thread procPlot
+	shared_ptr<string> vectoplot;
 };
 
 // circuit member function pointer

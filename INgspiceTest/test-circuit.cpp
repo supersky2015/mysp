@@ -143,7 +143,7 @@ void test_circuit_parallel()
 	} while (CIR.IsRunning() || cir.IsRunning());
 }
 
-void test_switch_led()
+void test_switch_by_resistor()
 {
 	ngdc dc("dc", 10);
 	ngresistor r("r1", 370);
@@ -183,7 +183,7 @@ void test_switch_led()
 
 }
 
-void test_switch_via_subckt_inter()
+void test_switch_by_csw_inter()
 {
 	ngdc dc("dc1", 5);
 	ngspst spst("spst");
@@ -220,7 +220,7 @@ void test_switch_via_subckt_inter()
 #endif
 }
 
-void test_switch_via_subckt()
+void test_switch_by_csw()
 {
 	ngdc dc("dc1", 5);
 	ngspst spst("spst", ngspst::on);
@@ -342,7 +342,7 @@ void test_circuit_rc_tran()
 	sch.AddDevices(&dc, &spdt, &r, &c, &gnd, 0);
 	sch.AddLines(&line1, &line2, &line3, &line4, &line5, &line0, 0);
 
-#if 1
+
 	circuit cir(&sch);
 	cir.Tran("1t", "100u");
 
@@ -363,14 +363,69 @@ void test_circuit_rc_tran()
 			break;
 		};
 	} while (cir.IsRunning());
+
 	cir.Do("plot all");
-#else
+}
+
+/* same effect to test_rc_charge_discharge()
+title rc charge discharge
+.global gnd
+vdc1 1 0 dc 5.000e+000
+xspdt 1 2 0 spdt
+rr1 2 3 5.000e+000
+cc1 3 0 2.000e-001
+
+.subckt spdt 1 2 3 params: vstatus=0 ron=1e-8 roff=1e30
+r1 0 6 20
+v1 6 0 dc {vstatus}
+w0 2 1 v1 nc_contact
+w1 2 3 v1 no_contact
+.model no_contact csw (it=0.05 ih=0.025 ron={ron} roff={roff})
+.model nc_contact csw (it=0.05 ih=0.025 ron={roff} roff={ron})
+.ends
+
+.control
+stop when time = 5s
+tran 100u 10s uic
+alter v.xspdt.v1=-2
+resume
+plot all
+.endc
+*/
+void test_rc_charge_discharge()
+{
+	ngdc dc("dc1", 5);
+	ngspdt spdt("spdt");
+	ngresistor r("r1", 5);
+	ngcapacitor c("c1", 0.2);
+	ngground gnd;
+
+	ngline line1(dc.pos, spdt.throw1);
+	ngline line2(spdt.pole, r.p1);
+	ngline line3(r.p2, c.p1);
+	ngline line4(c.p2, dc.neg);
+	ngline line5(spdt.throw2, gnd.ground);
+	ngline line0(dc.neg, gnd.ground);
+
+	schema sch;
+	sch.AddDevices(&dc, &spdt, &r, &c, &gnd, 0);
+	sch.AddLines(&line1, &line2, &line3, &line4, &line5, &line0, 0);
+
 	circuit cir(&sch);
-	cir.Tran("5", "1m");
+	// transient analysis last 10 seconds
+	cir.Tran("10", "1m");
 	do 
 	{
 		Sleep(100);
+		//charge 5 seconds. when time passes 5 seconds, start to discharge.
+		static bool done = false;
+		if (cir.CurrentValue("time") >= 5 && !done)
+		{
+			cir.SwitchOver(&spdt);
+			Sleep(200);
+			done = true;
+		}
 	} while (cir.IsRunning());
 	cir.Do("plot all");
-#endif
+	getchar();
 }
