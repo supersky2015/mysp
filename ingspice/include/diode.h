@@ -10,7 +10,7 @@ public:
 
 	string card();
 	
-	void action();
+	void action(double time);
 
 	double lightCurrent;	//大于这个值，LED点亮, 默认5mA
 

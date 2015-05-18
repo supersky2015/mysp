@@ -16,7 +16,7 @@ std::string ngled::card()
 	return FormatString(100, "X%s %s %s LED", name.c_str(), orders[0].c_str(), orders[1].c_str());
 }
 
-void ngled::action()
+void ngled::action(double time)
 {
 	if (init == status)
 	{
@@ -27,11 +27,11 @@ void ngled::action()
 	if (ngdevice::currents[0] >= lightCurrent && off == status)
 	{
 		status = on;
-		printf("LED %s is on. A = %1.3e\n", name.c_str(), ngdevice::currents[0]);
+		printf("LED %s is on. A = %1.3e, time = %1.3e\n", name.c_str(), ngdevice::currents[0], time);
 	}
 	else if (ngdevice::currents[0] < lightCurrent && on == status)
 	{
 		status = off;
-		printf("LED %s is off. A = %1.3e\n", name.c_str(), ngdevice::currents[0]);
+		printf("LED %s is off. A = %1.3e, time = %1.3e\n", name.c_str(), ngdevice::currents[0], time);
 	}
 }

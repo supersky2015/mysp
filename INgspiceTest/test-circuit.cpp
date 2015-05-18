@@ -175,7 +175,7 @@ void test_switch_by_resistor()
 			Sleep(200);
 			break;
 		case 'q':
-			cir.Stop();
+			cir.Halt();
 		default:
 			break;
 		};
@@ -205,7 +205,7 @@ void test_switch_by_csw_inter()
 	vector<string> netlist = sch.GetNetlist();
 	// tran with spst disconnected
 	printf("-----spst disconnected---------\n");
-	cir.ng->LoadNetlist(netlist);
+	cir.LoadNetlist(netlist);
 	cir.Do("listing");
 	cir.Do("tran 1m 10 uic");
 
@@ -213,7 +213,7 @@ void test_switch_by_csw_inter()
 	// tran with spst connected
 	printf("-----spst connected---------\n");
 	string sw = spst.switchover();
-	cir.Do(sw);
+	cir.Do(sw.c_str());
 	cir.Do("listing");
 	cir.Do("tran 1m 10 uic");
 
@@ -273,7 +273,7 @@ void test_switch_by_csw()
 			Sleep(200);
 			break;
 		case 'q':
-			cir.Stop();
+			cir.Halt();
 		default:
 			break;
 		};
@@ -316,7 +316,7 @@ void test_spdt()
 			Sleep(200);
 			break;
 		case 'q':
-			cir.Stop();
+			cir.Halt();
 		default:
 			break;
 		};
@@ -358,7 +358,7 @@ void test_circuit_rc_tran()
 			Sleep(200);
 			break;
 		case 'q':
-			cir.Stop();
+			cir.Halt();
 		default:
 			break;
 		};

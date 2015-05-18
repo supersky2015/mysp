@@ -34,7 +34,7 @@ public:
 class ngaction 
 {
 public:
-	virtual void action() = 0;
+	virtual void action(double time) = 0;
 };
 
 // base class of all kinds of devices

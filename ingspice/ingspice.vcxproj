@@ -106,7 +106,6 @@
     <ClCompile Include="common\test.cpp" />
     <ClCompile Include="core\circuit.cpp" />
     <ClCompile Include="core\ngspice.cpp" />
-    <ClCompile Include="core\plot.cpp" />
     <ClCompile Include="core\schema.cpp" />
     <ClCompile Include="device\basic.cpp" />
     <ClCompile Include="device\diode.cpp" />

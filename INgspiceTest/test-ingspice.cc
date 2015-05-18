@@ -54,7 +54,7 @@ int load_error()
 {
 	ngspice ng;
 	if (!ng.LoadCircuit("3p_load_error.cir")) {
-		printf("%s", ng.GetErrorMessage().c_str());
+		printf("%s", ng.ErrorMsgLoading().c_str());
 		return -1;
 	}
 	ng.Run();
@@ -83,7 +83,7 @@ int load_error2()
 
 	ngspice ng;
 	if (!ng.LoadNetlist(netlist)) {
-		printf("%s", ng.GetErrorMessage().c_str());
+		printf("%s", ng.ErrorMsgLoading().c_str());
 		getchar();
 		return -1;
 	}
@@ -103,7 +103,7 @@ int run_error()
 {
 	ngspice ng;
 	if (!ng.LoadCircuit("3p_run_error.cir")) {
-		printf("%s", ng.GetErrorMessage().c_str());
+		printf("%s", ng.ErrorMsgLoading().c_str());
 		return -1;
 	}
 
@@ -114,7 +114,7 @@ int run_error()
 		Sleep(200);
 	} while (ng.IsRunning());
 
-	string runerr = ng.GetErrorMessage();
+	string runerr = ng.ErrorMsgLoading();
 	printf("%s\n", runerr);
 
 	ng.GetAllPlotsVecs();

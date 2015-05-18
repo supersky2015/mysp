@@ -146,9 +146,6 @@
     <ClCompile Include="common\string.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="core\plot.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="device\mixed.cpp">
       <Filter>device</Filter>
     </ClCompile>

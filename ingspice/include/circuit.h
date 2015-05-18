@@ -3,20 +3,18 @@
 
 #include <vector>
 #include <map>
+#include "ngspice.h"
+
 using namespace std;
 
 class schema;
-class ngspice;
 class ngdevice;
 
-class circuit
+class circuit : public ngspice
 {
 public:
 	circuit(schema* sch);
 	~circuit(void);
-
-	// if circuit is running simulation
-	bool IsRunning() const;
 
 	// 瞬态分析仿真
 	//	sch - 待仿真的电路图
@@ -33,34 +31,13 @@ public:
 	// switchover a switch 
 	bool SwitchOver(ngdevice* sw);
 
-	// run simulation
-	bool Run();
-
-	// halt simulation
-	bool Stop();
-
-	// resume simulation
-	bool Resume();
-
-	// halt simulation and run again
-	bool Restart();
-
-	// do a command
-	bool Do(string cmd);
-
 	// plot in new thread
 	// TOFIX: the dialog of plot is stuck now. however it's good enough to visualize a plot.
 	bool Plot(string vec);
 
-	// get current value by vector name
-	double CurrentValue(string name);
-
-//private:
+private:
 	// a circuit has only a schema
 	schema* sch;
-
-	// a circuit uses a ngspice to sim a schema.
-	ngspice* ng;
 
 	// add control command into netlist.
 	bool updateNetlist(vector<string>& netlist, string command);
@@ -70,7 +47,7 @@ public:
 	bool turnSwitch(ngdevice* sw, int status = switchover);
 
 	// member function called back by ngspice
-	void schemaAction(ngspice* ng);
+	virtual void SimAction(double time);
 
 	// get schema of this circuit
 	inline schema* Schema(){return sch;}
@@ -81,8 +58,5 @@ public:
 	// memory pass to thread procPlot
 	shared_ptr<string> vectoplot;
 };
-
-// circuit member function pointer
-typedef void (circuit::*FuncAction)(ngspice* ng);
 
 #endif

@@ -13,41 +13,10 @@ using namespace std;
 circuit::circuit(schema* sch)
 	:sch(sch)
 {
-	ng = new ngspice(this, &circuit::schemaAction);
 }
 
 circuit::~circuit(void)
 {
-}
-
-bool circuit::IsRunning() const
-{
-	return ng->IsRunning();
-}
-
-bool circuit::Run()
-{
-	return ng->Run();
-}
-
-bool circuit::Stop()
-{
-	return ng->Halt();
-}
-
-bool circuit::Resume()
-{
-	return ng->Resume();
-}
-
-bool circuit::Restart()
-{
-	return ng->Halt() && ng->Run();
-}
-
-bool circuit::Do( string cmd )
-{
-	return ng->Do(cmd.c_str());
 }
 
 bool circuit::Tran(const char* max /*= "1t"*/, const char* step /*= "10u"*/, const char* ic /*= " uic" */)
@@ -59,9 +28,12 @@ bool circuit::Tran(const char* max /*= "1t"*/, const char* step /*= "10u"*/, con
 		tran.append(ic);
 	updateNetlist(netlist, tran);
 
+	//try to load netlist
+	if (!ngspice::LoadNetlist(netlist))
+		return false;
+
 	//start ngspice simulation
-	ng->LoadNetlist(netlist);
-	return ng->Run();
+	return ngspice::Run();
 }
 
 bool circuit::updateNetlist( vector<string>& netlist, string command )
@@ -73,11 +45,8 @@ bool circuit::updateNetlist( vector<string>& netlist, string command )
 	return true;
 }
 
-void circuit::schemaAction( ngspice* ng )
+void circuit::SimAction(double time)
 {
-	schema* sch = this->Schema();
-	plot& p = ng->GetPlot();
-
 	//update all devices contact voltage.
 	for (size_t i = 0; i < sch->devices.size(); i++)
 	{
@@ -89,7 +58,7 @@ void circuit::schemaAction( ngspice* ng )
 			else
 			{
 				string name = format_string("V(%s)", dev->orders[j].c_str());
-				dev->potentials[j] = p.GetVecCurrValue(name);
+				dev->potentials[j] = m_plot.GetVecCurrValue(name);
 			}
 		}
 	}
@@ -100,7 +69,7 @@ void circuit::schemaAction( ngspice* ng )
 		ngdevice* dev = sch->devices[i];
 		for (size_t j = 0; j < dev->branches.size(); j++)
 		{
-			dev->currents[j] = p.GetVecCurrValue(dev->branches[j].c_str());
+			dev->currents[j] = m_plot.GetVecCurrValue(dev->branches[j].c_str());
 		}
 	}
 
@@ -109,7 +78,7 @@ void circuit::schemaAction( ngspice* ng )
 	{
 		ngaction* act = dynamic_cast<ngaction*>(sch->devices[i]);
 		if (act)
-			act->action();
+			act->action(time);
 	}
 }
 
@@ -130,7 +99,7 @@ bool circuit::SwitchOver( ngdevice* sw )
 
 bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 {
-	if (!ng->IsRunning())
+	if (!ngspice::IsRunning())
 		return false;
 
 	string cmd;
@@ -161,9 +130,9 @@ bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 		return false;
 
 	// halt simulation to alter resistor
-	bool ret = ng->Halt();
-	ret &= ng->Do(cmd.c_str());
-	ret &= ng->Resume();
+	bool ret = ngspice::Halt();
+	ret &= ngspice::Do(cmd.c_str());
+	ret &= ngspice::Resume();
 
 	return ret;
 }
@@ -186,8 +155,3 @@ DWORD WINAPI circuit::procPlot(LPVOID param )
 	return 0;
 }
 
-double circuit::CurrentValue( string name )
-{
-	plot& p = ng->GetPlot();
-	return p.GetVecCurrValue(name);
-}

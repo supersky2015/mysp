@@ -58,7 +58,15 @@ struct plot
 	/*
 	 * 根据向量名获取当前向量值
 	 */
-	double plot::GetVecCurrValue( const string& name );
+	inline double GetVecCurrValue( const string& name )
+	{
+		for (size_t i = 0; i < names.size(); i++)
+		{
+			if (0 == _stricmp(name.c_str(), names[i].c_str()))
+				return currentValues[i];
+		}
+		return 0;
+	}
 
 };
 

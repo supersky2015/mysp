@@ -13,14 +13,11 @@
 #define PRINT	printf
 #endif
 
-ngspice::ngspice(circuit* cir/* = NULL*/, FuncAction action/* = NULL*/)
-	:m_cir(cir)
-	,m_action(action)
+ngspice::ngspice()
+	:m_sendDataDebug(0)
 	,m_flagPrompt(false)
 	,m_running(false)
 	,m_flagCheckLoadCircuit(false)
-	,m_successLoadCircuit(true)
-	//,m_flagRunCircuit(true)
 	//,m_breakTest(false)
 {
 	string path = get_exe_dir();
@@ -64,6 +61,11 @@ int ngspice::procSendChar( char* str, int id, void* object )
 			PRINT("%s\n", str);
 			ng->m_errMsgCircuit += str;
 			ng->m_errMsgCircuit += "\n";
+
+			// run command error, caller may check running error periodically
+			if (ng->m_running){
+				ng->m_errRunning = str;
+			}
 		}
 	}
 
@@ -92,7 +94,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	ngspice* ng = (ngspice*)object;
 
 	//打印调试计算值
-	static int printInterval = 1000;
+	static int printInterval = 10;
 	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
 		string values;
 		char v[256] = {0};
@@ -133,8 +135,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 	}
 
 	// 更新器件列表引脚电势，电源电流
-	if (ng->m_cir && ng->m_action)
-		(ng->m_cir->*(ng->m_action))(ng);
+	ng->SimAction(ng->CurrentValue("time"));
 
 	return 0;
 }
@@ -242,7 +243,8 @@ bool ngspice::LoadNetlist( const vector<string>& netlist )
 
 bool ngspice::Run()
 {
-	return /*!ngSpice_Command("tran 10u 1 uic") && */!ngSpice_Command("bg_run");
+	m_errRunning.clear();
+	return !ngSpice_Command("bg_run");
 }
 
 bool ngspice::Halt()
@@ -253,6 +255,11 @@ bool ngspice::Halt()
 bool ngspice::Resume()
 {
 	return !ngSpice_Command("bg_resume");
+}
+
+bool ngspice::Restart()
+{
+	return !ngSpice_Command("bg_halt") && !ngSpice_Command("bg_run");
 }
 
 bool ngspice::Do( const char* cmd )
@@ -270,7 +277,6 @@ bool ngspice::Do( const char* cmd )
 
 bool ngspice::IsRunning()
 {
-	//return ngSpice_running();
 	return m_running/* && !m_breakTest*/;
 }
 
@@ -309,7 +315,17 @@ bool ngspice::GetAllPlotsVecs()
 	return 0;
 }
 
-string ngspice::GetErrorMessage()
+string ngspice::ErrorMsgLoading()
 {
 	return m_errMsgCircuit;
+}
+
+std::string ngspice::ErrorMsgRuning()
+{
+	return m_errRunning;
+}
+
+inline double ngspice::CurrentValue( string name )
+{
+	return m_plot.GetVecCurrValue(name);
 }
