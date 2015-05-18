@@ -104,13 +104,21 @@ void schema::AddLines( ngline* line, ... )
 	va_list ap;
 	va_start(ap, line);
 	ngline* l = line;
-	while (l)
-	{
+	while (l){
 		if (lines.end() == find(lines.begin(), lines.end(), l))
 			lines.push_back(l);
 		l = va_arg(ap, ngline*);
 	}
 	va_end(ap);
+}
+
+std::string schema::debugLines()
+{
+	string msg;
+	for (size_t i = 0; i < lines.size(); i++){
+		format_append(msg, "%s:%s - %s:%s -- %d\n", lines[i]->c1.name.c_str(), lines[i]->c1.pin.c_str(), lines[i]->c2.name.c_str(), lines[i]->c2.pin.c_str(), lines[i]->order);
+	}
+	return msg;
 }
 
 bool schema::sort()
@@ -143,6 +151,8 @@ bool schema::sort()
 		// should set order after compare, not before compare
 		if (lines[i]->order == -1)
 			lines[i]->order = order++;
+		OutputDebugStringA(debugLines().c_str());
+		OutputDebugStringA("-----------------\n");
 	}
 	
 	//find ground

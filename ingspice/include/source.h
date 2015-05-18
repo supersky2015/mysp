@@ -51,5 +51,33 @@ public:
 	string card();
 };
 
+class ngpluse: public ngdevice
+{
+public:
+	ngpluse(string name, double v1, double v2, double pw, double per, double td = 0, double tr = 0, double tf = 0)
+		:ngdevice(name, 2)
+		,v1(v1)
+		,v2(v2)
+		,td(td)
+		,tr(tr)
+		,tf(tf)
+		,pw(pw)
+		,per(per)
+	{
+	}
+
+	string card();
+
+	double v1;	//initial value
+	double v2;	//pulsed value
+	double td;	//delay time
+	double tr;	//rise time
+	double tf;	//fall time
+	double pw;	//pulse width
+	double per;	//period
+
+#define pos p1
+#define neg p2
+};
 
 #endif

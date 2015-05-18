@@ -76,6 +76,12 @@ public:
 	// 生成器件对应的行，ngspice的传统称之为card
 	virtual string card();
 
+	// get vec name of a contact
+	string vec(const ngcontact& contact);
+
+	//get nth vec name
+	string vec(size_t n);
+
 	// predefined pin contact
 #define p1 pin(0)
 #define p2 pin(1)

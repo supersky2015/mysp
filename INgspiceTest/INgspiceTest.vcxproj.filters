@@ -42,6 +42,9 @@
     <ClInclude Include="test-circuit.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="test-555.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="test-sim-alter.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test-555.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>

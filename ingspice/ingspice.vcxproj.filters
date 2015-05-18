@@ -99,6 +99,9 @@
     <ClInclude Include="include\plot.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\mixed.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="core\plot.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="device\mixed.cpp">
+      <Filter>device</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

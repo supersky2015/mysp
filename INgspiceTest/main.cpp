@@ -4,6 +4,7 @@
 #include "test-sim.h"
 #include "test-schema.h"
 #include "test-circuit.h"
+#include "test-555.h"
 #include "test-model-subckt.h"
 
 #include <include/subckt.h>
@@ -13,6 +14,9 @@ void test_string_hpp();
 
 int main (int argc, char **argv)
 {
+	//555
+	test_555_monostable();
+
 	// circuit class
 	//test_rc_charge_discharge();
 	//test_circuit_rc_tran();
@@ -47,7 +51,7 @@ int main (int argc, char **argv)
 
 	// ngspice examples
 	//test1::test_sim();
-	test2::test_sim_alter();
+	//test2::test_sim_alter();
 
 	system("pause");
 	return 0;

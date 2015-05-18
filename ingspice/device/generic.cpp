@@ -53,6 +53,22 @@ ngcontact ngdevice::pin(int p)
 	return (*this)[p];
 }
 
+std::string ngdevice::vec( const ngcontact& contact )
+{
+	for (size_t i = 0; i < pins.size(); i++){
+		if (pins[i] == contact.pin)
+			return format_string("V(%s)", orders[i].c_str());
+	}
+	return "";
+}
+
+std::string ngdevice::vec( size_t n )
+{
+	if (n < 0 || n >= orders.size())
+		return "";
+	return format_string("V(%s)", orders[n].c_str());
+}
+
 bool ngcontact::operator==( const ngcontact& rhs )
 {
 	return (this->name == rhs.name && this->pin == rhs.pin);

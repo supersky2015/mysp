@@ -6,5 +6,6 @@
 #include "source.h"
 #include "diode.h"
 #include "transistor.h"
+#include "mixed.h"
 
 #endif

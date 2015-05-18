@@ -6,11 +6,7 @@
 class ngbjt_npn : public ngdevice
 {
 public:
-	ngbjt_npn(string name, string model = "generic-npn")
-		:ngdevice(name, 3)
-	{
-		ngdevice::model = model;
-	}
+	ngbjt_npn(string name, string model = "generic-npn");
 
 	string card();
 

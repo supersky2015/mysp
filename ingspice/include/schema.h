@@ -54,6 +54,9 @@ private:
 	// make sure name is unique.
 	ngdevice* getDeviceByName(const string& name);
 
+	// debug lines
+	string debugLines();
+
 	// sort schema to get all potential nodes order
 	bool sort();
 
