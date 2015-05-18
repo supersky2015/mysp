@@ -54,7 +54,9 @@ public:
 class ngpluse: public ngdevice
 {
 public:
-	ngpluse(string name, double v1, double v2, double pw, double per, double td = 0, double tr = 0, double tf = 0)
+	// according to manual, td and tr default to TSTEP.
+	// test(see. test_555_monostable) shows they should be bigger than 0. otherwise the simulation crawls slowly, eventually ends up with memory exhausted
+	ngpluse(string name, double v1, double v2, double pw, double per, double td, double tr, double tf = 0)
 		:ngdevice(name, 2)
 		,v1(v1)
 		,v2(v2)
