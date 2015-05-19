@@ -69,6 +69,16 @@ std::string ngdevice::vec( size_t n )
 	return format_string("V(%s)", orders[n].c_str());
 }
 
+std::string ngdevice::branch()
+{
+	return format_string("%s#branch", name.c_str());
+}
+
+std::string ngdevice::branch( string subType, string subName )
+{
+	return format_string("%s.x%s.%s#branch", subType.c_str(), name.c_str(), subName.c_str());
+}
+
 bool ngcontact::operator==( const ngcontact& rhs )
 {
 	return (this->name == rhs.name && this->pin == rhs.pin);

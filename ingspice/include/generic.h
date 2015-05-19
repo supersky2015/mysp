@@ -82,6 +82,12 @@ public:
 	//get nth vec name
 	string vec(size_t n);
 
+	// get branch name if device is a source
+	string branch();
+
+	// get branch name by sub component's name and type if device is a subckt.
+	string branch(string subType, string subName);
+
 	// predefined pin contact
 #define p1 pin(0)
 #define p2 pin(1)

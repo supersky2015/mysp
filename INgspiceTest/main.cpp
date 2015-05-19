@@ -16,7 +16,8 @@ int main (int argc, char **argv)
 {
 	//555
 	//test_555_monostable();
-	test_555_monostable_running_error();
+	//test_555_monostable_running_error();
+	test_555_astable();
 
 	// circuit class
 	//test_rc_charge_discharge();
