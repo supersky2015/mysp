@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/Users/Administrator/AppData/Local/Microsoft/VisualStudio/10.0/Extensions/u0weabrt.3rn/Logging/CodeGenLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log">
+  <Message Timestamp="2015-05-20T14:10:40" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="ProjectPath = ..\UMLModelingLib\UMLModelingLib.csproj" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="TemplateFilePath = %LocalAppData%\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:40" Importance="Medium" Text="UMLModeling's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'UMLModeling::ngspice' -  (Class), 'UMLModeling::plot' -  (Class), 'UMLModeling::schema' -  (Class), 'UMLModeling::circuit' -  (Class), 'UMLModeling::ngline' -  (Class), 'UMLModeling::ngdevice' -  (Class), 'UMLModeling::ngcontact' -  (Class), 'UMLModeling::ngresistor' -  (Class), 'UMLModeling::ngtimer' -  (Class), 'UMLModeling::ngdc' -  (Class), 'UMLModeling::ngled' -  (Class) " />
+  <Message Timestamp="2015-05-20T14:10:49" Importance="Medium" Text="Project Added: E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\UMLModelingLib.csproj" />
+  <Message Timestamp="2015-05-20T14:10:49" Importance="Medium" Text="'UMLModeling::ngspice' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngspice.cs" />
+  <Message Timestamp="2015-05-20T14:10:50" Importance="Medium" Text="'UMLModeling::plot' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\plot.cs" />
+  <Message Timestamp="2015-05-20T14:10:50" Importance="Medium" Text="'UMLModeling::schema' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\schema.cs" />
+  <Message Timestamp="2015-05-20T14:10:50" Importance="Medium" Text="'UMLModeling::circuit' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\circuit.cs" />
+  <Message Timestamp="2015-05-20T14:10:50" Importance="Medium" Text="'UMLModeling::ngline' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngline.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngdevice' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngdevice.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngcontact' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngcontact.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngresistor' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngresistor.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngtimer' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngtimer.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngdc' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngdc.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="'UMLModeling::ngled' -  (Class) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\ngled.cs" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="Name = InterfaceTemplate" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="ProjectPath = ..\UMLModelingLib\UMLModelingLib.csproj" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="TemplateFilePath = %LocalAppData%\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:51" Importance="Medium" Text="UMLModeling's Text Template Binding: 'InterfaceTemplate' will apply InterfaceTemplate.t4 to: 'UMLModeling::action' -  (Interface) " />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Medium" Text="'UMLModeling::action' -  (Interface) : success (file created) - E:\workspace\NGSpice\A Wrap of Ngspice\ingspice\UMLModelingLib\GeneratedCode\action.cs" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="ProjectPath = ..\UMLModelingLib\UMLModelingLib.csproj" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="TemplateFilePath = %LocalAppData%\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio\10.0\Extensions\u0weabrt.3rn\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Medium" Text="UMLModeling's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'UMLModeling::ngspice' -  (Class), 'UMLModeling::plot' -  (Class), 'UMLModeling::schema' -  (Class), 'UMLModeling::circuit' -  (Class), 'UMLModeling::ngline' -  (Class), 'UMLModeling::ngdevice' -  (Class), 'UMLModeling::ngcontact' -  (Class), 'UMLModeling::ngresistor' -  (Class), 'UMLModeling::ngtimer' -  (Class), 'UMLModeling::ngdc' -  (Class), 'UMLModeling::ngled' -  (Class) " />
+  <Message Timestamp="2015-05-20T14:10:52" Importance="Diagnostic" Text="'UMLModeling::ngspice' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::plot' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::schema' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::circuit' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngline' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngdevice' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngcontact' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngresistor' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngtimer' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngdc' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::ngled' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="The selection included 11 elements which were not bound to a template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (Association): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (Association): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'51926ff1-080d-4d95-82ea-284ef663e644' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (Association): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (Association): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (Association): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'33c851e2-b0c0-48be-b597-ccd401104d0c' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'26f055f8-2f4f-4602-ae16-f696d5d848da' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'090f6412-8208-4fae-bc8d-db131bfa096b' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'286b176e-c830-4d9e-a11b-bddc8dbf04ef' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="Diagnostic" Text="'UMLModeling::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2015-05-20T14:10:53" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+</Log>
