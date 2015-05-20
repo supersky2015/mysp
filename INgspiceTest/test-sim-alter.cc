@@ -235,7 +235,7 @@ ng_data(pvecvaluesall vdata, int numvecs, int ident, void* userdata)
 
 	static double current = -1;
 	if (current != vdata->vecsa[vec_current_number]->creal)
-		printf(" << current = %1.3e >>\n", vdata->vecsa[vec_current_number]->creal);
+		printf(" << current = %g >>\n", vdata->vecsa[vec_current_number]->creal);
 
 	current = vdata->vecsa[vec_current_number]->creal;
 

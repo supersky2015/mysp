@@ -27,11 +27,11 @@ void ngled::action(double time)
 	if (ngdevice::currents[0] >= lightCurrent && off == status)
 	{
 		status = on;
-		printf("LED %s is on. A = %1.3e, time = %1.3e\n", name.c_str(), ngdevice::currents[0], time);
+		printf("LED %s is on. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 	}
 	else if (ngdevice::currents[0] < lightCurrent && on == status)
 	{
 		status = off;
-		printf("LED %s is off. A = %1.3e, time = %1.3e\n", name.c_str(), ngdevice::currents[0], time);
+		printf("LED %s is off. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 	}
 }

@@ -7,14 +7,14 @@ const double ngswitch::off = 1e20;
 
 std::string ngresistor::card()
 {
-	return FormatString(100, "R%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
+	return FormatString(100, "R%s %s %s %g", name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
 }
 
 std::string ngcapacitor::card()
 {
-	output_debug_message(" <c: %s, (%d, %d), (%1.3e, %1.3e)>", name.c_str(), orders[0].c_str(), orders[1].c_str(), potentials[0], potentials[1]);
-	return FormatString(100, "C%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), c);
-	//return FormatString(100, "C%s %s %s %1.3e ic=%1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), c, potentials[1] - potentials[0]);
+	output_debug_message(" <c: %s, (%d, %d), (%g, %g)>", name.c_str(), orders[0].c_str(), orders[1].c_str(), potentials[0], potentials[1]);
+	return FormatString(100, "C%s %s %s %g", name.c_str(), orders[0].c_str(), orders[1].c_str(), c);
+	//return FormatString(100, "C%s %s %s %g ic=%g", name.c_str(), orders[0].c_str(), orders[1].c_str(), c, potentials[1] - potentials[0]);
 }
 
 nginductance::nginductance(string name, double l)
@@ -27,26 +27,26 @@ nginductance::nginductance(string name, double l)
 
 std::string nginductance::card()
 {
-	return FormatString(100, "L%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), l);
-	//return FormatString(256, "x%s %s %s sub_l_%s\n.subckt sub_l_%s K A\nV K 1 0\nL1 1 A %1.3e ic=%1.3e\n.ends", 
+	return FormatString(100, "L%s %s %s %g", name.c_str(), orders[0].c_str(), orders[1].c_str(), l);
+	//return FormatString(256, "x%s %s %s sub_l_%s\n.subckt sub_l_%s K A\nV K 1 0\nL1 1 A %g ic=%g\n.ends", 
 	//	name.c_str(), orders[0].c_str(), orders[1].c_str(), name.c_str(), name.c_str(), branches[0]);
 }
 
 std::string ngswitch::card()
 {
-	return FormatString(100, "R%s %s %s %1.3e", name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
+	return FormatString(100, "R%s %s %s %g", name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
 }
 
 std::string ngswitch::connect()
 {
 	r = on;
-	return format_string("alter r%s=%1.3e", name.c_str(), r);
+	return format_string("alter r%s=%g", name.c_str(), r);
 }
 
 std::string ngswitch::disconnect()
 {
 	r = off;
-	return format_string("alter r%s=%1.3e", name.c_str(), r);
+	return format_string("alter r%s=%g", name.c_str(), r);
 }
 
 std::string ngswitch::switchover()
@@ -56,7 +56,7 @@ std::string ngswitch::switchover()
 	else if (off == r)
 		r = on;
 
-	return format_string("alter r%s=%1.3e", name.c_str(), r);
+	return format_string("alter r%s=%g", name.c_str(), r);
 }
 
 ngspst::ngspst( string name, int st/* = ngspst::off*/)
