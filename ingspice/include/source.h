@@ -16,7 +16,7 @@ public:
 class ngdc : public ngdevice
 {
 public:
-	ngdc(string name, double v)
+	ngdc(string name, double v = 5)
 		:ngdevice('V', name, 2)
 	{
 		this->v = v;

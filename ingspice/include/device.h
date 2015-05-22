@@ -7,5 +7,6 @@
 #include "diode.h"
 #include "transistor.h"
 #include "mixed.h"
+#include "indicators.h"
 
 #endif

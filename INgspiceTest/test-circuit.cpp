@@ -282,6 +282,7 @@ void test_switch_by_csw()
 
 void test_spdt()
 {
+	//创建所需元器件
 	ngdc dc("dc1", 5);
 	ngspdt spdt("spdt", ngspdt::status_throw1);
 	ngresistor r1("1", 5);
@@ -290,6 +291,7 @@ void test_spdt()
 	ngled led2("led2");
 	ngground gnd;
 
+	//创建接线，连接各元器件
 	ngline l1(dc.pos, spdt.pole);
 	ngline l2(spdt.throw1, r1.p1);
 	ngline l3(spdt.throw2, r2.p1);
@@ -299,10 +301,12 @@ void test_spdt()
 	ngline l7(led2.neg, dc.neg);
 	ngline l0(dc.neg, gnd.ground);
 
+	//创建电路图，添加元器件、接线到电路图
 	schema sch;
 	sch.AddDevices(&dc, &spdt, &r1, &r2, &led1, &led2, &gnd, 0);
 	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, &l7, &l0, 0);
 
+	//创建仿真对象，添加电路图，并开始暂态仿真
 	circuit cir(&sch);
 	cir.Tran("1t", "1m", 0);
 	do 
@@ -320,7 +324,7 @@ void test_spdt()
 		default:
 			break;
 		};
-	} while (cir.IsRunning());
+	} while (cir.IsRunning()); //主程序线程，类似windows UI消息循环
 }
 
 void test_circuit_rc_tran()

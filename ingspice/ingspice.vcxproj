@@ -90,6 +90,7 @@
     <ClInclude Include="include\device.h" />
     <ClInclude Include="include\diode.h" />
     <ClInclude Include="include\generic.h" />
+    <ClInclude Include="include\indicators.h" />
     <ClInclude Include="include\mixed.h" />
     <ClInclude Include="include\model.h" />
     <ClInclude Include="include\ngspice.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="device\basic.cpp" />
     <ClCompile Include="device\diode.cpp" />
     <ClCompile Include="device\generic.cpp" />
+    <ClCompile Include="device\indicators.cpp" />
     <ClCompile Include="device\mixed.cpp" />
     <ClCompile Include="device\model.cpp" />
     <ClCompile Include="device\source.cpp" />

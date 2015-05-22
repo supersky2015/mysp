@@ -84,6 +84,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="test-555.h" />
+    <ClInclude Include="test-8-way-responder.h" />
     <ClInclude Include="test-circuit.h" />
     <ClInclude Include="test-ingspice.h" />
     <ClInclude Include="test-schema.h" />
@@ -97,6 +98,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="test-555.cpp" />
+    <ClCompile Include="test-8-way-responder.cpp" />
     <ClCompile Include="test-circuit.cpp" />
     <ClCompile Include="test-ingspice.cc" />
     <ClCompile Include="test-sim.cc" />

@@ -102,6 +102,9 @@
     <ClInclude Include="include\mixed.h">
       <Filter>include\device</Filter>
     </ClInclude>
+    <ClInclude Include="include\indicators.h">
+      <Filter>include\device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -147,6 +150,9 @@
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="device\mixed.cpp">
+      <Filter>device</Filter>
+    </ClCompile>
+    <ClCompile Include="device\indicators.cpp">
       <Filter>device</Filter>
     </ClCompile>
   </ItemGroup>

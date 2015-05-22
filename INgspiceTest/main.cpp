@@ -6,6 +6,7 @@
 #include "test-circuit.h"
 #include "test-555.h"
 #include "test-model-subckt.h"
+#include "test-8-way-responder.h"
 
 #include <include/subckt.h>
 
@@ -14,10 +15,13 @@ void test_string_hpp();
 
 int main (int argc, char **argv)
 {
+	//8 way responder
+	test_7seg();
+
 	//555
 	//test_555_monostable();
 	//test_555_monostable_running_error();
-	test_555_astable();
+	//test_555_astable();
 
 	// circuit class
 	//test_rc_charge_discharge();
