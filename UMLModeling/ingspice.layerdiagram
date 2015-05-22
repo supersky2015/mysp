@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="36ee9b96-a897-4ff4-8eae-14a6b74218d9" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="dcf2ef27-fa35-4e1d-b41d-4e6b0e8d3185" name="&#xD;&#xA;circuit simulation&#xD;&#xA;">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="35301026-369d-4a9e-af50-ec3a7ecb747e" direction="Forward">
+          <layerMoniker Id="12c8ec7b-d5f6-4d4a-80f1-da7a6d29c0d9" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="96abd254-26ab-4853-a0c7-60d0f2fde64f" direction="Bidirectional">
+          <layerMoniker Id="e22db4c9-7e13-48b9-8d43-fd94053c554a" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="3c9f32aa-f3e6-4fe4-8572-62262646f634" direction="Forward">
+          <layerMoniker Id="e2b77d18-a4b5-42d1-b0b9-4c4516fc7f82" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="12c8ec7b-d5f6-4d4a-80f1-da7a6d29c0d9" name="schema">
+      <childLayers>
+        <layer Id="fb202dd5-50f0-44dc-a92a-19760d5d7e99" name="devices&#xD;&#xA;">
+          <childLayers>
+            <layer Id="e2b77d18-a4b5-42d1-b0b9-4c4516fc7f82" name="action" />
+          </childLayers>
+        </layer>
+        <layer Id="8f097ed3-608c-4320-b6ae-dfa8175e20e5" name="lines" />
+      </childLayers>
+    </layer>
+    <layer Id="e22db4c9-7e13-48b9-8d43-fd94053c554a" name="&#xD;&#xA;ngspice library&#xD;&#xA;" />
+  </layers>
+</layerModel>

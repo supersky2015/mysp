@@ -36,4 +36,17 @@
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Validate Include="ingspice.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="ingspice.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ingspice.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="ingspice.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>ingspice.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
 </Project>
