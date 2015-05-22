@@ -7,7 +7,7 @@ class ngground : public ngdevice
 {
 public:
 	ngground(string name = "gnd")
-		:ngdevice(name, 1)
+		:ngdevice('\0', name, 1)
 	{
 	}
 #define ground p1
@@ -17,11 +17,10 @@ class ngdc : public ngdevice
 {
 public:
 	ngdc(string name, double v)
-		:ngdevice(name, 2)
+		:ngdevice('V', name, 2)
 	{
 		this->v = v;
 	}
-	//~ngdc();
 
 	double v;
 
@@ -35,7 +34,7 @@ class ngac: public ngdevice
 {
 public:
 	ngac(string name, double o, double a, double f, double d = 0 )
-		:ngdevice(name, 2)
+		:ngdevice('V', name, 2)
 	{
 		this->o = o;
 		this->a = a;
@@ -57,7 +56,7 @@ public:
 	// according to manual, td and tr default to TSTEP.
 	// test(see. test_555_monostable_running_error) shows they should be bigger than 0. otherwise the simulation crawls slowly, eventually ends up with memory exhausted
 	ngpluse(string name, double v1, double v2, double pw, double per, double td, double tr, double tf = 0)
-		:ngdevice(name, 2)
+		:ngdevice('V', name, 2)
 		,v1(v1)
 		,v2(v2)
 		,td(td)

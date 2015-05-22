@@ -43,9 +43,12 @@ class ngdevice
 public:
 	// portCount means how many port this device has.
 	// branchCount means how many current branch this device has.
-	ngdevice(string name, int portCount, int branchCount = 0);
+	ngdevice(char type, string name, int portCount, int branchCount = 0);
+	
+	// device type, first letter of card
+	char type;
 
-	//name is unique for a device
+	// name is unique for a device
 	string name;
 
 	// 如果器件是个模型， 在这指定模型名，（schema类根据model从配置文件中读进模型card)
@@ -75,6 +78,12 @@ public:
 
 	// 生成器件对应的行，ngspice的传统称之为card
 	virtual string card();
+
+	// get card for subckt device
+	string subckt_card();
+
+	// get card for model device
+	string model_card();
 
 	// get vec name of a contact
 	string vec(const ngcontact& contact);

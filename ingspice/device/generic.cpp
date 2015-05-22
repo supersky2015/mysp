@@ -18,10 +18,10 @@ ngline::ngline( const ngcontact& c1, const ngcontact& c2 )
 {
 }
 
-ngdevice::ngdevice(string name, int portCount, int branchCount/* = 0 */)
+ngdevice::ngdevice(char type, string name, int portCount, int branchCount/* = 0 */)
+	:type(type)
+	,name(name)
 {
-	this->name = name;
-
 	pins.assign(portCount, "");
 	for (int i = 0; i < portCount; i++){
 		pins[i] = FormatString(10, "%d", i);
@@ -40,6 +40,36 @@ ngdevice::ngdevice(string name, int portCount, int branchCount/* = 0 */)
 std::string ngdevice::card()
 {
 	return "";
+}
+
+std::string ngdevice::subckt_card()
+{
+	string crd = format_string("%c%s", type, name.c_str());
+	for (size_t i = 0; i < orders.size(); i++)
+	{
+		//set a unique name if not connected(open)
+		if ("-1" == orders[i])
+			format_append(crd, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
+		else
+			format_append(crd, " %s", orders[i].c_str());
+	}
+	format_append(crd, " %s", subckt.c_str());
+	return crd;
+}
+
+std::string ngdevice::model_card()
+{
+	string crd = format_string("%c%s", type, name.c_str());
+	for (size_t i = 0; i < orders.size(); i++)
+	{
+		//set a unique name if not connected(open)
+		if ("-1" == orders[i])
+			format_append(crd, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
+		else
+			format_append(crd, " %s", orders[i].c_str());
+	}
+	format_append(crd, " %s", model.c_str());
+	return crd;
 }
 
 ngcontact ngdevice::operator[]( int p )

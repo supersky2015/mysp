@@ -3,7 +3,7 @@
 #include <common/common.h>
 
 ngled::ngled(string name, double lightCurrent/* = 5e-3*/)
-	:ngdevice(name, 2, 1)
+	:ngdevice('X', name, 2, 1)
 	,lightCurrent(lightCurrent)
 	,status(init)
 {
@@ -13,7 +13,7 @@ ngled::ngled(string name, double lightCurrent/* = 5e-3*/)
 
 std::string ngled::card()
 {
-	return FormatString(100, "X%s %s %s LED", name.c_str(), orders[0].c_str(), orders[1].c_str());
+	return FormatString(100, "%c%s %s %s LED", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
 }
 
 void ngled::action(double time)
