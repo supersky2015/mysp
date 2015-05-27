@@ -1,0 +1,5 @@
+http://users.ece.gatech.edu/~mrichard/Xspice/
+ XSpice_CodeModelSubsysSoftwareDesign.pdf
+
+http://ngspice.sourceforge.net/docs.html
+ ngspice26-manual.pdf
