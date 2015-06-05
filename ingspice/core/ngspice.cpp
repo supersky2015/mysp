@@ -99,7 +99,7 @@ int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void*
 		string values;
 		char v[256] = {0};
 		for (int i = 0; i < number; i++) {
-			sprintf_s(v, 256, "%d: %f; ", i, actualValues->vecsa[i]->creal);
+			sprintf_s(v, 256, "%d: %g; ", i, actualValues->vecsa[i]->creal);
 			values += v;
 		}
 		//PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
