@@ -90,6 +90,7 @@
     <ClInclude Include="test-schema.h" />
     <ClInclude Include="test-sim.h" />
     <ClInclude Include="test-model-subckt.h" />
+    <ClInclude Include="test-sources.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="test-model-subckt.cpp" />
     <ClCompile Include="test-sim-parallel.cc" />
     <ClCompile Include="test-sim-alter.cc" />
+    <ClCompile Include="test-sources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ingspice\ingspice.vcxproj">

@@ -7,6 +7,7 @@
 #include "test-555.h"
 #include "test-model-subckt.h"
 #include "test-8-way-responder.h"
+#include "test-sources.h"
 
 #include <include/subckt.h>
 
@@ -15,8 +16,16 @@ void test_string_hpp();
 
 int main (int argc, char **argv)
 {
+	//sources
+	test_vcvs();
+	//test_cccs();
+	//test_vccs();
+	//test_ccvs();
+	//test_ac_current();
+	//test_dc_current();
+
 	//8 way responder
-	test_7seg();
+	//test_7seg();
 
 	//555
 	//test_555_monostable();

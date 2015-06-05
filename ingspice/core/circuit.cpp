@@ -155,3 +155,18 @@ DWORD WINAPI circuit::procPlot(LPVOID param )
 	return 0;
 }
 
+bool circuit::Wait()
+{
+	do
+	{
+		Sleep(100);
+		string err = ErrorMsgRuning();
+		if (!err.empty())
+		{
+			printf(" <error msg=%s\n/>", err.c_str());
+			Halt();
+			return false;
+		}
+	} while (IsRunning());
+	return true;
+}

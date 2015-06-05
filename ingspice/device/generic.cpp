@@ -101,12 +101,12 @@ std::string ngdevice::vec( size_t n )
 
 std::string ngdevice::branch()
 {
-	return format_string("%s#branch", name.c_str());
+	return format_string("%c%s#branch", type, name.c_str());
 }
 
 std::string ngdevice::branch( string subType, string subName )
 {
-	return format_string("%s.x%s.%s#branch", subType.c_str(), name.c_str(), subName.c_str());
+	return format_string("%s.%c%s.%s#branch", subType.c_str(), 'X', name.c_str(), subName.c_str());
 }
 
 bool ngcontact::operator==( const ngcontact& rhs )
