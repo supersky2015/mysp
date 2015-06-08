@@ -5,6 +5,9 @@
 #include <tuple>
 using namespace std;
 
+#define TIME_EPSILON	1e-5
+#define VALUE_EPSILON	1e-5
+
 // a contact class with a name of device and a name of pin
 class ngcontact
 {

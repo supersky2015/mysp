@@ -46,6 +46,56 @@ void ngseven_seg::action( double time )
 				digital = pos - code2;
 		}
 
-		printf("<7seg name=%s code=%02X digital=%d/>\n", name.c_str(), code, digital);
+		printf("<7seg name=%s code=%02X digital=%d T=%g/>\n", name.c_str(), code, digital, time);
+	}
+}
+
+std::string ngvoltmeter::card()
+{
+	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
+}
+
+void ngvoltmeter::action( double time )
+{
+	// init voltage when time = 0
+	if (abs(time) <= TIME_EPSILON)
+	{
+		printf("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+	}
+
+	// when voltage changes.
+	double v = potentials[0] - potentials[1];
+	if (abs(v - voltage) >= VALUE_EPSILON)
+	{
+		voltage = v;
+		printf("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+	}
+}
+
+ngammeter::ngammeter( string name )
+	:ngdevice('V', name, 2, 1)
+	,current(0.0)
+{
+	ngdevice::branches[0] = format_string("%c%s#branch", type, name.c_str());
+}
+
+std::string ngammeter::card()
+{
+	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
+}
+
+void ngammeter::action( double time )
+{
+	//init ampere when time = 0
+	if (abs(time) <= TIME_EPSILON)
+	{
+		printf("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
+	}
+
+	// when ampere changes
+	if (abs(ngdevice::currents[0] - current) >= VALUE_EPSILON)
+	{
+		current = ngdevice::currents[0];
+		printf("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
 	}
 }

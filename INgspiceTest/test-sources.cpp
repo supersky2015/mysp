@@ -80,19 +80,28 @@ void test_vcvs()
 {
 	ngdc dc("dc");
 	ngvcvs vcvs("vcvs", 2);
-	ngresistor r("r1", 1);
+	ngresistor r("r1", 2.5);
 	ngground g;
+	ngvoltmeter v1("v1");
+	ngvoltmeter v2("v2");
+	ngammeter a1("a1");
 
 	ngline l1(dc.pos, vcvs.VCVS_CPOS);
 	ngline l2(dc.neg, vcvs.VCVS_CNEG);
 	ngline l3(dc.neg, g.ground);
-	ngline l4(vcvs.VCVS_POS, r.p1);
+	ngline l4(vcvs.VCVS_POS, a1.A_POS);
+	ngline l11(a1.A_NEG, r.p1);
 	ngline l5(vcvs.VCVS_NEG, r.p2);
 	ngline l6(vcvs.VCVS_NEG, g.ground);
+	ngline l7(v1.V_POS, dc.pos);
+	ngline l8(v1.V_NEG, dc.neg);
+	ngline l9(v2.V_POS, r.p1);
+	ngline l10(v2.V_NEG, r.p2);
+
 
 	schema sch;
-	sch.AddDevices(&dc, &vcvs, &g, &r, 0);
-	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, 0);
+	sch.AddDevices(&dc, &vcvs, &g, &r, &v1, &v2, &a1, 0);
+	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, &l7, &l8, &l9, &l10, &l11, 0);
 
 	circuit cir(&sch);
 	cir.Tran("1", "0.01");

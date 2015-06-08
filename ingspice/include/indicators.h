@@ -59,5 +59,44 @@ public:
 #define SS_COM p8
 };
 
+class ngvoltmeter : public ngdevice, public ngaction
+{
+public:
+	ngvoltmeter(string name, double ohm = 1e10)
+		:ngdevice('R', name, 2)
+		,voltage(0.0)
+	{
+	}
+
+	// inner ohm
+	double ohm;
+
+	string card();
+
+	void action(double time);
+
+#define V_POS p1
+#define V_NEG p2
+
+private:
+	// voltage measured
+	double voltage;
+};
+
+class ngammeter : public ngdevice, public ngaction
+{
+public:
+	ngammeter(string name);
+
+	string card();
+
+	void action(double time);
+
+#define A_POS p1
+#define A_NEG p2
+
+private:
+	double current;
+};
 
 #endif
