@@ -99,3 +99,67 @@ void ngammeter::action( double time )
 		printf("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
 	}
 }
+
+string ngac_voltmeter::card()
+{
+	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
+}
+
+void ngac_voltmeter::action( double time )
+{
+	// init voltage when time = 0
+	// several steps may happen in TIME_EPSILON, ignore as just one step. 
+	if (abs(time) <= TIME_EPSILON)
+	{
+		count = 1;
+		sum_square = 0.0;
+		printf("<ac_voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+	}
+	else
+		count++;
+
+	// when voltage changes.
+	double dv = (potentials[0] - potentials[1]);
+	sum_square += dv*dv;
+	double ev = sqrt(sum_square/count);
+	if (abs(ev - voltage) >= VALUE_EPSILON)
+	{
+		voltage = ev;
+		printf("<ac_voltmeter name=%s dv=%g voltage=%gV count=%d T=%g/>\n", name.c_str(), dv, voltage, count, time);
+	}
+}
+
+ngac_ammeter::ngac_ammeter( string name )
+	:ngdevice('V', name, 2, 1)
+{
+	ngdevice::branches[0] = format_string("%c%s#branch", type, name.c_str());
+}
+
+string ngac_ammeter::card()
+{
+	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
+}
+
+void ngac_ammeter::action( double time )
+{
+	// init voltage when time = 0
+	// several steps may happen in TIME_EPSILON, ignore as just one step. 
+	if (abs(time) <= TIME_EPSILON)
+	{
+		count = 1;
+		sum_square = 0.0;
+		printf("<ac_ammeter name=%s current=%gA T=%g/>\n", name.c_str(), current, time);
+	}
+	else
+		count++;
+
+	// when voltage changes.
+	double dc = ngdevice::currents[0];
+	sum_square += dc*dc;
+	double ec = sqrt(sum_square/count);
+	if (abs(ec - current) >= VALUE_EPSILON)
+	{
+		current = ec;
+		printf("<ac_ammeter name=%s dc=%g current=%gA count=%d T=%g/>\n", name.c_str(), dc, current, count, time);
+	}
+}

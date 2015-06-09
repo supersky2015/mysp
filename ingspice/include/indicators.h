@@ -64,12 +64,10 @@ class ngvoltmeter : public ngdevice, public ngaction
 public:
 	ngvoltmeter(string name, double ohm = 1e10)
 		:ngdevice('R', name, 2)
+		,ohm(ohm)
 		,voltage(0.0)
 	{
 	}
-
-	// inner ohm
-	double ohm;
 
 	string card();
 
@@ -81,6 +79,9 @@ public:
 private:
 	// voltage measured
 	double voltage;
+
+	// inner ohm
+	double ohm;
 };
 
 class ngammeter : public ngdevice, public ngaction
@@ -97,6 +98,58 @@ public:
 
 private:
 	double current;
+};
+
+// ac voltmeter that measures effective voltage
+class ngac_voltmeter : public ngdevice, public ngaction
+{
+public:
+	ngac_voltmeter(string name, double ohm = 1e10)
+		:ngdevice('R', name, 2)
+		,ohm(ohm)
+		,voltage(0.0)
+		,count(0)
+		,sum_square(0.0)
+	{
+	}
+
+	string card();
+
+	void action(double time);
+
+private:
+	// effective voltage measured, root-mean-square(RMS)
+	double voltage;
+
+	// inner ohm
+	double ohm;
+
+	// count of steps
+	unsigned int count;
+
+	// sum of square
+	double sum_square;
+};
+
+// ac ammeter that measures effective current
+class ngac_ammeter : public ngdevice, public ngaction
+{
+public:
+	ngac_ammeter(string name);
+
+	string card();
+
+	void action(double time);
+
+private:
+	// effective current measured. root-mean-square(RMS)
+	double current;
+
+	// count of steps
+	unsigned int count;
+
+	// sum of square
+	double sum_square; 
 };
 
 #endif

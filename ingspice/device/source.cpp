@@ -10,7 +10,10 @@ std::string ngdc::card()
 
 std::string ngac::card()
 {
-	return format_string("%c%s %s %s sin(%g %g %g %g 0 %g)", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), o, a, f, d, p);
+	// for some reason unknown yet, "dc" is required.
+	// otherwise, error with "no dc value, transient time 0 value used" prompted
+	// see test_ac_and_indicator() in test-sources.cpp
+	return format_string("%c%s %s %s dc 0 sin(%g %g %g %g 0 %g)", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), o, a, f, d, p);
 }
 
 std::string ngpluse::card()

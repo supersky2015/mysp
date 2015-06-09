@@ -17,7 +17,8 @@ void test_string_hpp();
 int main (int argc, char **argv)
 {
 	//sources
-	test_vcvs();
+	test_ac_and_indicator();
+	//test_vcvs();
 	//test_cccs();
 	//test_vccs();
 	//test_ccvs();

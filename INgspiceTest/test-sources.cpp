@@ -5,6 +5,31 @@
 #include <include/schema.h>
 #include <common/common.h>
 
+void test_ac_and_indicator()
+{
+	ngac ac("ac", 0, 1, 50);
+	ngresistor r("r", 5);
+	ngac_voltmeter vac("vac");
+	ngac_ammeter iac("iac");
+	ngground g;
+
+	ngline l1(ac.p1, r.p1);
+	ngline l6(r.p2, iac.p1);
+	ngline l2(iac.p2, ac.p2);
+	ngline l3(ac.p2, g.ground);
+	ngline l4(vac.p1, r.p1);
+	ngline l5(vac.p2, r.p2);
+
+	schema sch;
+	sch.AddDevices(&ac, &r, &g, &vac, &iac, 0);
+	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, 0);
+
+	circuit cir(&sch);
+	cir.Tran("1s", "100u");
+	cir.Wait();
+	cir.Plot("v(1)");
+	getchar();
+}
 
 void test_dc_current()
 {

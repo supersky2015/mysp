@@ -1,6 +1,8 @@
 #ifndef TEST_SOURCES_H
 #define TEST_SOURCES_H
 
+void test_ac_and_indicator();
+
 void test_dc_current();
 
 void test_ac_current();
