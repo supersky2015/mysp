@@ -7,12 +7,6 @@
 #include <common/common.h>
 #include <include/circuit.h>
 
-#if 0
-#define PRINT	OutputDebugMessage
-#else
-#define PRINT	printf
-#endif
-
 ngspice::ngspice()
 	:m_sendDataDebug(0)
 	,m_flagPrompt(false)

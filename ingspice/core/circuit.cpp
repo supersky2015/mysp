@@ -163,7 +163,7 @@ bool circuit::Wait()
 		string err = ErrorMsgRuning();
 		if (!err.empty())
 		{
-			printf(" <error msg=%s\n/>", err.c_str());
+			PRINT(" <error msg=%s\n/>", err.c_str());
 			Halt();
 			return false;
 		}

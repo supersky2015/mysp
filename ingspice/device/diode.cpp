@@ -21,7 +21,7 @@ bool ngled::action(double time)
 	bool activated = false;
 	if (init == status)
 	{
-		printf("LED %s is off\n", name.c_str());
+		PRINT("LED %s is off\n", name.c_str());
 		status = off;
 		activated = true;
 	}
@@ -29,13 +29,13 @@ bool ngled::action(double time)
 	if (ngdevice::currents[0] >= lightCurrent && off == status)
 	{
 		status = on;
-		printf("LED %s is on. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
+		PRINT("LED %s is on. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 		activated = true;
 	}
 	else if (ngdevice::currents[0] < lightCurrent && on == status)
 	{
 		status = off;
-		printf("LED %s is off. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
+		PRINT("LED %s is off. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 		activated = true;
 	}
 

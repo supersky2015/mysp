@@ -11,6 +11,10 @@
 // Windows 头文件:
 #include <windows.h>
 
-
+#if 1
+#define PRINT output_debug_message
+#else
+#define PRINT printf
+#endif
 
 // TODO: 在此处引用程序需要的其他头文件
