@@ -39,6 +39,15 @@ void schema::AddDevices( ngdevice* device, ... )
 	va_end(ap);
 }
 
+void schema::AddDevices( vector<ngdevice*> ds )
+{
+	for (auto it = ds.begin(); it != ds.end(); it++)
+	{
+		if (devices.end() == find(devices.begin(), devices.end(), *it))
+			devices.push_back(*it);
+	}
+}
+
 bool schema::RemoveDevice( ngdevice* device )
 {
 	auto r = find(devices.begin(), devices.end(), device);
@@ -62,6 +71,16 @@ void schema::RemoveDevices( ngdevice* device, ... )
 		dev = va_arg(ap, ngdevice*);
 	}
 	va_end(ap);
+}
+
+void schema::RemoveDevices( vector<ngdevice*> ds )
+{
+	for (auto it = ds.begin(); it != ds.end(); it++)
+	{
+		auto p = find(devices.begin(), devices.end(), *it);
+		if (p != devices.end())
+			devices.erase(p);
+	}
 }
 
 bool schema::RemoveLine( ngline* line )
@@ -89,6 +108,16 @@ void schema::RemoveLines( ngline* line, ... )
 	va_end(ap);
 }
 
+void schema::RemoveLines( vector<ngline*> ls )
+{
+	for (auto it = ls.begin(); it != ls.end(); it++)
+	{
+		auto p = find(lines.begin(), lines.end(), *it);
+		if (p != lines.end())
+			lines.erase(p);
+	}
+}
+
 bool schema::AddLine( ngline* line )
 {
 	auto r = find(lines.begin(), lines.end(), line);
@@ -110,6 +139,15 @@ void schema::AddLines( ngline* line, ... )
 		l = va_arg(ap, ngline*);
 	}
 	va_end(ap);
+}
+
+void schema::AddLines( vector<ngline*> ls )
+{
+	for (auto it = ls.begin(); it != ls.end(); it++)
+	{
+		if (lines.end() == find(lines.begin(), lines.end(), *it))
+			lines.push_back(*it);
+	}
 }
 
 std::string schema::debugLines()

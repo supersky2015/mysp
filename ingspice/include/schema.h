@@ -15,18 +15,22 @@ public:
 	// add devices to this schema
 	bool AddDevice(ngdevice* device);
 	void AddDevices(ngdevice* device, ...);
+	void AddDevices(vector<ngdevice*> ds);
 	
 	// remove devices from schema
 	bool RemoveDevice(ngdevice* device);
 	void RemoveDevices(ngdevice* device, ...);
+	void RemoveDevices(vector<ngdevice*> ds);
 	
 	// add lines to schema
 	bool AddLine(ngline* line);
 	void AddLines(ngline* line, ...);
+	void AddLines(vector<ngline*> ls);
 	
 	//remove lines from schema
 	bool RemoveLine(ngline* line);
 	void RemoveLines(ngline* line, ...);
+	void RemoveLines(vector<ngline*> ls);
 
 	// generate netlist of this schema, for ngspice simulation
 	vector<string> GetNetlist();
