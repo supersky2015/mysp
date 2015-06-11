@@ -7,6 +7,7 @@ using namespace std;
 
 #define TIME_EPSILON	1e-5
 #define VALUE_EPSILON	1e-5
+#define VALUE_EPSILON4	1e-4
 
 // a contact class with a name of device and a name of pin
 class ngcontact
@@ -37,7 +38,8 @@ public:
 class ngaction 
 {
 public:
-	virtual void action(double time) = 0;
+	// if action is activated, return true. otherwise flase.
+	virtual bool action(double time) = 0;
 };
 
 // base class of all kinds of devices

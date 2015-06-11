@@ -15,7 +15,7 @@ public:
 	string card();
 
 	//device action animation
-	void action(double time);
+	bool action(double time);
 
 	/*
 	*	     --a1--
@@ -71,12 +71,12 @@ public:
 
 	string card();
 
-	void action(double time);
+	bool action(double time);
 
 #define V_POS p1
 #define V_NEG p2
 
-private:
+protected:
 	// voltage measured
 	double voltage;
 
@@ -91,12 +91,12 @@ public:
 
 	string card();
 
-	void action(double time);
+	bool action(double time);
 
 #define A_POS p1
 #define A_NEG p2
 
-private:
+protected:
 	double current;
 };
 
@@ -115,7 +115,7 @@ public:
 
 	string card();
 
-	void action(double time);
+	bool action(double time);
 
 private:
 	// effective voltage measured, root-mean-square(RMS)
@@ -139,7 +139,7 @@ public:
 
 	string card();
 
-	void action(double time);
+	bool action(double time);
 
 private:
 	// effective current measured. root-mean-square(RMS)

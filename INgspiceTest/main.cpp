@@ -1,5 +1,6 @@
 #include "stdafx.h"
-
+#include <functional>
+#include <iostream>
 #include "test-ingspice.h"
 #include "test-sim.h"
 #include "test-schema.h"

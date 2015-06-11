@@ -10,14 +10,14 @@ public:
 
 	string card();
 	
-	void action(double time);
+	bool action(double time);
 
 	double lightCurrent;	//大于这个值，LED点亮, 默认5mA
 
 #define pos p1
 #define neg p2
 
-private:
+protected:
 
 	enum{init, off, on};
 

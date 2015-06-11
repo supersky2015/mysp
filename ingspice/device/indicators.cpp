@@ -19,10 +19,12 @@ string ngseven_seg::card()
 	return ngdevice::subckt_card();
 }
 
-void ngseven_seg::action( double time )
+bool ngseven_seg::action( double time )
 {
 	static unsigned char code1[] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f};
 	static unsigned char code2[] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7c, 0x07, 0x7f, 0x67};
+
+	bool activated = false;
 
 	unsigned char cd = 0;
 	for (size_t i = 0; i < 7; i++)
@@ -47,7 +49,10 @@ void ngseven_seg::action( double time )
 		}
 
 		printf("<7seg name=%s code=%02X digital=%d T=%g/>\n", name.c_str(), code, digital, time);
+		activated = true;
 	}
+
+	return activated;
 }
 
 std::string ngvoltmeter::card()
@@ -55,12 +60,15 @@ std::string ngvoltmeter::card()
 	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
 }
 
-void ngvoltmeter::action( double time )
+bool ngvoltmeter::action( double time )
 {
+	bool activated = false;
+
 	// init voltage when time = 0
 	if (abs(time) <= TIME_EPSILON)
 	{
 		printf("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		activated = true;
 	}
 
 	// when voltage changes.
@@ -69,7 +77,10 @@ void ngvoltmeter::action( double time )
 	{
 		voltage = v;
 		printf("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		activated = true;
 	}
+
+	return activated;
 }
 
 ngammeter::ngammeter( string name )
@@ -84,12 +95,15 @@ std::string ngammeter::card()
 	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
 }
 
-void ngammeter::action( double time )
+bool ngammeter::action( double time )
 {
+	bool activated = false;
+
 	//init ampere when time = 0
 	if (abs(time) <= TIME_EPSILON)
 	{
 		printf("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
+		activated = true;
 	}
 
 	// when ampere changes
@@ -97,7 +111,10 @@ void ngammeter::action( double time )
 	{
 		current = ngdevice::currents[0];
 		printf("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
+		activated = true;
 	}
+
+	return activated;
 }
 
 string ngac_voltmeter::card()
@@ -105,8 +122,10 @@ string ngac_voltmeter::card()
 	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
 }
 
-void ngac_voltmeter::action( double time )
+bool ngac_voltmeter::action( double time )
 {
+	bool activated = false;
+
 	// init voltage when time = 0
 	// several steps may happen in TIME_EPSILON, ignore as just one step. 
 	if (abs(time) <= TIME_EPSILON)
@@ -114,6 +133,7 @@ void ngac_voltmeter::action( double time )
 		count = 1;
 		sum_square = 0.0;
 		printf("<ac_voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		activated = true;
 	}
 	else
 		count++;
@@ -122,11 +142,14 @@ void ngac_voltmeter::action( double time )
 	double dv = (potentials[0] - potentials[1]);
 	sum_square += dv*dv;
 	double ev = sqrt(sum_square/count);
-	if (abs(ev - voltage) >= VALUE_EPSILON)
+	if (abs(ev - voltage) >= VALUE_EPSILON4)
 	{
 		voltage = ev;
 		printf("<ac_voltmeter name=%s dv=%g voltage=%gV count=%d T=%g/>\n", name.c_str(), dv, voltage, count, time);
+		activated = true;
 	}
+
+	return activated;
 }
 
 ngac_ammeter::ngac_ammeter( string name )
@@ -140,8 +163,9 @@ string ngac_ammeter::card()
 	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
 }
 
-void ngac_ammeter::action( double time )
+bool ngac_ammeter::action( double time )
 {
+	bool activated = false;
 	// init voltage when time = 0
 	// several steps may happen in TIME_EPSILON, ignore as just one step. 
 	if (abs(time) <= TIME_EPSILON)
@@ -149,6 +173,7 @@ void ngac_ammeter::action( double time )
 		count = 1;
 		sum_square = 0.0;
 		printf("<ac_ammeter name=%s current=%gA T=%g/>\n", name.c_str(), current, time);
+		activated = true;
 	}
 	else
 		count++;
@@ -157,9 +182,12 @@ void ngac_ammeter::action( double time )
 	double dc = ngdevice::currents[0];
 	sum_square += dc*dc;
 	double ec = sqrt(sum_square/count);
-	if (abs(ec - current) >= VALUE_EPSILON)
+	if (abs(ec - current) >= VALUE_EPSILON4)
 	{
 		current = ec;
 		printf("<ac_ammeter name=%s dc=%g current=%gA count=%d T=%g/>\n", name.c_str(), dc, current, count, time);
+		activated = true;
 	}
+
+	return activated;
 }

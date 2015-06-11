@@ -16,6 +16,9 @@ public:
 	circuit(schema* sch);
 	~circuit(void);
 
+	// set schema
+	inline void SetSchema(schema* sch){this->sch = sch;}
+
 	// 瞬态分析仿真
 	//	sch - 待仿真的电路图
 	//	step - 仿真步长，默认10us
