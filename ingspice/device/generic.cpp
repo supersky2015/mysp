@@ -29,7 +29,8 @@ ngdevice::ngdevice(char type, string name, int portCount, int branchCount/* = 0 
 
 	orders.assign(portCount, "-1");
 	potentials.assign(portCount, 0.0);
-	
+	allowOpen.assign(portCount, false);	
+
 	branches.resize(branchCount);
 	currents.assign(branchCount, 0.0);
 
@@ -37,39 +38,43 @@ ngdevice::ngdevice(char type, string name, int portCount, int branchCount/* = 0 
 	subckt.clear();
 }
 
+void ngdevice::SetAllowOpen( vector<long> ao )
+{
+	allowOpen = ao;
+}
+
 std::string ngdevice::card()
 {
-	return "";
+	// if pins which is not allowed open is open, return empty card
+	for (size_t i = 0; i < pins.size(); i++)
+	{
+		if (!allowOpen[i] && "-1" == orders[i])
+			return "";
+	}
+
+	// get card string
+	string c = format_string("%c%s", type, name.c_str());
+	for (size_t i = 0; i < orders.size(); i++)
+	{
+		//set a unique name if not connected(open)
+		if ("-1" == orders[i])
+			format_append(c, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
+		else
+			format_append(c, " %s", orders[i].c_str());
+	}
+	return c;
 }
 
 std::string ngdevice::subckt_card()
 {
-	string crd = format_string("%c%s", type, name.c_str());
-	for (size_t i = 0; i < orders.size(); i++)
-	{
-		//set a unique name if not connected(open)
-		if ("-1" == orders[i])
-			format_append(crd, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
-		else
-			format_append(crd, " %s", orders[i].c_str());
-	}
-	format_append(crd, " %s", subckt.c_str());
-	return crd;
+	string c = ngdevice::card();
+	return c.empty() ? "" : format_append(c, " %s", subckt.c_str());
 }
 
 std::string ngdevice::model_card()
 {
-	string crd = format_string("%c%s", type, name.c_str());
-	for (size_t i = 0; i < orders.size(); i++)
-	{
-		//set a unique name if not connected(open)
-		if ("-1" == orders[i])
-			format_append(crd, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
-		else
-			format_append(crd, " %s", orders[i].c_str());
-	}
-	format_append(crd, " %s", model.c_str());
-	return crd;
+	string c = ngdevice::card();
+	return c.empty() ? "" : format_append(c, " %s", model.c_str());
 }
 
 ngcontact ngdevice::operator[]( int p )

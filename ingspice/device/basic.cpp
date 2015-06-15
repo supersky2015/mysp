@@ -7,22 +7,26 @@ const double ngswitch::off = 1e20;
 
 std::string ngresistor::card()
 {
-	return FormatString(100, "%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", r);
 }
 
 std::string ngcapacitor::card()
 {
-	return FormatString(100, "%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), c);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", c);
 }
 
 std::string nginductance::card()
 {
-	return FormatString(100, "%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), l);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", l);
 }
 
 std::string ngswitch::card()
 {
-	return FormatString(100, "%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), r);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", r);
 }
 
 std::string ngswitch::connect()
@@ -62,7 +66,8 @@ std::string ngspst::switchover()
 
 std::string ngspst::card()
 {
-	return format_string("%c%s %s %s spst params:vstatus=%d", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), on == status ? -2 : 0 );
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" spst params:vstatus=%d", on == status ? -2 : 0);
 }
 
 ngspdt::ngspdt( string name, int st /*= status_throw1*/ )
@@ -80,5 +85,6 @@ std::string ngspdt::switchover()
 
 std::string ngspdt::card()
 {
-	return format_string("%c%s %s %s %s spdt params:vstatus=%d", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), orders[2].c_str(), status_throw1 == status ? 0 : -2 );
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" spdt params:vstatus=%d", status_throw1 == status ? 0 : -2);
 }

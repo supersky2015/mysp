@@ -57,7 +57,8 @@ bool ngseven_seg::action( double time )
 
 std::string ngvoltmeter::card()
 {
-	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", ohm);
 }
 
 bool ngvoltmeter::action( double time )
@@ -92,7 +93,8 @@ ngammeter::ngammeter( string name )
 
 std::string ngammeter::card()
 {
-	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + " 0";
 }
 
 bool ngammeter::action( double time )
@@ -119,7 +121,8 @@ bool ngammeter::action( double time )
 
 string ngac_voltmeter::card()
 {
-	return format_string("%c%s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), ohm);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", ohm);
 }
 
 bool ngac_voltmeter::action( double time )
@@ -160,7 +163,8 @@ ngac_ammeter::ngac_ammeter( string name )
 
 string ngac_ammeter::card()
 {
-	return format_string("%c%s %s %s 0", type, name.c_str(), orders[0].c_str(), orders[1].c_str());
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + " 0";
 }
 
 bool ngac_ammeter::action( double time )

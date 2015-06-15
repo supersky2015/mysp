@@ -10,6 +10,9 @@ public:
 		:ngdevice('\0', name, 1)
 	{
 	}
+
+	string card();
+
 #define ground p1
 };
 

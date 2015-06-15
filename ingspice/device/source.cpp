@@ -2,51 +2,65 @@
 #include <include/source.h>
 #include <common/common.h>
 
-std::string ngdc::card()
+
+string ngground::card()
 {
-	return format_string("%c%s %s %s dc %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), v);
+	return "";	
 }
 
+std::string ngdc::card()
+{
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" dc %g", v);
+}
 
 std::string ngac::card()
 {
 	// for some reason unknown yet, "dc" is required.
 	// otherwise, error with "no dc value, transient time 0 value used" prompted
 	// see test_ac_and_indicator() in test-sources.cpp
-	return format_string("%c%s %s %s dc 0 sin(%g %g %g %g 0 %g)", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), o, a, f, d, p);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" dc 0 sin(%g %g %g %g 0 %g)", o, a, f, d, p);
 }
 
 std::string ngpluse::card()
 {
-	return format_string("%c%s %s %s pulse(%g %g %g %g %g %g %g)", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), v1, v2, td, tr, tf, pw, per);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" pulse(%g %g %g %g %g %g %g)", v1, v2, td, tr, tf, pw, per);
 }
 
 string ngdc_current::card()
 {
-	return format_string("%c%s %s %s dc %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), i);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" dc %g", i);
 }
 
 string ngac_current::card()
 {
-	return format_string("%c%s %s %s sin(%g %g %g %g 0 %g)", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), o, a, f, d, p);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" dc 0 sin(%g %g %g %g 0 %g)", o, a, f, d, p);
 }
 
 string ngvcvs::card()
 {
-	return format_string("%c%s %s %s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), orders[2].c_str(), orders[3].c_str(), value);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", value);
 }
 
 string ngcccs::card()
 {
-	return format_string("%s params: value=%g", ngdevice::subckt_card().c_str(), value);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" params: value=%g", value);
 }
 
 string ngvccs::card()
 {
-	return format_string("%c%s %s %s %s %s %g", type, name.c_str(), orders[0].c_str(), orders[1].c_str(), orders[2].c_str(), orders[3].c_str(), value);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" %g", value);
 }
 
 string ngccvs::card()
 {
-	return format_string("%s params: value=%g", ngdevice::subckt_card().c_str(), value);
+	string c = ngdevice::card();
+	return c.empty() ? "" : c + format_string(" params: value=%g", value);
 }

@@ -238,6 +238,7 @@ bool ngspice::LoadNetlist( const vector<string>& netlist )
 bool ngspice::Run()
 {
 	m_errRunning.clear();
+	m_errMsgCircuit.clear();
 	return !ngSpice_Command("bg_run");
 }
 

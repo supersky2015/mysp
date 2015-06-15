@@ -9,7 +9,6 @@
 #include "test-model-subckt.h"
 #include "test-8-way-responder.h"
 #include "test-sources.h"
-
 #include <include/subckt.h>
 
 void test_path_hpp();
@@ -18,7 +17,7 @@ void test_string_hpp();
 int main (int argc, char **argv)
 {
 	//sources
-	test_ac_and_indicator();
+	//test_ac_and_indicator();
 	//test_vcvs();
 	//test_cccs();
 	//test_vccs();

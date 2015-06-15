@@ -62,6 +62,12 @@ public:
 	// 如果器件是个子电路，在这指定子电路名（schema类根据subckt从配置文件读进子电路card)
 	string subckt;
 
+	// 器件引脚是否允许开路标识数列, 数列size对应器件引脚数量，默认所有引脚不允许开路
+	vector<long> allowOpen;
+
+	// 设置器件引脚是否允许开路标识
+	void SetAllowOpen(vector<long> ao);
+
 	//器件引脚名, 可以自定义
 	vector<string> pins;
 

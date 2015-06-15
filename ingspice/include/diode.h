@@ -17,10 +17,9 @@ public:
 #define pos p1
 #define neg p2
 
-protected:
-
 	enum{init, off, on};
 
+protected:
 	int status;
 };
 
