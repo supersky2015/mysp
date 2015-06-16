@@ -5,7 +5,7 @@
 #include <tuple>
 using namespace std;
 
-#define TIME_EPSILON	1e-5
+#define TIME_EPSILON	1e-10
 #define VALUE_EPSILON	1e-5
 #define VALUE_EPSILON4	1e-4
 

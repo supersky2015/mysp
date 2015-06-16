@@ -70,6 +70,18 @@ std::string ngspst::card()
 	return c.empty() ? "" : c + format_string(" spst params:vstatus=%d", on == status ? -2 : 0);
 }
 
+string ngspst::connect()
+{
+	status = on;
+	return format_string("alter v.x%s.v1=-2", name.c_str());
+}
+
+string ngspst::disconnect()
+{
+	status = off;
+	return format_string("alter v.x%s.v1=0", name.c_str());
+}
+
 ngspdt::ngspdt( string name, int st /*= status_throw1*/ )
 	:ngdevice('X', name, 3)
 	,status(st)
@@ -87,4 +99,16 @@ std::string ngspdt::card()
 {
 	string c = ngdevice::card();
 	return c.empty() ? "" : c + format_string(" spdt params:vstatus=%d", status_throw1 == status ? 0 : -2);
+}
+
+string ngspdt::TurnThrow1()
+{
+	status = status_throw1;
+	return format_string("alter v.x%s.v1=0", name.c_str());
+}
+
+string ngspdt::TurnThrow2()
+{
+	status = status_throw2;
+	return format_string("alter v.x%s.v1=-2", name.c_str());
 }

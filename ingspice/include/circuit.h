@@ -34,6 +34,9 @@ public:
 	// switchover a switch 
 	bool SwitchOver(ngdevice* sw);
 
+	// stop to execute a command and resume.
+	bool Execute(const string& cmd);
+
 	// plot in new thread
 	// TOFIX: the dialog of plot is stuck now. however it's good enough to visualize a plot.
 	bool Plot(string vec);

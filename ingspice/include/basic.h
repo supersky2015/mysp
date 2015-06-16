@@ -80,6 +80,10 @@ public:
 
 	string switchover();
 
+	string connect();
+
+	string disconnect();
+
 	string card();
 
 	enum {on, off};
@@ -96,6 +100,10 @@ public:
 	ngspdt(string name, int st = status_throw1);
 
 	string switchover();
+
+	string TurnThrow1();
+
+	string TurnThrow2();
 
 	string card();
 

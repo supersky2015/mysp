@@ -137,6 +137,17 @@ bool circuit::turnSwitch( ngdevice* sw, int status /*=switchover*/ )
 	return ret;
 }
 
+bool circuit::Execute( const string& cmd )
+{
+	if (!ngspice::IsRunning())
+		return false;
+
+	bool ret = ngspice::Halt();
+	ret &= ngspice::Do(cmd.c_str());
+	ret &= ngspice::Resume();
+	return ret;
+}
+
 bool circuit::Plot( string vec )
 {
 	DWORD tid = 0;

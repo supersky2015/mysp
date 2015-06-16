@@ -19,7 +19,6 @@ public:
 
 	enum{init, off, on};
 
-protected:
 	int status;
 };
 
