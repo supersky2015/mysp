@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include <windows.h>
 #include <stdio.h> 
-#include "../ingspice/include/ngspice.h"
-#include "../ingspice/common/common.h"
+#include <include/circuit.h>
+#include <common/common.h>
 
 int run_parallel()
 {
@@ -257,5 +257,3 @@ int test_xspice()
 	getchar();
 	return 0;
 }
-
-

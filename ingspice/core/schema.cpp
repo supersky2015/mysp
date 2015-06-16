@@ -189,8 +189,8 @@ bool schema::sort()
 		// should set order after compare, not before compare
 		if (lines[i]->order == -1)
 			lines[i]->order = order++;
-		OutputDebugStringA(debugLines().c_str());
-		OutputDebugStringA("-----------------\n");
+		//OutputDebugStringA(debugLines().c_str());
+		//OutputDebugStringA("-----------------\n");
 	}
 	
 	//find ground
