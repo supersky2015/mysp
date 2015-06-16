@@ -49,7 +49,7 @@ string ngvcvs::card()
 
 string ngcccs::card()
 {
-	string c = ngdevice::card();
+	string c = ngdevice::subckt_card();
 	return c.empty() ? "" : c + format_string(" params: value=%g", value);
 }
 
@@ -61,6 +61,6 @@ string ngvccs::card()
 
 string ngccvs::card()
 {
-	string c = ngdevice::card();
+	string c = ngdevice::subckt_card();
 	return c.empty() ? "" : c + format_string(" params: value=%g", value);
 }
