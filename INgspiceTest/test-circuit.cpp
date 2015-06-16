@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <windows.h>
+#include <fstream>
 #include <include/schema.h>
 #include <include/circuit.h>
 #include <include/ngspice.h>
@@ -432,4 +433,22 @@ void test_rc_charge_discharge()
 	} while (cir.IsRunning());
 	cir.Do("plot all");
 	getchar();
+}
+
+void test_losing_state()
+{
+	ifstream ifs("error_losing_state.cir", ios::in);
+	vector<string> cards;
+	string card;
+	while (getline(ifs, card).good())
+		cards.push_back(card);
+
+	circuit cir(0);
+	cir.SetPrintStep(2000);
+	cir.LoadNetlist(cards);
+	cir.Run();
+	cir.Wait(0.1f);
+	cir.LoadNetlist(cards);
+	cir.Run();
+	cir.Wait(0.1f);
 }

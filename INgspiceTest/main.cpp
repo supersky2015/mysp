@@ -44,6 +44,7 @@ int main (int argc, char **argv)
 	//test_restart();
 	//test_circuit_led();
 	//test_circuit_parallel();
+	test_losing_state();
 
 	// common
 	//test_string_hpp();
