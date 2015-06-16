@@ -48,7 +48,7 @@ bool circuit::updateNetlist( vector<string>& netlist, string command )
 void circuit::SimAction(double time)
 {
 	//update all devices contact voltage.
-	for (size_t i = 0; i < sch->devices.size(); i++)
+	for (size_t i = 0; sch && i < sch->devices.size(); i++)
 	{
 		ngdevice* dev = sch->devices[i];
 		for (size_t j = 0; j < dev->orders.size(); j++)
@@ -64,7 +64,7 @@ void circuit::SimAction(double time)
 	}
 
 	//update all branches current
-	for (size_t i = 0; i < sch->devices.size(); i++)
+	for (size_t i = 0; sch && i < sch->devices.size(); i++)
 	{
 		ngdevice* dev = sch->devices[i];
 		for (size_t j = 0; j < dev->branches.size(); j++)
@@ -74,7 +74,7 @@ void circuit::SimAction(double time)
 	}
 
 	//do action if there is
-	for (size_t i = 0; i < sch->devices.size(); i++)
+	for (size_t i = 0; sch && i < sch->devices.size(); i++)
 	{
 		ngaction* act = dynamic_cast<ngaction*>(sch->devices[i]);
 		if (act)
@@ -155,15 +155,20 @@ DWORD WINAPI circuit::procPlot(LPVOID param )
 	return 0;
 }
 
-bool circuit::Wait()
+bool circuit::Wait(float time/* = -1*/)
 {
 	do
 	{
 		Sleep(100);
-		string err = ErrorMsgRuning();
+		string err = ngspice::ErrorMsgRuning();
 		if (!err.empty())
 		{
 			PRINT(" <error msg=%s\n/>", err.c_str());
+			Halt();
+			return false;
+		}
+		if (time > 0 && ngspice::CurrentValue("time") >= time)
+		{
 			Halt();
 			return false;
 		}

@@ -38,8 +38,8 @@ public:
 	// TOFIX: the dialog of plot is stuck now. however it's good enough to visualize a plot.
 	bool Plot(string vec);
 
-	// wait until simulation finishing
-	bool Wait();
+	// wait until simulation finishing, or time exceeded.
+	bool Wait(float time = -1);
 
 private:
 	// a circuit has only a schema
