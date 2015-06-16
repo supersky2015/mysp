@@ -54,12 +54,43 @@ public:
 	// get current value by vector name
 	inline double CurrentValue(string name);
 
+	// set print debug info step
+	inline void SetPrintStep(int step){m_printStep = step;}
+
+	// set print debug info time step
+	inline void SetPrintTimeStep(double timeStep){m_printTimeStep = timeStep;}
+
 protected:
 	// called each step simulation from procSendData
 	inline virtual void SimAction(double time){};
 
 	// store simulation result
 	plot m_plot;
+
+private: //testing and debug section
+	// count of debug messages from callback procSendData
+	int m_stepCount;
+
+	// how many step to print a list of vector values. if less than 0, no print
+	int m_printStep;
+	
+	// debug info per steps
+	void debugPerSteps(pvecvaluesall actualValues, int number, int steps);
+
+	// time vector index
+	int m_timeVecIndex;
+
+	// time up to print
+	double m_timeToPrint;
+	
+	// how many time step to print a list of vector values. if less than 0, no print
+	double m_printTimeStep;
+
+	// debug info per time
+	void debugPerTime(pvecvaluesall actualValues, int number, double time);
+
+	// vector storage address would be reallocated, so should be update per step in procSendData
+	//vector<int> m_addressTest;
 
 private:
 	// group of callback function declaration
@@ -103,8 +134,6 @@ private:
 	Func_ngSpice_running	ngSpice_running;
 	Func_ngSpice_SetBkpt	ngSpice_SetBkpt;
 
-	// count of debug messages from callback procSendData
-	int m_sendDataDebug;
 
 	// output simulation message from callback procSendChar if true.
 	bool m_flagPrompt;
@@ -124,9 +153,6 @@ private:
 	// module handle of ngspice.dll 
 	HMODULE m_mod;
 
-	// test ngspice
-	//bool m_breakTest;
-	//vector<int> m_addressTest;
 };
 
 #endif

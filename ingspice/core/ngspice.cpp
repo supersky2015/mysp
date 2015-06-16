@@ -8,11 +8,14 @@
 #include <include/circuit.h>
 
 ngspice::ngspice()
-	:m_sendDataDebug(0)
+	:m_stepCount(0)
+	,m_printStep(-1)
+	,m_timeToPrint(0.0)
+	,m_timeVecIndex(0)
+	,m_printTimeStep(-1)
 	,m_flagPrompt(false)
 	,m_running(false)
 	,m_flagCheckLoadCircuit(false)
-	//,m_breakTest(false)
 {
 	string path = get_exe_dir();
 	SetCurrentDirectoryA(path.c_str());
@@ -81,26 +84,54 @@ int ngspice::procControlledExit( int exitStatus, bool unload, bool quit, int id,
 	return exitStatus;
 }
 
-int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void* object )
+void ngspice::debugPerSteps( pvecvaluesall actualValues, int number, int steps )
 {
-	//PRINT("4: 0x%08x, 0x%08x\n", actualValues, actualValues->vecsa);
-	//PRINT("4: %d, %d, 0x%08X\n", number, id, object);
-	ngspice* ng = (ngspice*)object;
+	if (steps <= 0)
+		return;
 
-	//打印调试计算值
-	static int printInterval = 10;
-	if ((actualValues->vecindex - ng->m_sendDataDebug*printInterval)/printInterval) {
+	if (actualValues->vecindex - m_stepCount >= steps || 0 == actualValues->vecindex) {
 		string values;
 		char v[256] = {0};
 		for (int i = 0; i < number; i++) {
 			sprintf_s(v, 256, "%d: %g; ", i, actualValues->vecsa[i]->creal);
 			values += v;
 		}
-		//PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
-		ng->m_sendDataDebug++;
-		//if (ng->m_sendDataDebug == 3)
-		//	ng->m_breakTest = true;
+		PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
+		m_stepCount = actualValues->vecindex;
 	}
+}
+
+void ngspice::debugPerTime( pvecvaluesall actualValues, int number, double time )
+{
+	if (time <= 0)
+		return;
+
+	if (m_timeVecIndex >= number)
+		return;
+
+	double currentTime = actualValues->vecsa[m_timeVecIndex]->creal;
+	
+	if (currentTime - m_timeToPrint >= time || 0 == actualValues->vecindex)
+	{
+		string values;
+		char v[256] = {0};
+		for (int i = 0; i < number; i++) {
+			sprintf_s(v, 256, "%d: %g; ", i, actualValues->vecsa[i]->creal);
+			values += v;
+		}
+		PRINT(" <%d %d; %s>\n", actualValues->vecindex, actualValues->veccount, values.c_str());
+		m_timeToPrint = currentTime;
+	}
+}
+
+int ngspice::procSendData( pvecvaluesall actualValues, int number, int id, void* object )
+{
+	//PRINT("4: 0x%08x, 0x%08x\n", actualValues, actualValues->vecsa);
+	//PRINT("4: %d, %d, 0x%08X\n", number, id, object);
+	ngspice* ng = (ngspice*)object;
+
+	ng->debugPerSteps(actualValues, number, ng->m_printStep);
+	ng->debugPerTime(actualValues, number, ng->m_printTimeStep);
 
 	//get current values of all vector
 	for (int i = 0; i < number; i++){
@@ -138,8 +169,8 @@ int ngspice::procSendInitData( pvecinfoall initData, int id, void* object )
 {
 	PRINT("< %s, %s, %s, %s >\n", initData->type, initData->title, initData->name, initData->date);
 	ngspice* ng = (ngspice*)object;
-	ng->m_sendDataDebug = 0;
-	//ng->m_breakTest = false;
+	ng->m_stepCount = 0;
+	ng->m_timeToPrint = 0.0;
 
 	ng->m_plot.date	= initData->date;
 	ng->m_plot.name	= initData->name;
@@ -157,6 +188,9 @@ int ngspice::procSendInitData( pvecinfoall initData, int id, void* object )
 		ng->m_plot.names[i] = initData->vecs[i]->vecname;
 		//此时向量值的指针还是空的，需要在procSendData再次获取，也可以间接通过initData->vecs获取
 		ng->m_plot.pvalues[i] = ((dvec*)initData->vecs[i]->pdvec)->v_realdata; 
+
+		if (0 == stricmp(initData->vecs[i]->vecname, "time"))
+			ng->m_timeVecIndex = i;
 	}
 
 	return 0;
@@ -272,7 +306,7 @@ bool ngspice::Do( const char* cmd )
 
 bool ngspice::IsRunning()
 {
-	return m_running/* && !m_breakTest*/;
+	return m_running;
 }
 
 bool ngspice::GetAllPlotsVecs()
