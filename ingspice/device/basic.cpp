@@ -14,7 +14,7 @@ std::string ngresistor::card()
 std::string ngcapacitor::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", c);
+	return c.empty() ? "" : c + format_string(" %g", this->c);
 }
 
 std::string nginductance::card()
