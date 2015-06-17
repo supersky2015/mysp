@@ -65,29 +65,23 @@ public:
 	// 器件引脚是否允许开路标识数列, 数列size对应器件引脚数量，默认所有引脚不允许开路
 	vector<long> allowOpen;
 
-	// 设置器件引脚是否允许开路标识
-	void SetAllowOpen(vector<long> ao);
+	// 设置器件引脚是否允许开路标识, 在组合器件中重写此函数
+	virtual void SetAllowOpen(vector<long> ao);
 
 	//器件引脚名, 可以自定义
 	vector<string> pins;
 
-	//器件引脚在netlist中分配的电势点序列， 如 "R1 1 2 470" 中的 1 和 2
-	vector<string> orders;		
-
-	//器件引脚当前电势值
-	vector<double> potentials;	
-
 	//器件包含的电流分支
-	vector<string> branches;		
+	vector<string> branches;
 
 	//器件各分支当前电流值
-	vector<double> currents;	
+	vector<double> currents;
 	
-	// 获取第p个引脚的触点	
-	ngcontact operator[](int p);
-	ngcontact pin(int p);
+	// 获取第p个引脚的触点, 在组合器件中重写此函数	
+	virtual ngcontact pin(int p);
 
 	// 生成器件对应的行，ngspice的传统称之为card
+	// 在派生器件、组合器件中重写此函数	 
 	virtual string card();
 
 	// get card for subckt device
@@ -119,6 +113,26 @@ public:
 #define p8 pin(7)
 #define p9 pin(8)
 #define p10 pin(9)
+
+	// access to orders element, rewrite this on composite derived class
+	inline virtual string& orders(int index){return orders_[index];};
+
+	// access to potentials element, rewrite this on composite derived class
+	inline virtual double& potentials(int index){return potentials_[index];};
+
+	// get port count of this device.
+	inline int port_count(){return port_count_;} 
+
+private:
+	ngcontact operator[](int p);
+
+	//器件引脚在netlist中分配的电势点序列， 如 "R1 1 2 470" 中的 1 和 2
+	vector<string> orders_;
+
+	//器件引脚当前电势值
+	vector<double> potentials_;
+
+	int port_count_;
 };
 
 #endif

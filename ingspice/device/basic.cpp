@@ -112,3 +112,87 @@ string ngspdt::TurnThrow2()
 	status = status_throw2;
 	return format_string("alter v.x%s.v1=-2", name.c_str());
 }
+
+ngspst_pack::ngspst_pack( string name, int pack_count, int st /*= ngspst::off*/ )
+	:ngdevice(' ', name, 2*pack_count)
+	,status(st)
+{
+	ngdevice::subckt = "spst";
+	for (int i = 0; i < pack_count; i++)
+	{
+		string nm = format_string("spst_pack_%s_%d", name.c_str(), i);
+		ngspst* spst = new ngspst(nm, st);
+		spsts_.push_back(spst);
+	}
+}
+
+ngspst_pack::~ngspst_pack()
+{
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		delete spsts_[i];
+	}
+}
+
+string ngspst_pack::card()
+{
+	string c;
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		format_append(c, "%s\n", spsts_[i]->card().c_str());
+	}
+	return c;
+}
+
+string& ngspst_pack::orders( int index )
+{
+	return spsts_[index/2]->orders(index%2);
+}
+
+ngcontact ngspst_pack::pin( int p )
+{
+	return spsts_[p/2]->pin(p%2);
+}
+
+string ngspst_pack::connect()
+{
+	string cmd;
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		format_append(cmd, "%s\n", spsts_[i]->connect().c_str());
+	}
+	return cmd;
+}
+
+string ngspst_pack::disconnect()
+{
+	string cmd;
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		format_append(cmd, "%s\n", spsts_[i]->disconnect().c_str());
+	}
+	return cmd;
+}
+
+string ngspst_pack::switchover()
+{
+	string cmd;
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		format_append(cmd, "%s\n", spsts_[i]->switchover().c_str());
+	}
+	return cmd;
+}
+
+void ngspst_pack::SetAllowOpen( vector<long> ao )
+{
+	if (ao.size() != 2*spsts_.size())
+		return;
+
+	for (size_t i = 0; i < spsts_.size(); i++)
+	{
+		vector<long> allow_open;
+		allow_open.assign(ao.begin() + 2*i, ao.begin() + 2*i + 2);
+		spsts_[i]->SetAllowOpen(allow_open);
+	}
+}

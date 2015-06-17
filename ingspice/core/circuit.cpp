@@ -2,11 +2,12 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+#include <vector>
+#include <common/common.h>
 #include <include/circuit.h>
 #include <include/device.h>
 #include <include/schema.h>
 #include <include/ngspice.h>
-#include <common/common.h>
 
 using namespace std;
 
@@ -51,14 +52,14 @@ void circuit::SimAction(double time)
 	for (size_t i = 0; sch && i < sch->devices.size(); i++)
 	{
 		ngdevice* dev = sch->devices[i];
-		for (size_t j = 0; j < dev->orders.size(); j++)
+		for (int j = 0; j < dev->port_count(); j++)
 		{
-			if (dev->orders[j] == "0")
-				dev->potentials[j] = 0.0;
+			if (dev->orders(j) == "0")
+				dev->potentials(j) = 0.0;
 			else
 			{
-				string name = format_string("V(%s)", dev->orders[j].c_str());
-				dev->potentials[j] = m_plot.GetVecCurrValue(name);
+				string name = format_string("V(%s)", dev->orders(j).c_str());
+				dev->potentials(j) = m_plot.GetVecCurrValue(name);
 			}
 		}
 	}
@@ -143,7 +144,10 @@ bool circuit::Execute( const string& cmd )
 		return false;
 
 	bool ret = ngspice::Halt();
-	ret &= ngspice::Do(cmd.c_str());
+	// if device is composite device, that contains devices as member. such as ngspst_pack
+	vector<string> cmds = split(cmd, "\n");
+	for (size_t i = 0; i < cmds.size(); i++ )
+		ret &= ngspice::Do(cmds[i].c_str());
 	ret &= ngspice::Resume();
 	return ret;
 }

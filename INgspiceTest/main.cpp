@@ -9,13 +9,19 @@
 #include "test-model-subckt.h"
 #include "test-8-way-responder.h"
 #include "test-sources.h"
+#include "test-device-basic.h"
 #include <include/subckt.h>
+#include <common/common.h>
 
 void test_path_hpp();
 void test_string_hpp();
 
+//uncomment one to test
 int main (int argc, char **argv)
 {
+	//basic
+	test_basic_ngspst_pack();
+
 	//sources
 	//test_ac_and_indicator();
 	//test_vcvs();
@@ -40,11 +46,12 @@ int main (int argc, char **argv)
 	//test_switch_by_csw();
 	//test_switch_by_csw_inter();
 	//test_switch_by_resistor();
-	//test_circuit_rc();
+	//test_circuit_rc_charge();
+	//test_flash_led();
 	//test_restart();
 	//test_circuit_led();
 	//test_circuit_parallel();
-	test_losing_state();
+	//test_losing_state();
 
 	// common
 	//test_string_hpp();

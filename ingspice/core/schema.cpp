@@ -159,18 +159,26 @@ std::string schema::debugLines()
 	return msg;
 }
 
+#if 1
+#define SORT_PRINT output_debug_message
+#else
+#define SORT_PRINT
+#endif
+
 bool schema::sort()
 {
 	//reset orders of contacts, both lines and devices
+	SORT_PRINT("1.reset orders of contacts, both lines and devices" );
 	for (size_t i = 0; i < devices.size(); i++){
-		size_t pinCount = devices[i]->orders.size();
-		devices[i]->orders.assign(pinCount, "-1");
+		for (int j = 0; j < devices[i]->port_count(); j++)
+			devices[i]->orders(j) = "-1";
 	}
 	for (size_t i = 0; i < lines.size(); i++){
 		lines[i]->order = -1;
 	}
 
 	//group contacts with same potentials
+	SORT_PRINT("2.group contacts with same potentials" );
 	int order = 1;
 	bool hasGround = false;
 	for (size_t i = 0; i < lines.size(); i++){
@@ -189,44 +197,50 @@ bool schema::sort()
 		// should set order after compare, not before compare
 		if (lines[i]->order == -1)
 			lines[i]->order = order++;
-		//OutputDebugStringA(debugLines().c_str());
-		//OutputDebugStringA("-----------------\n");
+		SORT_PRINT(debugLines().c_str());
+		SORT_PRINT("-----------------\n");
 	}
 	
-	//find ground
-	int gndOrder = 0;
+	//find ground, may be more than 1 ground
+	SORT_PRINT("3.find ground, may be more than 1 ground" );
+	vector<int> gndOrders;
+	string grounds;
 	for (size_t i = 0; i < lines.size(); i++){
 		if (isGround(lines[i]->c1) || isGround(lines[i]->c2))
 		{
-			gndOrder = lines[i]->order;
-			break;
+			gndOrders.push_back(lines[i]->order);
+			format_append(grounds, "%d ", lines[i]->order);
 		}
 	}
-	
+	SORT_PRINT(" grounds = %s", gndOrders.empty() ? "no ground" : grounds.c_str());
+
 	//no ground
-	if (0 == gndOrder)
+	if (gndOrders.empty())
 		return false;
 
 	//set line (which order is equal to gndOrder) order to 0, and set line (which order is greater than gndOrder) order minus 1;
+	SORT_PRINT("4.set line (which order is equal to gndOrder) order to 0" );
 	for (size_t i = 0; i < lines.size(); i++){
-		if (gndOrder == lines[i]->order)
+		if (gndOrders.end() != find(gndOrders.begin(), gndOrders.end(), lines[i]->order))
 			lines[i]->order = 0;
-		else if (gndOrder < lines[i]->order)
-			lines[i]->order -= 1;
 	}
 
 	//map devices to line order
+	SORT_PRINT("5.map devices to line order" );
 	for (size_t i = 0; i < devices.size(); i++){
+		string ods;
 		for (size_t j = 0; j < devices[i]->pins.size(); j++){
 			for (size_t k = 0; k < lines.size(); k++){
 				//if device pin(contact) connected to a line, set order as the line order
-				if (isConnected(&(*devices[i])[j], lines[k])){
+				if (isConnected(&(*devices[i]).pin(j), lines[k])){
 					//output_debug_message("match");
-					devices[i]->orders[j] = FormatString(10, "%d", lines[k]->order);
+					devices[i]->orders(j) = FormatString(10, "%d", lines[k]->order);
 					break;
 				}
 			}
+			format_append(ods, "%s ", devices[i]->orders(j).c_str());
 		}
+		SORT_PRINT(" name=%s orders=%s", devices[i]->name.c_str(), ods.c_str());
 	}
 
 	return true;
@@ -271,7 +285,9 @@ vector<string> schema::GetNetlist()
 
 	for (size_t i = 0; i < devices.size(); i++){
 		string card = devices[i]->card();
-		netlist.push_back(card);
+		// if device is composite device, that contains devices as member. such as ngspst_pack
+		vector<string> cards = split(card, "\n");
+		netlist.insert(netlist.end(), cards.begin(), cards.end());
 	}
 
 	string models = getModels();

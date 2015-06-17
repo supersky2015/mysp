@@ -21,15 +21,16 @@ ngline::ngline( const ngcontact& c1, const ngcontact& c2 )
 ngdevice::ngdevice(char type, string name, int portCount, int branchCount/* = 0 */)
 	:type(type)
 	,name(name)
+	,port_count_(portCount)
 {
 	pins.assign(portCount, "");
 	for (int i = 0; i < portCount; i++){
 		pins[i] = FormatString(10, "%d", i);
 	}
 
-	orders.assign(portCount, "-1");
-	potentials.assign(portCount, 0.0);
-	allowOpen.assign(portCount, false);	
+	orders_.assign(portCount, "-1");
+	potentials_.assign(portCount, 0.0);
+	allowOpen.assign(portCount, false);
 
 	branches.resize(branchCount);
 	currents.assign(branchCount, 0.0);
@@ -48,19 +49,19 @@ std::string ngdevice::card()
 	// if pins which is not allowed open is open, return empty card
 	for (size_t i = 0; i < pins.size(); i++)
 	{
-		if (!allowOpen[i] && "-1" == orders[i])
+		if (!allowOpen[i] && "-1" == orders_[i])
 			return "";
 	}
 
 	// get card string
 	string c = format_string("%c%s", type, name.c_str());
-	for (size_t i = 0; i < orders.size(); i++)
+	for (size_t i = 0; i < orders_.size(); i++)
 	{
 		//set a unique name if not connected(open)
-		if ("-1" == orders[i])
+		if ("-1" == orders_[i])
 			format_append(c, " %s_OPEN_%s", name.c_str(), pins[i].c_str());
 		else
-			format_append(c, " %s", orders[i].c_str());
+			format_append(c, " %s", orders_[i].c_str());
 	}
 	return c;
 }
@@ -92,16 +93,16 @@ std::string ngdevice::vec( const ngcontact& contact )
 {
 	for (size_t i = 0; i < pins.size(); i++){
 		if (pins[i] == contact.pin)
-			return format_string("V(%s)", orders[i].c_str());
+			return format_string("V(%s)", orders_[i].c_str());
 	}
 	return "";
 }
 
 std::string ngdevice::vec( size_t n )
 {
-	if (n < 0 || n >= orders.size())
+	if (n < 0 || n >= orders_.size())
 		return "";
-	return format_string("V(%s)", orders[n].c_str());
+	return format_string("V(%s)", orders_[n].c_str());
 }
 
 std::string ngdevice::branch()

@@ -118,4 +118,36 @@ private:
 	int status;
 };
 
+// spst pack
+class ngspst_pack : public ngdevice
+{
+public:
+	ngspst_pack(string name, int pack_count, int st = ngspst::off);
+
+	~ngspst_pack();
+		
+	string switchover();
+
+	string connect();
+
+	string disconnect();
+
+	string card();
+
+	virtual string& orders(int index);
+
+	virtual ngcontact pin(int p);
+
+	virtual void SetAllowOpen(vector<long> ao);
+
+	enum {on, off};
+
+private:
+	vector<ngspst*> spsts_;
+
+	int status;
+
+	int pack_count_;
+};
+
 #endif

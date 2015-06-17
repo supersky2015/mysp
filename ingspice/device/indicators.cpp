@@ -73,7 +73,7 @@ bool ngvoltmeter::action( double time )
 	}
 
 	// when voltage changes.
-	double v = potentials[0] - potentials[1];
+	double v = potentials(0) - potentials(1);
 	if (abs(v - voltage) >= VALUE_EPSILON)
 	{
 		voltage = v;
@@ -142,7 +142,7 @@ bool ngac_voltmeter::action( double time )
 		count++;
 
 	// when voltage changes.
-	double dv = (potentials[0] - potentials[1]);
+	double dv = (potentials(0) - potentials(1));
 	sum_square += dv*dv;
 	double ev = sqrt(sum_square/count);
 	if (abs(ev - voltage) >= VALUE_EPSILON4)
