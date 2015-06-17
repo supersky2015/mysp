@@ -189,7 +189,7 @@ int ngspice::procSendInitData( pvecinfoall initData, int id, void* object )
 		//此时向量值的指针还是空的，需要在procSendData再次获取，也可以间接通过initData->vecs获取
 		ng->m_plot.pvalues[i] = ((dvec*)initData->vecs[i]->pdvec)->v_realdata; 
 
-		if (0 == stricmp(initData->vecs[i]->vecname, "time"))
+		if (0 == _stricmp(initData->vecs[i]->vecname, "time"))
 			ng->m_timeVecIndex = i;
 	}
 
