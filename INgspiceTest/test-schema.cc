@@ -10,10 +10,10 @@ void test_schema_rc()
 	ngcapacitor c("c1", 0.2);
 	ngground gnd;
 
-	ngline line1(dc[0], r[0]);
-	ngline line2(r[1], c[0]);
-	ngline line3(c[1], dc[1]);
-	ngline line4(dc[0], gnd[0]);
+	ngline line1(dc.pos, r.p1);
+	ngline line2(r.p2, c.p1);
+	ngline line3(c.p2, dc.neg);
+	ngline line4(dc.pos, gnd.ground);
 
 	schema sch("design1");
 	sch.AddDevice(&dc);

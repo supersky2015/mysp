@@ -5,7 +5,7 @@
 void test_restart();
 
 // 简单rc充电电路
-void test_circuit_rc();
+void test_circuit_rc_charge();
 
 // 测试LED亮灭动画
 void test_flash_led();

@@ -4,6 +4,7 @@
 #include <include/schema.h>
 #include <include/circuit.h>
 #include <include/ngspice.h>
+#include <common/common.h>
 
 void test_restart()
 {
@@ -40,17 +41,17 @@ void test_restart()
 	} while (cir.IsRunning());
 }
 
-void test_circuit_rc()
+void test_circuit_rc_charge()
 {
 	ngdc dc("dc1", 5);
 	ngresistor r("r1", 5);
 	ngcapacitor c("c1", 0.2);
 	ngground gnd;
 
-	ngline line1(dc[0], r[0]);
-	ngline line2(r[1], c[0]);
-	ngline line3(c[1], dc[1]);
-	ngline line4(dc[0], gnd[0]);
+	ngline line1(dc.pos, r.p1);
+	ngline line2(r.p2, c.p1);
+	ngline line3(c.p2, dc.neg);
+	ngline line4(dc.neg, gnd.ground);
 
 	schema sch("design1");
 	sch.AddDevice(&dc);
@@ -64,18 +65,20 @@ void test_circuit_rc()
 	sch.AddLine(&line4);
 
 	circuit cir(&sch);
-	cir.Tran("1s");
+	cir.Tran("5s", "10m");
 	
 	do 
 	{
 		Sleep(200);
 	} while (cir.IsRunning());
+	cir.Plot(format_string("%s %s", dc.vec(0).c_str(), c.vec(0).c_str()));
+	getchar();
 }
 
 void test_flash_led()
 {
-	ngac ac("ac1", 0, 5, 1);
-	ngresistor r("r1", 370);
+	ngac ac("ac1", 0, 5, 2);
+	ngresistor r("r1", 100);
 	ngled led("led1", 5e-3);
 	ngground gnd;
 
