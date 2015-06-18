@@ -126,11 +126,18 @@ public:
 
 	~ngspst_pack();
 		
-	string switchover();
+	// switchover spst_pack.
+	// if index less than 0, switchover all spst in the pack.
+	// otherwise, only switchover the spst of index in the pack.
+	string switchover(int index = all);
 
-	string connect();
+	// if index less than 0, connect all spst in the pack.
+	// otherwise, only connect the spst of index in the pack.
+	string connect(int index = all);
 
-	string disconnect();
+	// if index less than 0, disconnect all spst in the pack.
+	// otherwise, only disconnect the spst of index in the pack.
+	string disconnect(int index = all);
 
 	string card();
 
@@ -140,12 +147,55 @@ public:
 
 	virtual void SetAllowOpen(vector<long> ao);
 
+	enum {all = -1};
+
 	enum {on, off};
 
 private:
 	vector<ngspst*> spsts_;
 
 	int status;
+
+	int pack_count_;
+};
+
+class ngspdt_pack : public ngdevice
+{
+public:
+	ngspdt_pack(string name, int pack_count, int state = status_throw1);
+
+	~ngspdt_pack();
+
+	string switchover(int index = all);
+
+	string TurnThrow1(int index = all);
+
+	string TurnThrow2(int index = all);
+
+	string card();
+
+	virtual string& orders(int index);
+
+	virtual ngcontact pin(int p);
+
+	virtual void SetAllowOpen(vector<long> ao);
+
+	enum {all = -1};
+
+	enum {status_throw1, status_throw2};
+
+#define p1_throw1	p1
+#define p1_pole		p2
+#define p1_throw2	p3
+#define p2_throw1	p4
+#define p2_pole		p5
+#define p2_throw2	p6
+
+private:
+	vector<ngspdt*> spdts_;
+
+	// which throw the pole connect to
+	int status_;
 
 	int pack_count_;
 };

@@ -20,7 +20,8 @@ void test_string_hpp();
 int main (int argc, char **argv)
 {
 	//basic
-	test_basic_ngspst_pack();
+	//test_basic_ngspst_pack();
+	test_basic_ngspdt_pack();
 
 	//sources
 	//test_ac_and_indicator();
