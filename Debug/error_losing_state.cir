@@ -1,0 +1,26 @@
+title
+
+.global gnd
+xthsrzsb7 0 3 spst
+vthsrzdc1 1 0 dc 12
+xthsrzled1 2 3 led
+rthsrzrled1 1 2 1000
+
+.subckt led k a
+d1 1 a led_mod
+v k 1 dc 0
+.model led_mod d ( is=1.112e-021 n=3.007e+000 rs=3.513e-003 bv=6.100e+001 ibv=6.000e-003 eg=1.110e+000 xti=3.000e+000 cjo=3.238e-011, m=3.388e-001 vj=3.250e-001 fc=5.000e-001 kf=0.000e+000 af=1.000e+000 )
+.ends
+
+.subckt spst 1 2 params: vstatus=0 ron=1e-8 roff=1e30
+r1 0 6 20
+v1 6 0 dc {vstatus}
+w1 1 2 v1 no_contact
+.model no_contact csw (it=0.05 ih=0.025 ron={ron} roff={roff})
+.ends
+
+.control
+tran 10u 1t uic
+.endc
+
+.end
