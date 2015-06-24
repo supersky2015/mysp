@@ -1,13 +1,13 @@
 #include "stdafx.h"
+#include "include/indicators.h"
 #include <algorithm>
-#include <include/indicators.h>
-#include <common/common.h>
+#include "common/common.h"
 
-ngseven_seg::ngseven_seg( string name, string subckt /*= "seven_seg_com_neg"*/, double lightCurrent/* = 5e-3*/ )
+ngseven_seg::ngseven_seg( string name, string subckt /*= "seven_seg_com_neg"*/, double light_current/* = 5e-3*/ )
 	:ngdevice('X', name, 8, 7)
-	,lightCurrent(lightCurrent)
-	,digital(-1)
-	,code(0x00)
+	,light_current_(light_current)
+	,digital_(-1)
+	,code_(0x00)
 {
 	ngdevice::subckt = subckt;
 	for (size_t i = 1; i <= 7; i++)
@@ -26,29 +26,29 @@ bool ngseven_seg::action( double time )
 
 	bool activated = false;
 
-	unsigned char cd = 0;
+	unsigned char code = 0;
 	for (size_t i = 0; i < 7; i++)
 	{
-		if (currents[i] >= lightCurrent)
-			cd |= (1 << i);
+		if (currents[i] >= light_current_)
+			code |= (1 << i);
 	}
 
-	if (code != cd)
+	if (code_ != code)
 	{
-		code = cd;
-		digital = -1;
+		code_ = code;
+		digital_ = -1;
 		
-		unsigned char* pos = find(code1, code1 + 10, code);
+		unsigned char* pos = find(code1, code1 + 10, code_);
 		if (pos != code1 + 10)
-			digital = pos - code1;
+			digital_ = pos - code1;
 		else
 		{
-			pos = find(code2, code2 + 10, code);
+			pos = find(code2, code2 + 10, code_);
 			if (pos != code2 + 10)
-				digital = pos - code2;
+				digital_ = pos - code2;
 		}
 
-		PRINT("<7seg name=%s code=%02X digital=%d T=%g/>\n", name.c_str(), code, digital, time);
+		PRINT("<7seg name=%s code=%02X digital=%d T=%g/>\n", name.c_str(), code_, digital_, time);
 		activated = true;
 	}
 
@@ -58,7 +58,7 @@ bool ngseven_seg::action( double time )
 std::string ngvoltmeter::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", ohm);
+	return c.empty() ? "" : c + format_string(" %g", ohm_);
 }
 
 bool ngvoltmeter::action( double time )
@@ -68,16 +68,16 @@ bool ngvoltmeter::action( double time )
 	// init voltage when time = 0
 	if (abs(time) <= TIME_EPSILON)
 	{
-		PRINT("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		PRINT("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage_, time);
 		activated = true;
 	}
 
 	// when voltage changes.
 	double v = potentials(0) - potentials(1);
-	if (abs(v - voltage) >= VALUE_EPSILON)
+	if (abs(v - voltage_) >= VALUE_EPSILON)
 	{
-		voltage = v;
-		PRINT("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		voltage_ = v;
+		PRINT("<voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage_, time);
 		activated = true;
 	}
 
@@ -86,7 +86,7 @@ bool ngvoltmeter::action( double time )
 
 ngammeter::ngammeter( string name )
 	:ngdevice('V', name, 2, 1)
-	,current(0.0)
+	,current_(0.0)
 {
 	ngdevice::branches[0] = format_string("%c%s#branch", type, name.c_str());
 }
@@ -104,15 +104,15 @@ bool ngammeter::action( double time )
 	//init ampere when time = 0
 	if (abs(time) <= TIME_EPSILON)
 	{
-		PRINT("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
+		PRINT("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current_, time);
 		activated = true;
 	}
 
 	// when ampere changes
-	if (abs(ngdevice::currents[0] - current) >= VALUE_EPSILON)
+	if (abs(ngdevice::currents[0] - current_) >= VALUE_EPSILON)
 	{
-		current = ngdevice::currents[0];
-		PRINT("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current, time);
+		current_ = ngdevice::currents[0];
+		PRINT("<ammeter name=%s ampere=%gA T=%g/>\n", name.c_str(), current_, time);
 		activated = true;
 	}
 
@@ -122,7 +122,7 @@ bool ngammeter::action( double time )
 string ngac_voltmeter::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", ohm);
+	return c.empty() ? "" : c + format_string(" %g", ohm_);
 }
 
 bool ngac_voltmeter::action( double time )
@@ -133,22 +133,22 @@ bool ngac_voltmeter::action( double time )
 	// several steps may happen in TIME_EPSILON, ignore as just one step. 
 	if (abs(time) <= TIME_EPSILON)
 	{
-		count = 1;
-		sum_square = 0.0;
-		PRINT("<ac_voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage, time);
+		count_ = 1;
+		sum_square_ = 0.0;
+		PRINT("<ac_voltmeter name=%s voltage=%gV T=%g/>\n", name.c_str(), voltage_, time);
 		activated = true;
 	}
 	else
-		count++;
+		count_++;
 
 	// when voltage changes.
 	double dv = (potentials(0) - potentials(1));
-	sum_square += dv*dv;
-	double ev = sqrt(sum_square/count);
-	if (abs(ev - voltage) >= VALUE_EPSILON4)
+	sum_square_ += dv*dv;
+	double ev = sqrt(sum_square_/count_);
+	if (abs(ev - voltage_) >= VALUE_EPSILON4)
 	{
-		voltage = ev;
-		PRINT("<ac_voltmeter name=%s dv=%g voltage=%gV count=%d T=%g/>\n", name.c_str(), dv, voltage, count, time);
+		voltage_ = ev;
+		PRINT("<ac_voltmeter name=%s dv=%g voltage=%gV count=%d T=%g/>\n", name.c_str(), dv, voltage_, count_, time);
 		activated = true;
 	}
 
@@ -157,6 +157,9 @@ bool ngac_voltmeter::action( double time )
 
 ngac_ammeter::ngac_ammeter( string name )
 	:ngdevice('V', name, 2, 1)
+	,current_(0)
+	,count_(0)
+	,sum_square_(0)
 {
 	ngdevice::branches[0] = format_string("%c%s#branch", type, name.c_str());
 }
@@ -174,22 +177,22 @@ bool ngac_ammeter::action( double time )
 	// several steps may happen in TIME_EPSILON, ignore as just one step. 
 	if (abs(time) <= TIME_EPSILON)
 	{
-		count = 1;
-		sum_square = 0.0;
-		PRINT("<ac_ammeter name=%s current=%gA T=%g/>\n", name.c_str(), current, time);
+		count_ = 1;
+		sum_square_ = 0.0;
+		PRINT("<ac_ammeter name=%s current=%gA T=%g/>\n", name.c_str(), current_, time);
 		activated = true;
 	}
 	else
-		count++;
+		count_++;
 
 	// when voltage changes.
 	double dc = ngdevice::currents[0];
-	sum_square += dc*dc;
-	double ec = sqrt(sum_square/count);
-	if (abs(ec - current) >= VALUE_EPSILON4)
+	sum_square_ += dc*dc;
+	double ec = sqrt(sum_square_/count_);
+	if (abs(ec - current_) >= VALUE_EPSILON4)
 	{
-		current = ec;
-		PRINT("<ac_ammeter name=%s dc=%g current=%gA count=%d T=%g/>\n", name.c_str(), dc, current, count, time);
+		current_ = ec;
+		PRINT("<ac_ammeter name=%s dc=%g current=%gA count=%d T=%g/>\n", name.c_str(), dc, current_, count_, time);
 		activated = true;
 	}
 

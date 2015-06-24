@@ -1,5 +1,6 @@
-﻿#ifndef I_NGSPICE_H
-#define I_NGSPICE_H
+﻿#ifndef DEVICE_GENERIC_H_
+#define DEVICE_GENERIC_H_
+
 #include <string>
 #include <vector>
 #include <tuple>

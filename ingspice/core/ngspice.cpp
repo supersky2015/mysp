@@ -1,11 +1,10 @@
 ﻿#include "StdAfx.h"
-#include <algorithm>
-#include <ngspice/dvec.h>
-#include <include/ngspice.h>
+#include <ngspice/dvec.h> // this should be place before ngspice.h, to prevent redefination
+#include "include/ngspice.h"
 #include <Windows.h>
+#include <algorithm>
 #include <assert.h>
-#include <common/common.h>
-#include <include/circuit.h>
+#include "common/common.h"
 
 ngspice::ngspice()
 	:m_stepCount(0)

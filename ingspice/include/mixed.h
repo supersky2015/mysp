@@ -1,5 +1,5 @@
-#ifndef DEVICE_MIXED_H
-#define DEVICE_MIXED_H
+#ifndef DEVICE_MIXED_H_
+#define DEVICE_MIXED_H_
 
 #include "generic.h"
 

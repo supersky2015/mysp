@@ -1,5 +1,5 @@
-﻿#ifndef DEVICE_H
-#define DEVICE_H
+﻿#ifndef DEVICE_ALL_H_
+#define DEVICE_ALL_H_
 
 #include "generic.h"
 #include "basic.h"

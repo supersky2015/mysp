@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include <set>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
+#include "common/common.h"
+#include "include/model.h"
+#include "include/subckt.h"
+#include "include/schema.h" //tofix: before common.h can't build
+
 using namespace std;
-
-#include <common/common.h>
-#include <include/schema.h>
-#include <include/model.h>
-#include <include/subckt.h>
-
 
 schema::schema( string name )
 {

@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
+#include "include/generic.h"
 #include <assert.h>
-#include <include/generic.h>
-#include <common/common.h>
+#include "common/common.h"
 
 
 ngline::ngline( string name1, string pin1, string name2, string pin2 )
@@ -30,6 +30,8 @@ ngdevice::ngdevice(char type, string name, int portCount, int branchCount/* = 0 
 
 	orders_.assign(portCount, "-1");
 	potentials_.assign(portCount, 0.0);
+
+	// not allow open on any ports by default
 	allowOpen.assign(portCount, false);
 
 	branches.resize(branchCount);

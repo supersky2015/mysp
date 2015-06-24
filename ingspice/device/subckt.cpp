@@ -1,7 +1,7 @@
 #include "stdafx.h"
+#include "include/subckt.h"
 #include <fstream>
-#include <include/subckt.h>
-#include <common/common.h>
+#include "common/common.h"
 
 subckt_helper* subckt_helper::instance = NULL;
 

@@ -1,8 +1,5 @@
-﻿#ifndef BASIC_H
-#define BASIC_H
-
-#include <string>
-using namespace std;
+﻿#ifndef DEVICE_BASIC_H_
+#define DEVICE_BASIC_H_
 
 #include "generic.h"
 
@@ -11,13 +8,18 @@ class ngresistor : public ngdevice
 public:
 	ngresistor(string name, double r)
 		:ngdevice('R', name, 2)
+		,r_(r)
 	{
-		this->r = r;
-	};
+	}
 
 	string card();
 
-	double r;
+	inline double r(){return r_;}
+
+	string AlterResistance(double r);
+
+private:
+	double r_;
 };
 
 class ngcapacitor : public ngdevice
@@ -25,13 +27,18 @@ class ngcapacitor : public ngdevice
 public:
 	ngcapacitor(string name, double c)
 		:ngdevice('C', name ,2)
+		,c_(c)
 	{
-		this->c = c;
-	};
+	}
 
 	string card();
 
-	double c;
+	inline double c(){return c_;}
+
+	string AlterCapacitor(double c);
+
+private:
+	double c_;
 };
 
 class nginductance : public ngdevice
@@ -39,13 +46,18 @@ class nginductance : public ngdevice
 public:
 	nginductance::nginductance(string name, double l)
 		:ngdevice('L', name, 2)
+		,l_(l)
 	{
-		this->l = l;
 	}
 
 	string card();
 
-	double l;
+	inline double l(){return l_;}
+
+	string AlterInductance(double l);
+
+private:
+	double l_;
 
 };
 
@@ -54,8 +66,8 @@ class ngswitch : public ngdevice
 public:
 	ngswitch(string name, double r = off)
 		:ngdevice('R', name, 2)
+		,r_(r)
 	{
-		this->r = r;
 	}
 
 	string connect();
@@ -70,7 +82,7 @@ public:
 	const static double off;
 
 private:
-	double r;
+	double r_;
 };
 
 class ngspst : public ngdevice
@@ -88,9 +100,11 @@ public:
 
 	enum {on, off};
 
+	inline int status(){return status_;}
+
 private:
 	// spst status, init off
-	int status;
+	int status_;
 };
 
 // 单刀双掷（Single-Pole Double-Throw）
@@ -113,9 +127,11 @@ public:
 #define pole	p2
 #define throw2	p3
 
+	inline int status(){return status_;}
+
 private:
 	// which throw the pole connect to
-	int status;
+	int status_;
 };
 
 // spst pack
@@ -154,7 +170,7 @@ public:
 private:
 	vector<ngspst*> spsts_;
 
-	int status;
+	int status_;
 
 	int pack_count_;
 };

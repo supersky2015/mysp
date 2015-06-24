@@ -1,9 +1,12 @@
-﻿#ifndef INGSPICE_H
-#define INGSPICE_H
+﻿#ifndef CORE_INGSPICE_H_
+#define CORE_INGSPICE_H_
+
+#include <windows.h>
 #include <vector>
 #include <string>
-#include <windows.h>
+
 #include <ngspice/sharedspice.h>
+
 #include "plot.h"
 
 using namespace std;

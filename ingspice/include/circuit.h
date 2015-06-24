@@ -1,8 +1,9 @@
-﻿#ifndef CIRCUIT_H
-#define CIRCUIT_H
+﻿#ifndef CORE_CIRCUIT_H_
+#define CORE_CIRCUIT_H_
 
 #include <vector>
 #include <map>
+
 #include "ngspice.h"
 
 using namespace std;

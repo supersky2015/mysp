@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef DEVICE_MODEL_H_
+#define DEVICE_MODEL_H_
 
 #include <map>
 using namespace std;

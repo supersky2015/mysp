@@ -1,5 +1,5 @@
-﻿#ifndef PLOT_H
-#define PLOT_H
+﻿#ifndef CORE_PLOT_H_
+#define CORE_PLOT_H_
 
 #include <string>
 #include <vector>

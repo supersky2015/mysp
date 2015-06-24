@@ -1,5 +1,6 @@
-#ifndef SUBCKT_H
-#define SUBCKT_H
+#ifndef DEVICE_SUBCKT_H_
+#define DEVICE_SUBCKT_H_
+
 #include <map>
 using namespace std;
 

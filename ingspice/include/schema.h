@@ -1,11 +1,10 @@
-#ifndef SCHEMA_H
-#define SCHEMA_H
+#ifndef CORE_SCHEMA_H_
+#define CORE_SCHEMA_H_
 
 #include <vector>
-#include <map>
 using namespace std;
 
-#include <include/device.h>
+#include "device.h"
 
 class schema
 {

@@ -1,5 +1,5 @@
-#ifndef TRANSISTOR_H
-#define TRANSISTOR_H
+#ifndef DEVICE_TRANSISTOR_H_
+#define DEVICE_TRANSISTOR_H_
 
 #include "generic.h"
 

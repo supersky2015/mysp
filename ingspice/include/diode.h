@@ -1,25 +1,28 @@
-﻿#ifndef DIODE_H
-#define DIODE_H
+﻿#ifndef DEVICE_DIODE_H_
+#define DEVICE_DIODE_H_
 
 #include "generic.h"
 
 class ngled : public ngdevice, public ngaction
 {
 public:
-	ngled(string name, double lightCurrent = 5e-3);
+	ngled(string name, double light_current = 5e-3);
 
 	string card();
 	
 	bool action(double time);
 
-	double lightCurrent;	//大于这个值，LED点亮, 默认5mA
+	inline int status(){return status_;}
 
 #define pos p1
 #define neg p2
 
-	enum{init, off, on};
+	enum{off, on};
 
-	int status;
+private:
+	int status_;
+
+	double light_current_;	//大于这个值，LED点亮, 默认5mA
 };
 
 #endif

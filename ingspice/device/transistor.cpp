@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include <include/transistor.h>
-#include <common/common.h>
+#include "include/transistor.h"
+#include "common/common.h"
 
 ngbjt_npn::ngbjt_npn(string name, string model/* = "generic-npn"*/)
 	:ngdevice('Q', name, 3)

@@ -1,5 +1,5 @@
-#ifndef DEVICE_INDICATORS_H
-#define DEVICE_INDICATORS_H
+#ifndef DEVICE_INDICATORS_H_
+#define DEVICE_INDICATORS_H_
 
 #include "generic.h"
 
@@ -9,7 +9,7 @@ class ngseven_seg : public ngdevice, public ngaction
 public:
 	//seven_seg_com_pos, common positive
 	//seven_seg_com_neg, common negative
-	ngseven_seg(string name, string subckt = "seven_seg_com_neg", double lightCurrent = 5e-3);
+	ngseven_seg(string name, string subckt = "seven_seg_com_neg", double light_current = 5e-3);
 
 	//get device card
 	string card();
@@ -17,6 +17,11 @@ public:
 	//device action animation
 	bool action(double time);
 
+	inline int digital(){return digital_;}
+
+	inline unsigned char code(){return code_;}
+
+private:
 	/*
 	*	     --a1--
 	*		|      |
@@ -26,7 +31,7 @@ public:
 	*		|      |
 	*		 --d4--
 	*		 
-	*	  digital   code(bin)	code(hex)
+	*	  digital   code1(bin)	code1(hex)				code2(hex)
 	*		0		011 1111	0x3f
 	*		1		000 0110	0x06
 	*		2		101 1011	0x5b
@@ -41,13 +46,13 @@ public:
 
 	// current digital indicated. 0 ~ 9.
 	// if not match any from 0~9, digital is -1
-	int digital;
+	int digital_;
 
 	// current code indicated.
-	unsigned char code;
+	unsigned char code_;
 
 	// if current of a seg is bigger than lightCurrent, the seg lights up.
-	double lightCurrent;
+	double light_current_;
 
 #define SS_A p1
 #define SS_B p2
@@ -64,8 +69,8 @@ class ngvoltmeter : public ngdevice, public ngaction
 public:
 	ngvoltmeter(string name, double ohm = 1e10)
 		:ngdevice('R', name, 2)
-		,ohm(ohm)
-		,voltage(0.0)
+		,ohm_(ohm)
+		,voltage_(0.0)
 	{
 	}
 
@@ -73,15 +78,17 @@ public:
 
 	bool action(double time);
 
+	inline double voltage(){return voltage_;}
+
 #define V_POS p1
 #define V_NEG p2
 
-protected:
+private:
 	// voltage measured
-	double voltage;
+	double voltage_;
 
 	// inner ohm
-	double ohm;
+	double ohm_;
 };
 
 class ngammeter : public ngdevice, public ngaction
@@ -93,11 +100,13 @@ public:
 
 	bool action(double time);
 
+	inline double current(){return current_;}
+
 #define A_POS p1
 #define A_NEG p2
 
-protected:
-	double current;
+private:
+	double current_;
 };
 
 // ac voltmeter that measures effective voltage
@@ -106,10 +115,10 @@ class ngac_voltmeter : public ngdevice, public ngaction
 public:
 	ngac_voltmeter(string name, double ohm = 1e10)
 		:ngdevice('R', name, 2)
-		,ohm(ohm)
-		,voltage(0.0)
-		,count(0)
-		,sum_square(0.0)
+		,ohm_(ohm)
+		,voltage_(0.0)
+		,count_(0)
+		,sum_square_(0.0)
 	{
 	}
 
@@ -117,18 +126,20 @@ public:
 
 	bool action(double time);
 
+	inline double voltage(){return voltage_;}
+
 private:
 	// effective voltage measured, root-mean-square(RMS)
-	double voltage;
+	double voltage_;
 
 	// inner ohm
-	double ohm;
+	double ohm_;
 
 	// count of steps
-	unsigned int count;
+	unsigned int count_;
 
 	// sum of square
-	double sum_square;
+	double sum_square_;
 };
 
 // ac ammeter that measures effective current
@@ -141,15 +152,17 @@ public:
 
 	bool action(double time);
 
+	inline double current(){return current_;}
+
 private:
 	// effective current measured. root-mean-square(RMS)
-	double current;
+	double current_;
 
 	// count of steps
-	unsigned int count;
+	unsigned int count_;
 
 	// sum of square
-	double sum_square; 
+	double sum_square_;
 };
 
 #endif

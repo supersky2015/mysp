@@ -1,7 +1,7 @@
 #include "stdafx.h"
+#include "include/model.h"
 #include <fstream>
-#include <include/model.h>
-#include <common/common.h>
+#include "common/common.h"
 
 model_helper* model_helper::instance = NULL;
 

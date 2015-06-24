@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include <include/diode.h>
-#include <common/common.h>
+#include "include/diode.h"
+#include "common/common.h"
 
-ngled::ngled(string name, double lightCurrent/* = 5e-3*/)
+ngled::ngled(string name, double light_current/* = 5e-3*/)
 	:ngdevice('X', name, 2, 1)
-	,lightCurrent(lightCurrent)
-	,status(init)
+	,light_current_(light_current)
+	,status_(off)
 {
 	ngdevice::subckt = "led";
 	ngdevice::branches[0] = format_string("v.x%s.v#branch", name.c_str());
@@ -19,22 +19,22 @@ std::string ngled::card()
 bool ngled::action(double time)
 {
 	bool activated = false;
-	if (init == status)
+	if (time >= TIME_EPSILON)
 	{
 		PRINT("LED %s is off\n", name.c_str());
-		status = off;
+		status_ = off;
 		activated = true;
 	}
 
-	if (ngdevice::currents[0] >= lightCurrent && off == status)
+	if (ngdevice::currents[0] >= light_current_ && off == status_)
 	{
-		status = on;
+		status_ = on;
 		PRINT("LED %s is on. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 		activated = true;
 	}
-	else if (ngdevice::currents[0] < lightCurrent && on == status)
+	else if (ngdevice::currents[0] < light_current_ && on == status_)
 	{
-		status = off;
+		status_ = off;
 		PRINT("LED %s is off. A = %g, time = %g\n", name.c_str(), ngdevice::currents[0], time);
 		activated = true;
 	}

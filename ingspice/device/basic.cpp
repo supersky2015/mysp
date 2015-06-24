@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
+#include "include/basic.h"
 #include <assert.h>
-#include <include/basic.h>
-#include <common/common.h>
+#include "common/common.h"
 
 const double ngswitch::on = 1e-10;
 const double ngswitch::off = 1e20;
@@ -9,115 +9,133 @@ const double ngswitch::off = 1e20;
 std::string ngresistor::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", r);
+	return c.empty() ? "" : c + format_string(" %g", r_);
+}
+
+std::string ngresistor::AlterResistance( double r )
+{
+	r_ = r;
+	return format_string("alter r%s=%g", ngdevice::name.c_str(), r);
 }
 
 std::string ngcapacitor::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", this->c);
+	return c.empty() ? "" : c + format_string(" %g", c_);
+}
+
+std::string ngcapacitor::AlterCapacitor( double c )
+{
+	c_ = c;
+	return format_string("alter c%s=%g", ngdevice::name.c_str(), c);
 }
 
 std::string nginductance::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", l);
+	return c.empty() ? "" : c + format_string(" %g", l_);
+}
+
+std::string nginductance::AlterInductance( double l )
+{
+	l_ = l;
+	return format_string("alter l%s=%g", ngdevice::name.c_str(), l);
 }
 
 std::string ngswitch::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" %g", r);
+	return c.empty() ? "" : c + format_string(" %g", r_);
 }
 
 std::string ngswitch::connect()
 {
-	r = on;
-	return format_string("alter r%s=%g", name.c_str(), r);
+	r_ = on;
+	return format_string("alter r%s=%g", name.c_str(), r_);
 }
 
 std::string ngswitch::disconnect()
 {
-	r = off;
-	return format_string("alter r%s=%g", name.c_str(), r);
+	r_ = off;
+	return format_string("alter r%s=%g", name.c_str(), r_);
 }
 
 std::string ngswitch::switchover()
 {
-	if (on == r)
-		r = off;
-	else if (off == r)
-		r = on;
+	if (on == r_)
+		r_ = off;
+	else if (off == r_)
+		r_ = on;
 
-	return format_string("alter r%s=%g", name.c_str(), r);
+	return format_string("alter r%s=%g", name.c_str(), r_);
 }
 
 ngspst::ngspst( string name, int st/* = ngspst::off*/)
 	:ngdevice('X', name, 2)
-	,status(st)
+	,status_(st)
 {
 	ngdevice::subckt = "spst";
 }
 
 std::string ngspst::switchover()
 {
-	status = (on == status) ? off : on;
-	return format_string("alter v.x%s.v1=%d", name.c_str(), on == status ? -2 : 0);
+	status_ = (on == status_) ? off : on;
+	return format_string("alter v.x%s.v1=%d", name.c_str(), on == status_ ? -2 : 0);
 }
 
 std::string ngspst::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" spst params:vstatus=%d", on == status ? -2 : 0);
+	return c.empty() ? "" : c + format_string(" spst params:vstatus=%d", on == status_ ? -2 : 0);
 }
 
 string ngspst::connect()
 {
-	status = on;
+	status_ = on;
 	return format_string("alter v.x%s.v1=-2", name.c_str());
 }
 
 string ngspst::disconnect()
 {
-	status = off;
+	status_ = off;
 	return format_string("alter v.x%s.v1=0", name.c_str());
 }
 
 ngspdt::ngspdt( string name, int st /*= status_throw1*/ )
 	:ngdevice('X', name, 3)
-	,status(st)
+	,status_(st)
 {
 	ngdevice::subckt = "spdt";
 }
 
 std::string ngspdt::switchover()
 {
-	status = (status_throw1 == status) ? status_throw2 : status_throw1;
-	return format_string("alter v.x%s.v1=%d", name.c_str(), status_throw1 == status ? 0 : -2);
+	status_ = (status_throw1 == status_) ? status_throw2 : status_throw1;
+	return format_string("alter v.x%s.v1=%d", name.c_str(), status_throw1 == status_ ? 0 : -2);
 }
 
 std::string ngspdt::card()
 {
 	string c = ngdevice::card();
-	return c.empty() ? "" : c + format_string(" spdt params:vstatus=%d", status_throw1 == status ? 0 : -2);
+	return c.empty() ? "" : c + format_string(" spdt params:vstatus=%d", status_throw1 == status_ ? 0 : -2);
 }
 
 string ngspdt::TurnThrow1()
 {
-	status = status_throw1;
+	status_ = status_throw1;
 	return format_string("alter v.x%s.v1=0", name.c_str());
 }
 
 string ngspdt::TurnThrow2()
 {
-	status = status_throw2;
+	status_ = status_throw2;
 	return format_string("alter v.x%s.v1=-2", name.c_str());
 }
 
 ngspst_pack::ngspst_pack( string name, int pack_count, int st /*= ngspst::off*/ )
 	:ngdevice('*', name, 2*pack_count)
 	,pack_count_(pack_count)
-	,status(st)
+	,status_(st)
 {
 	ngdevice::subckt = "spst";
 	for (int i = 0; i < pack_count_; i++)

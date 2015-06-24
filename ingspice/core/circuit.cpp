@@ -1,13 +1,13 @@
 ﻿#include "StdAfx.h"
+#include "include/circuit.h"
 #include <algorithm>
 #include <functional>
 #include <memory>
 #include <vector>
-#include <common/common.h>
-#include <include/circuit.h>
-#include <include/device.h>
-#include <include/schema.h>
-#include <include/ngspice.h>
+#include "common/common.h"
+#include "include/device.h"
+#include "include/schema.h"
+#include "include/ngspice.h"
 
 using namespace std;
 
