@@ -19,7 +19,7 @@ std::string ngled::card()
 bool ngled::action(double time)
 {
 	bool activated = false;
-	if (time >= TIME_EPSILON)
+	if (time <= TIME_EPSILON)
 	{
 		PRINT("LED %s is off\n", name.c_str());
 		status_ = off;
