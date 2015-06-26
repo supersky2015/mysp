@@ -41,3 +41,14 @@ bool ngled::action(double time)
 
 	return activated;
 }
+
+ngdiode::ngdiode( string name, string model/* = "1N4007"*/ )
+	:ngdevice('D', name, 2)
+{
+	ngdevice::model = model;
+}
+
+std::string ngdiode::card()
+{
+	return ngdevice::model_card();
+}

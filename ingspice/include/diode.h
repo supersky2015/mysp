@@ -25,4 +25,12 @@ private:
 	double light_current_;	//大于这个值，LED点亮, 默认5mA
 };
 
+class ngdiode : public ngdevice
+{
+public:
+	ngdiode(string name, string model = "1N4007");
+
+	string card();
+};
+
 #endif
