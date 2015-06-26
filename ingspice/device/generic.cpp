@@ -127,3 +127,9 @@ ngcontact::ngcontact( string name, string pin )
 	this->name = name;
 	this->pin = pin;
 }
+
+ngcontact::ngcontact( string name, int pin )
+{
+	this->name = name;
+	this->pin = format_string("%d", pin);
+}

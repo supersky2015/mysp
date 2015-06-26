@@ -18,6 +18,7 @@ public:
 	string pin;
 
 	ngcontact(string name, string pin);
+	ngcontact(string name, int pin);
 	bool operator == (const ngcontact& rhs);
 };
 
