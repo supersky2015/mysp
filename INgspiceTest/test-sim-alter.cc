@@ -7,8 +7,7 @@
 
 #include <ngspice/sharedspice.h>
 
-namespace test2
-{
+namespace {
 
 typedef int (*FngSpice_Init)(SendChar* printfcn, SendStat* statfcn, ControlledExit* ngexit, SendData* sdata, SendInitData* sinitdata, BGThreadRunning* bgtrun, void* userData);
 typedef int (*FngSpice_Init_Sync)(GetVSRCData *vsrcdat, GetISRCData *isrcdat, GetSyncData *syncdat, int *ident, void *userData);
@@ -320,4 +319,15 @@ cieq(register char *p, register char *s)
     return (*s ? false : true);
 }
 
+}//namespace
+
+static void xxfoo(){
+	printf("static prevent link redefinition 1");
 }
+
+int test_sim_alter_agent()
+{
+	xxfoo();
+	return test_sim_alter();
+}
+

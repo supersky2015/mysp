@@ -75,8 +75,8 @@ int main (int argc, char **argv)
 	//return test_xspice();
 
 	// ngspice examples
-	//test1::test_sim();
-	//test2::test_sim_alter();
+	//test_sim_agent();
+	//test_sim_alter_agent();
 
 	system("pause");
 	return 0;

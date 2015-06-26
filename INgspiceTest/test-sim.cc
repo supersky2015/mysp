@@ -61,7 +61,7 @@ Write rawfile
 #endif
 #include <ngspice/sharedspice.h>
 
-namespace test1{
+namespace {
 
 #if defined(__MINGW32__) ||  defined(_MSC_VER)
 #undef BOOLEAN
@@ -628,4 +628,15 @@ cieq(register char *p, register char *s)
     return (*s ? false : true);
 }
 
+}//namespace
+
+static void xxfoo(){
+	printf("static prevent link redefinition 2");
 }
+
+int test_sim_agent()
+{
+	xxfoo();
+	return test_sim();
+}
+
