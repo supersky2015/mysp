@@ -10,6 +10,7 @@
 using namespace std;
 
 schema::schema( string name )
+	:print_sort_(false)
 {
 	this->name = name;
 }
@@ -82,6 +83,11 @@ void schema::RemoveDevices( vector<ngdevice*> ds )
 	}
 }
 
+void schema::RemoveAllDevices()
+{
+	devices.clear();
+}
+
 bool schema::RemoveLine( ngline* line )
 {
 	auto r = find(lines.begin(), lines.end(), line);
@@ -117,6 +123,11 @@ void schema::RemoveLines( vector<ngline*> ls )
 	}
 }
 
+void schema::RemoveAllLines()
+{
+	lines.clear();
+}
+
 bool schema::AddLine( ngline* line )
 {
 	auto r = find(lines.begin(), lines.end(), line);
@@ -149,20 +160,20 @@ void schema::AddLines( vector<ngline*> ls )
 	}
 }
 
-std::string schema::debugLines()
-{
-	string msg;
-	for (size_t i = 0; i < lines.size(); i++){
-		format_append(msg, "%s:%s - %s:%s -- %d\n", lines[i]->c1.name.c_str(), lines[i]->c1.pin.c_str(), lines[i]->c2.name.c_str(), lines[i]->c2.pin.c_str(), lines[i]->order);
-	}
-	return msg;
-}
-
 #if 1
 #define SORT_PRINT output_debug_message
 #else
 #define SORT_PRINT
 #endif
+
+void schema::debugLines()
+{
+	SORT_PRINT("-----------------\n");
+	for (size_t i = 0; i < lines.size(); i++){
+		SORT_PRINT("%s:%s - %s:%s -- %d\n", lines[i]->c1.name.c_str(), lines[i]->c1.pin.c_str(), lines[i]->c2.name.c_str(), lines[i]->c2.pin.c_str(), lines[i]->order);
+	}
+	SORT_PRINT("-----------------\n");
+}
 
 bool schema::sort()
 {
@@ -196,8 +207,8 @@ bool schema::sort()
 		// should set order after compare, not before compare
 		if (lines[i]->order == -1)
 			lines[i]->order = order++;
-		SORT_PRINT(debugLines().c_str());
-		SORT_PRINT("-----------------\n");
+		if (print_sort_)
+			debugLines();
 	}
 	
 	//find ground, may be more than 1 ground
@@ -239,7 +250,8 @@ bool schema::sort()
 			}
 			format_append(ods, "%s ", devices[i]->orders(j).c_str());
 		}
-		SORT_PRINT(" name=%s orders=%s", devices[i]->name.c_str(), ods.c_str());
+		if (print_sort_)
+			SORT_PRINT(" name=%s orders=%s", devices[i]->name.c_str(), ods.c_str());
 	}
 
 	return true;

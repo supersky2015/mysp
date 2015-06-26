@@ -20,6 +20,7 @@ public:
 	bool RemoveDevice(ngdevice* device);
 	void RemoveDevices(ngdevice* device, ...);
 	void RemoveDevices(vector<ngdevice*> ds);
+	void RemoveAllDevices();
 	
 	// add lines to schema
 	bool AddLine(ngline* line);
@@ -30,6 +31,10 @@ public:
 	bool RemoveLine(ngline* line);
 	void RemoveLines(ngline* line, ...);
 	void RemoveLines(vector<ngline*> ls);
+	void RemoveAllLines();
+
+	//
+	inline void set_print_sort(bool print_sort){print_sort_ = print_sort;};
 
 	// generate netlist of this schema, for ngspice simulation
 	vector<string> GetNetlist();
@@ -58,7 +63,7 @@ private:
 	ngdevice* getDeviceByName(const string& name);
 
 	// debug lines
-	string debugLines();
+	void debugLines();
 
 	// sort schema to get all potential nodes order
 	bool sort();
@@ -69,6 +74,9 @@ private:
 	// get all subckts card used by this schema
 	string getSubckts();
 
+private:
+	// if print sort procedure debug info
+	bool print_sort_;
 };
 
 #endif
