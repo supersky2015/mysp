@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 #include "common/common.h"
 #include "include/model.h"
 #include "include/subckt.h"
@@ -310,6 +311,16 @@ vector<string> schema::GetNetlist()
 	netlist.insert(netlist.end(), subcktLines.begin(), subcktLines.end());
 
 	netlist.push_back(".end");
+
+	// save as debug info
+	ofstream ofs("listing.cir");
+	for (size_t i = 0; i < netlist.size(); i++)
+	{
+		ofs.write(netlist[i].c_str(), netlist[i].size());
+		ofs.write("\n", 1);
+	}
+	ofs.close();
+
 	return netlist;
 }
 
