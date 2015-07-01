@@ -21,7 +21,8 @@ int main (int argc, char **argv)
 {
 	//basic
 	//test_basic_ngspst_pack();
-	test_basic_ngspdt_pack();
+	//test_basic_ngspdt_pack();
+	test_ngspdt_pack2();
 
 	//sources
 	//test_ac_and_indicator();
@@ -64,7 +65,7 @@ int main (int argc, char **argv)
 	// schema
 	//test_schema_rc();
 	//test_schema_multiline();
-	test_schema_connection();
+	//test_schema_connection();
 
 	// ngspice interface
 	//return run_parallel();

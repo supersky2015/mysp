@@ -5,4 +5,6 @@ void test_basic_ngspst_pack();
 
 void test_basic_ngspdt_pack();
 
+void test_ngspdt_pack2();
+
 #endif

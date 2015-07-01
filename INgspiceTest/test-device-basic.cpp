@@ -102,7 +102,55 @@ void test_basic_ngspdt_pack()
 			cir.Halt();
 			break;
 		}
-		//cir.Resume();
+		Sleep(100);
+	} while (cir.IsRunning());
+}
+
+void test_ngspdt_pack2()
+{
+	ngdc dc("dc1", 4);
+	ngresistor r1("r1", 1);
+	ngresistor ra("ra", 1);
+	ngresistor rb("rb", 3);
+	ngammeter am("am");
+	ngvoltmeter vm("vm");
+	ngspdt_pack spdt2("spdt2", 2);
+	ngground gnd;
+
+	ngline l1(dc.pos, r1.p1);
+	ngline l2(r1.p2, spdt2.p2_pole);
+	ngline l3(spdt2.p2_throw1, ra.p1);
+	ngline l4(spdt2.p2_throw2, rb.p1);
+	ngline l5(ra.p2, spdt2.p1_throw1);
+	ngline l6(rb.p2, spdt2.p1_throw2);
+	ngline l7(spdt2.p1_pole, am.pos);
+	ngline l8(am.neg, dc.neg);
+	ngline l10(dc.neg, gnd.ground);
+	ngline l11(vm.p1, spdt2.p2_pole);
+	ngline l12(vm.p2, spdt2.p1_pole);
+
+	schema sch;
+	sch.set_print_sort(true);
+	sch.AddDevices(&dc,&r1, &ra, &rb, &am, &vm, &spdt2, &gnd, 0);
+	sch.AddLines(&l1, &l2, &l3, &l4, &l5, &l6, &l7, &l8, &l10, &l11, &l12, 0);
+
+	circuit cir(&sch);
+	cir.Tran();
+	do 
+	{
+		char key = getchar();
+		switch (key)
+		{
+		case ' ':
+			{
+				string cmd = spdt2.switchover();
+				cir.Execute(cmd);
+			}
+			break;
+		case 'q':
+			cir.Halt();
+			break;
+		}
 		Sleep(100);
 	} while (cir.IsRunning());
 }
