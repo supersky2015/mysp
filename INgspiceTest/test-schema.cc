@@ -2,6 +2,12 @@
 
 #include <include/schema.h>
 #include <include/circuit.h>
+#include <common/common.h>
+
+void debug_line( ngline* line )
+{
+	output_debug_message(" <ngline [%s %s]	<==>	[%s %s]		%d/>", line->c1.name.c_str(), line->c1.pin.c_str(), line->c2.name.c_str(), line->c2.pin.c_str(), line->order);
+}
 
 void test_schema_rc()
 {
@@ -104,3 +110,62 @@ void test_schema_multiline()
 		printf("%s\n", it->c_str());
 	};
 }
+
+void test_schema_connection()
+{
+	ngresistor r1("r1", 1);
+	ngresistor r2("r2", 1);
+	ngresistor r3("r3", 1);
+	ngresistor r4("r4", 1);
+	ngresistor r5("r5", 1);
+	ngresistor r6("r6", 1);
+	ngresistor r7("r7", 1);
+	ngresistor r8("r8", 1);
+	ngresistor r9("r9", 1);
+
+	ngline* lines[] = {
+#if 0//case 1
+		// l1 <==> l3;	l3 <==> l5
+		new ngline(r1.p1, r2.p1),	//l1
+		new ngline(r2.p2, r3.p1),	//l2
+		new ngline(r2.p1, r4.p1),	//l3
+		new ngline(r4.p2, r5.p1),	//l4
+		new ngline(r4.p1, r6.p1),	//l5
+		new ngline(r7.p1, r8.p1),	//l6
+#endif
+
+#if 0//case 2
+		// l1 <==> l5; l3 <==> l5
+		new ngline(r1.p1, r1.p2),
+		new ngline(r2.p1, r2.p2),
+		new ngline(r3.p1, r3.p2),
+		new ngline(r4.p1, r4.p2),
+		new ngline(r1.p2, r3.p1),
+		new ngline(r6.p1, r6.p2),
+#endif
+
+#if 1//case 3
+		// l1 <==> l5; l2 <==> l3; l3 <==> l5
+		new ngline(r1.p1, r1.p2),
+		new ngline(r2.p1, r2.p2),
+		new ngline(r2.p1, r3.p2),
+		new ngline(r4.p1, r4.p2),
+		new ngline(r1.p1, r3.p2),
+		new ngline(r6.p1, r6.p2),
+#endif
+	};
+
+	schema sch("design1");
+	sch.set_print_sort(true);
+	size_t count = sizeof(lines)/sizeof(ngline*);
+	for (size_t i = 0; i < sizeof(lines)/sizeof(ngline*); i++)
+		sch.AddLine(lines[i]);
+
+	vector<string> netlist = sch.GetNetlist();
+	for (size_t i = 0; i < sizeof(lines)/sizeof(ngline*); i++)
+		debug_line(lines[i]);
+
+	for (size_t i = 0; i < sizeof(lines)/sizeof(ngline*); i++)
+		delete lines[i];
+}
+

@@ -176,6 +176,21 @@ void schema::debugLines()
 	SORT_PRINT("-----------------\n");
 }
 
+void schema::sortLines(vector<ngline*>& ls, int compare_index)
+{
+	for (size_t i = 0; i < ls.size(); i++)
+	{
+		if (-1 != ls[i]->order || i == compare_index)
+			continue;
+
+		if (isConnected(ls[i], ls[compare_index]))
+		{
+			ls[i]->order = ls[compare_index]->order;
+			sortLines(ls, i);
+		}
+	}
+}
+
 bool schema::sort()
 {
 	//reset orders of contacts, both lines and devices
@@ -191,36 +206,38 @@ bool schema::sort()
 	//group contacts with same potentials
 	SORT_PRINT("2.group contacts with same potentials" );
 	int order = 1;
-	bool hasGround = false;
-	for (size_t i = 0; i < lines.size(); i++){
-		// compare order , and set order
-		for (size_t j = i + 1; j < lines.size(); j++){
-			if (isConnected(lines[i], lines[j])){
-				if (lines[i]->order == -1 && lines[j]->order == -1)
-					lines[i]->order = lines[j]->order = order++;
-				else if (lines[i]->order != -1 && lines[j]->order == -1)
-					lines[j]->order = lines[i]->order;
-				else if (lines[i]->order == -1 && lines[j]->order != -1)
-					lines[i]->order = lines[j]->order;
+	do 
+	{
+		bool sorted = true;
+		size_t i = 0;
+		for (; i < lines.size(); i++){
+			if (-1 == lines[i]->order){
+				lines[i]->order = order++;
+				sorted = false;
+				break;				
 			}
 		}
-		// if lines[i] connect to no line, set order
-		// should set order after compare, not before compare
-		if (lines[i]->order == -1)
-			lines[i]->order = order++;
+
+		if (sorted)
+			break;
+
+		sortLines(lines, i);
+
 		if (print_sort_)
 			debugLines();
-	}
+
+	} while (1);
 	
 	//find ground, may be more than 1 ground
 	SORT_PRINT("3.find ground, may be more than 1 ground" );
 	vector<int> gndOrders;
 	string grounds;
 	for (size_t i = 0; i < lines.size(); i++){
-		if (isGround(lines[i]->c1) || isGround(lines[i]->c2))
-		{
-			gndOrders.push_back(lines[i]->order);
-			format_append(grounds, "%d ", lines[i]->order);
+		if (isGround(lines[i]->c1) || isGround(lines[i]->c2)){
+			if (gndOrders.end() == std::find(gndOrders.begin(), gndOrders.end(), lines[i]->order)){
+				gndOrders.push_back(lines[i]->order);
+				format_append(grounds, "%d ", lines[i]->order);
+			}
 		}
 	}
 	SORT_PRINT(" grounds = %s", gndOrders.empty() ? "no ground" : grounds.c_str());

@@ -68,6 +68,9 @@ private:
 	// sort schema to get all potential nodes order
 	bool sort();
 
+	// sort lines, group lines that are connected
+	void sortLines(vector<ngline*>& ls, int compare_index);
+
 	// get all models card used by this schema
 	string getModels();
 

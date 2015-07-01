@@ -7,4 +7,7 @@ void test_schema_rc();
 // 21.1 ac coupled transistor amplifier
 void test_schema_multiline();
 
+// test schema connection if correct.
+void test_schema_connection();
+
 #endif
