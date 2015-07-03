@@ -242,9 +242,12 @@ bool schema::sort()
 	}
 	SORT_PRINT(" grounds = %s", gndOrders.empty() ? "no ground" : grounds.c_str());
 
-	//no ground
+	//auto ground if no ground
 	if (gndOrders.empty())
-		return false;
+	{
+		SORT_PRINT(" set order 1 to ground since no ground specified.");
+		gndOrders.push_back(1);
+	}
 
 	//set line (which order is equal to gndOrder) order to 0, and set line (which order is greater than gndOrder) order minus 1;
 	SORT_PRINT("4.set line (which order is equal to gndOrder) order to 0" );

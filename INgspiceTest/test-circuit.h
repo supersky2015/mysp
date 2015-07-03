@@ -37,4 +37,7 @@ void test_rc_charge_discharge();
 // test "Warning: losing old state for circuit '%s'\n"
 void test_losing_state();
 
+// test auto ground
+void test_auto_ground();
+
 #endif

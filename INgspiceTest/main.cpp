@@ -22,7 +22,7 @@ int main (int argc, char **argv)
 	//basic
 	//test_basic_ngspst_pack();
 	//test_basic_ngspdt_pack();
-	test_ngspdt_pack2();
+	//test_ngspdt_pack2();
 
 	//sources
 	//test_ac_and_indicator();
@@ -54,6 +54,7 @@ int main (int argc, char **argv)
 	//test_circuit_led();
 	//test_circuit_parallel();
 	//test_losing_state();
+	test_auto_ground();
 
 	// common
 	//test_string_hpp();

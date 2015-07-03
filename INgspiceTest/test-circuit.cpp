@@ -455,3 +455,22 @@ void test_losing_state()
 	cir.Run();
 	cir.Wait(0.1f);
 }
+
+void test_auto_ground()
+{
+	ngac ac("ac1", 0, 5, 1);
+	ngresistor r("r1", 370);
+	ngled led("led1", 5e-3);
+
+	ngline l1(ac.p2, r.p1);
+	ngline l2(r.p2, led.p1);
+	ngline l3(led.p2, ac.p1);
+
+	schema sch;
+	sch.AddDevices(&ac, &r, &led, 0);
+	sch.AddLines(&l1, &l2, &l3, 0);
+
+	circuit cir(&sch);
+	cir.Tran("10m");
+	cir.Wait();
+}
