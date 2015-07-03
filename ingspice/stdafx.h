@@ -11,7 +11,7 @@
 // Windows м╥нд╪Ч:
 #include <windows.h>
 
-#if 0
+#if 1
 #define PRINT output_debug_message
 #else
 #define PRINT printf
