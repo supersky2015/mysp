@@ -60,7 +60,7 @@ int ngspice::procSendChar( char* str, int id, void* object )
 
 			// run command error, caller may check running error periodically
 			if (ng->m_running){
-				ng->m_errRunning = str;
+				ng->m_errRunning = ng->m_errMsgCircuit;
 			}
 		}
 	}
